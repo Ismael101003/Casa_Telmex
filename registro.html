@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Casa Telmex</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page-container">
+    <div class="form-container">
+      <div class="form-header">
+        <a href="index.html" class="back-button">
+          <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+        <h1>Registro de Usuario</h1>
+        <p class="subtitle">Casa Telmex</p>
+      </div>
+      
+      <div class="alert success" id="successAlert" style="display: none;">
+        <div class="alert-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="alert-content">
+          <h4>¡Registro exitoso!</h4>
+          <p>El usuario ha sido registrado correctamente en el sistema.</p>
+        </div>
+      </div>
+
+      <!-- Búsqueda de usuario existente -->
+      <div class="form-section">
+        <h2 class="section-title"><i class="fas fa-search"></i> Buscar Usuario Existente</h2>
+        <div class="search-user-container">
+          <div class="form-group">
+            <label for="searchUser">
+              <i class="fas fa-search"></i> Buscar por Nombre
+            </label>
+            <div class="autocomplete-container">
+              <input type="text" id="searchUser" placeholder="Escribe el nombre del usuario..." autocomplete="off">
+              <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+              <button type="button" id="clearSearchBtn" class="clear-search-btn" style="display: none;">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <small>Escribe al menos 2 caracteres para buscar usuarios existentes</small>
+          </div>
+          <div id="userFoundAlert" class="user-found-alert" style="display: none;">
+            <i class="fas fa-user-check"></i>
+            <span>Usuario encontrado. Datos cargados automáticamente.</span>
+          </div>
+        </div>
+      </div>
+
+      <form id="registroForm" action="api/registro.php" method="POST">
+        <!-- Sección de Tipo de Usuario -->
+        <div class="form-section">
+          <h2 class="section-title"><i class="fas fa-user-tag"></i> Tipo de Usuario</h2>
+          
+          <div class="user-type-selector">
+            <div class="user-type-option">
+              <input type="radio" id="tipoNino" name="tipo_usuario" value="nino" checked>
+              <label for="tipoNino" class="user-type-card">
+                <div class="user-type-icon">
+                  <i class="fas fa-child"></i>
+                </div>
+                <div class="user-type-info">
+                  <h3>Niño/Menor</h3>
+                  <p>Menor de 18 años</p>
+                  <small>Requiere datos del tutor</small>
+                </div>
+              </label>
+            </div>
+            
+            <div class="user-type-option">
+              <input type="radio" id="tipoAdulto" name="tipo_usuario" value="adulto">
+              <label for="tipoAdulto" class="user-type-card">
+                <div class="user-type-icon">
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="user-type-info">
+                  <h3>Adulto</h3>
+                  <p>18 años o más</p>
+                  <small>Registro independiente</small>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 class="section-title"><i class="fas fa-user-circle"></i> Datos del Usuario</h2>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">
+                <i class="fas fa-user"></i> Nombre
+              </label>
+              <input type="text" id="nombre" name="nombre" placeholder="Nombre del Usuario" required>
+              <span class="error-message" id="nombreError"></span>
+            </div>
+            
+            <div class="form-group">
+              <label for="apellidos">
+                <i class="fas fa-user"></i> Apellidos
+              </label>
+              <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos del Usuario" required>
+              <span class="error-message" id="apellidosError"></span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="curp">
+              <i class="fas fa-id-card"></i> CURP
+            </label>
+            <input type="text" id="curp" name="curp" placeholder="ABCD123456HDFXYZ01" required maxlength="18">
+            <small>Clave Única de Registro de Población (18 caracteres) - La fecha se extraerá automáticamente</small>
+            <span class="error-message" id="curpError"></span>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fecha_nacimiento">
+                <i class="fas fa-calendar-alt"></i> Fecha de nacimiento
+              </label>
+              <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+              <small class="auto-filled-notice" id="fechaAutoNotice" style="display: none;">
+                <i class="fas fa-magic"></i> Fecha extraída automáticamente del CURP
+              </small>
+              <span class="error-message" id="fecha_nacimientoError"></span>
+            </div>
+            
+            <div class="form-group">
+              <label for="edad">
+                <i class="fas fa-birthday-cake"></i> Edad
+              </label>
+              <input type="number" id="edad" name="edad" readonly>
+              <small>Calculado automáticamente</small>
+              <span class="error-message" id="edadError"></span>
+            </div>
+            
+            <div class="form-group">
+              <label for="meses">
+                <i class="fas fa-calendar-day"></i> Meses
+              </label>
+              <input type="number" id="meses" name="meses" readonly>
+              <small>Calculado automáticamente</small>
+              <span class="error-message" id="mesesError"></span>
+            </div>
+          </div>
+
+          <!-- Nuevo campo de número de usuario -->
+          <div class="form-group">
+            <label for="numero_usuario">
+              <i class="fas fa-phone"></i> Número del Usuario
+            </label>
+            <input type="tel" id="numero_usuario" name="numero_usuario" placeholder="10 dígitos" maxlength="10">
+            <small>Número de teléfono personal a 10 dígitos sin espacios</small>
+            <span class="error-message" id="numero_usuarioError"></span>
+          </div>
+          
+          <div class="form-group">
+            <label for="salud">
+              <i class="fas fa-heartbeat"></i> Salud (alergias, enfermedades)
+            </label>
+            <textarea id="salud" name="salud" rows="3" placeholder="Indique si el Usuario tiene alguna condición médica que debamos conocer"></textarea>
+            <small>Esta información es opcional pero nos ayuda a brindar mejor atención</small>
+            <span class="error-message" id="saludError"></span>
+          </div>
+        </div>
+        
+        <!-- Sección de Tutor (se oculta para adultos) -->
+        <div class="form-section" id="tutorSection">
+          <h2 class="section-title"><i class="fas fa-users"></i> Información del Tutor</h2>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="tutor">
+                <i class="fas fa-user-tie"></i> Nombre del Tutor
+              </label>
+              <input type="text" id="tutor" name="tutor" placeholder="Nombre completo del tutor">
+              <span class="error-message" id="tutorError"></span>
+            </div>
+            
+            <div class="form-group">
+              <label for="numero_tutor">
+                <i class="fas fa-phone"></i> Número del Tutor
+              </label>
+              <input type="tel" id="numero_tutor" name="numero_tutor" placeholder="10 dígitos" maxlength="10">
+              <small>Número de teléfono a 10 dígitos sin espacios</small>
+              <span class="error-message" id="numero_tutorError"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h2 class="section-title">
+            <i class="fas fa-book"></i> Selección de Cursos
+            <span class="course-counter">(<span id="selectedCount">0</span> seleccionados)</span>
+          </h2>
+          
+          <div class="courses-info">
+            <p><i class="fas fa-info-circle"></i> Puedes seleccionar múltiples cursos. Los cursos se filtrarán automáticamente según la edad del usuario.</p>
+          </div>
+
+          <!-- Buscador de cursos -->
+          <div class="course-search-container">
+            <div class="form-group">
+              <label for="courseSearch">
+                <i class="fas fa-search"></i> Buscar Cursos
+              </label>
+              <div class="search-input-container">
+                <input type="text" id="courseSearch" placeholder="Buscar cursos por nombre, edad o horario...">
+                <button type="button" id="clearCourseSearch" class="clear-search-btn" style="display: none;">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <small>Escribe para filtrar los cursos disponibles</small>
+            </div>
+          </div>
+
+          <!-- Filtros de cursos -->
+          <div class="course-filters">
+            <div class="filter-group">
+              <label>
+                <i class="fas fa-filter"></i> Filtrar por:
+              </label>
+              <div class="filter-buttons">
+                <button type="button" class="filter-btn active" data-filter="all">
+                  <i class="fas fa-list"></i> Todos
+                </button>
+                <button type="button" class="filter-btn" data-filter="available">
+                  <i class="fas fa-check-circle"></i> Disponibles
+                </button>
+                <button type="button" class="filter-btn" data-filter="selected">
+                  <i class="fas fa-star"></i> Seleccionados
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="courses-container" id="coursesContainer">
+            <div class="loading-courses">
+              <i class="fas fa-spinner fa-spin"></i> Cargando cursos disponibles...
+            </div>
+          </div>
+          
+          <div class="selected-courses" id="selectedCourses" style="display: none;">
+            <h3><i class="fas fa-check-circle"></i> Cursos Seleccionados:</h3>
+            <div class="selected-courses-list" id="selectedCoursesList"></div>
+          </div>
+          
+          <span class="error-message" id="cursosError"></span>
+        </div>
+        
+        <div class="form-buttons">
+          <button type="submit" class="btn primary">
+            <i class="fas fa-user-plus"></i> Registrar Usuario
+          </button>
+          <button type="reset" class="btn secondary">
+            <i class="fas fa-undo"></i> Limpiar Formulario
+          </button>
+          <a href="usuarios.html" class="btn secondary">
+            <i class="fas fa-users"></i> Ver Usuarios
+          </a>
+        </div>
+      </form>
+      
+      <div class="form-footer">
+        <p>Casa Telmex © <span id="currentYear"></span> - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/registro.js"></script>
+</body>
+</html>

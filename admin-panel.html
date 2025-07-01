@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Casa Telmex</title>
+    <link rel="stylesheet" href="css/admin-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <script>
+// Verificar sesión al cargar
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si hay sesión activa
+    fetch('api/verificar_sesion.php')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.exito) {
+                window.location.href = 'admin-login.html';
+            }
+        })
+        .catch(() => {
+            window.location.href = 'admin-login.html';
+        });
+});
+</script>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>Casa Telmex</h2>
+                <p>Panel Administrativo</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" data-section="usuarios">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </li>
+                <li class="nav-item" data-section="cursos">
+                    <i class="fas fa-book"></i>
+                    <span>Gestión de Cursos</span>
+                </li>
+                <li class="nav-item" data-section="cursos-usuarios">
+                    <i class="fas fa-list-alt"></i>
+                    <span>Cursos y Listas</span>
+                </li>
+                <li class="nav-item" data-section="inscripciones">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Inscripciones</span>
+                </li>
+                <li class="nav-item" data-section="admins">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Administradores</span>
+                </li>
+                <li class="nav-item" data-section="reportes">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Administrador</span>
+                </div>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-info">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">Resumen general del sistema</p>
+                </div>
+                <button id="addNewBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Agregar Nuevo
+                </button>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalUsuarios">0</h3>
+                            <p>Total Usuarios</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalCursos">0</h3>
+                            <p>Total Cursos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalInscripciones">0</h3>
+                            <p>Total Inscripciones</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalAdmins">0</h3>
+                            <p>Administradores</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usuarios Section -->
+            <section id="usuarios-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre Completo</th>
+                                <th>CURP</th>
+                                <th>Edad</th>
+                                <th>Tutor</th>
+                                <th>Fecha Registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosTableBody">
+                            <tr>
+                                <td colspan="7" class="loading-row">Cargando usuarios...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Cursos Section -->
+            <section id="cursos-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre del Curso</th>
+                                <th>Edad Mín</th>
+                                <th>Edad Máx</th>
+                                <th>Cupo Máx</th>
+                                <th>Horario</th>
+                                <th>Estado</th>
+                                <th>Tabla Específica</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cursosTableBody">
+                            <tr>
+                                <td colspan="9" class="loading-row">Cargando cursos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Cursos y Listas Section -->
+            <section id="cursos-usuarios-section" class="content-section">
+                <div class="section-header">
+                    <h2>Cursos y Listas de Usuarios</h2>
+                    <button id="limpiarCursosBtn" class="btn btn-warning">
+                        <i class="fas fa-broom"></i>
+                        Limpiar Cursos Terminados
+                    </button>
+                </div>
+                <div id="coursesGrid" class="courses-grid">
+                    <div class="loading-courses">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Cargando cursos...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inscripciones Section -->
+            <section id="inscripciones-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Curso</th>
+                                <th>Fecha Inscripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inscripcionesTableBody">
+                            <tr>
+                                <td colspan="5" class="loading-row">Cargando inscripciones...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Administradores Section -->
+            <section id="admins-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Estado</th>
+                                <th>Último Acceso</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminsTableBody">
+                            <tr>
+                                <td colspan="7" class="loading-row">Cargando administradores...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Reportes Section -->
+            <section id="reportes-section" class="content-section">
+                <div class="reports-container">
+                    <h2>Reportes y Estadísticas</h2>
+                    <p>Sección en desarrollo...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Curso -->
+    <div id="cursoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="cursoModalTitle">Nuevo Curso</h2>
+                <span id="closeCursoModal" class="close">&times;</span>
+            </div>
+            <form id="cursoForm">
+                <input type="hidden" id="cursoId" name="id_curso">
+                
+                <div class="form-group">
+                    <label for="nombreCurso">Nombre del Curso *</label>
+                    <input type="text" id="nombreCurso" name="nombre_curso" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edadMinima">Edad Mínima *</label>
+                        <input type="number" id="edadMinima" name="edad_min" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edadMaxima">Edad Máxima *</label>
+                        <input type="number" id="edadMaxima" name="edad_max" min="0" max="100" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cupoMaximo">Cupo Máximo *</label>
+                        <input type="number" id="cupoMaximo" name="cupo_maximo" min="1" max="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="estadoCurso">Estado del Curso *</label>
+                        <select id="estadoCurso" name="activo" required>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                        <small class="form-help">Los cursos activos aparecen en el formulario de registro</small>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="horarioCurso">Horario</label>
+                    <input type="text" id="horarioCurso" name="horario" placeholder="Ej: 9:00 - 11:00">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" id="cancelCursoBtn" class="btn btn-secondary">Cancelar</button>
+                    <button type="button" id="saveCursoBtn" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Admin -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="adminModalTitle">Nuevo Administrador</h2>
+                <span id="closeAdminModal" class="close">&times;</span>
+            </div>
+            <form id="adminForm">
+                <input type="hidden" id="adminId" name="id_admin">
+                
+                <div class="form-group">
+                    <label for="usuarioAdmin">Usuario *</label>
+                    <input type="text" id="usuarioAdmin" name="usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nombreAdmin">Nombre Completo *</label>
+                    <input type="text" id="nombreAdmin" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailAdmin">Email *</label>
+                    <input type="email" id="emailAdmin" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="passwordAdmin">Contraseña *</label>
+                    <input type="password" id="passwordAdmin" name="password" required>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" id="cancelAdminBtn" class="btn btn-secondary">Cancelar</button>
+                    <button type="button" id="saveAdminBtn" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Detalles de Usuario -->
+    <div id="usuarioDetallesModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="usuarioDetallesTitle">Detalles del Usuario</h2>
+                <span id="closeUsuarioDetallesModal" class="close">&times;</span>
+            </div>
+            <div class="usuario-detalles">
+                <div class="detalles-info">
+                    <div class="info-item">
+                        <label>Nombre Completo:</label>
+                        <span id="detalleNombre">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>CURP:</label>
+                        <span id="detalleCurp">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Edad:</label>
+                        <span id="detalleEdad">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Fecha de Registro:</label>
+                        <span id="detalleFechaRegistro">-</span>
+                    </div>
+                </div>
+                
+                <div class="cursos-usuario">
+                    <h3>Cursos Inscritos <span id="totalCursosUsuario">(0)</span></h3>
+                    <div id="cursosUsuarioContainer">
+                        <!-- Los cursos se cargarán aquí -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="cerrarDetallesBtn" class="btn btn-secondary">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Lista de Usuarios -->
+    <div id="listaUsuariosModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="listaUsuariosTitle">Lista de Usuarios</h2>
+                <span id="closeListaUsuariosModal" class="close">&times;</span>
+            </div>
+            <div class="lista-usuarios">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre Completo</th>
+                                <th>CURP</th>
+                                <th>Edad</th>
+                                <th>Tutor</th>
+                                <th>Teléfono</th>
+                                <th>Fecha Inscripción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaUsuariosTableBody">
+                            <!-- Los usuarios se cargarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="imprimirListaBtn" class="btn btn-primary">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button type="button" id="exportarListaBtn" class="btn btn-success">
+                    <i class="fas fa-download"></i> Exportar CSV
+                </button>
+                <button type="button" id="cerrarListaBtn" class="btn btn-secondary">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin-panel.js"></script>
+</body>
+</html>

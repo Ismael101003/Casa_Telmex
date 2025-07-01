@@ -1,0 +1,214 @@
+[2025-06-30 16:23:14] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:23:14] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:23:20] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:25:15] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:25:15] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:25:19] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:27:20] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:27:20] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:27:24] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:31:26] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:31:26] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:31:30] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:31:35] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:31:35] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 16:31:35] [INFO] Método: POST
+[2025-06-30 16:31:35] [ERROR] Error en registro: El campo 'fecha_nacimiento' es obligatorio
+[2025-06-30 16:34:43] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:34:43] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:34:47] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:34:52] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:34:52] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 16:34:52] [INFO] Método: POST
+[2025-06-30 16:34:52] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"8","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-06-30 16:34:52] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":8,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-06-30 16:34:52] [INFO] Cursos seleccionados: ["34"]
+[2025-06-30 16:34:52] [ERROR] Error en registro: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'field list'
+[2025-06-30 16:37:40] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:37:40] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:37:43] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:37:48] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:37:48] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 16:37:48] [INFO] Método: POST
+[2025-06-30 16:37:48] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"8","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-06-30 16:37:48] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":8,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-06-30 16:37:48] [INFO] Cursos seleccionados: ["34"]
+[2025-06-30 16:37:48] [INFO] Usuario existente seleccionado: ID 11
+[2025-06-30 16:37:48] [ERROR] Error inscribiendo en curso 34: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'field list'
+[2025-06-30 16:37:48] [ERROR] Error en registro: No se pudo inscribir al usuario en ningún curso. Errores: Error en curso 34: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'field list'
+[2025-06-30 22:40:36] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 22:40:36] [INFO] Método: POST
+[2025-06-30 22:40:36] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"8","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-06-30 22:40:36] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":8,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-06-30 22:40:36] [INFO] Cursos seleccionados: ["34"]
+[2025-06-30 22:40:36] [INFO] Usuario existente seleccionado: ID 11
+[2025-06-30 22:40:36] [ERROR] Error inscribiendo en curso 34: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'field list'
+[2025-06-30 22:40:36] [ERROR] Error en registro: No se pudo inscribir al usuario en ningún curso. Errores: Error en curso 34: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'field list'
+[2025-06-30 16:46:21] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:46:21] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:46:24] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:46:30] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:46:30] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 16:46:30] [INFO] Método: POST
+[2025-06-30 16:46:30] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"8","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-06-30 16:46:30] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":8,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-06-30 16:46:30] [INFO] Cursos seleccionados: ["34"]
+[2025-06-30 16:46:30] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
+[2025-06-30 16:46:30] [INFO] Usuario existente seleccionado: ID 11
+[2025-06-30 16:46:30] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-06-30 16:46:30] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-06-30 16:46:30] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-06-30 16:46:30] [INFO] Parámetros inscripción: [11,34]
+[2025-06-30 16:46:30] [INFO] Campos disponibles en tabla curso_34: id_registro, id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_inscripcion, activo
+[2025-06-30 16:46:30] [INFO] SQL tabla curso: INSERT INTO curso_34 (id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, fecha_inscripcion) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-06-30 16:46:30] [INFO] Parámetros tabla curso: [11,"Ismael","Martinez","MARI171010HDFRMSA3","2017-10-10",7,8,"Susana","9131035238"]
+[2025-06-30 16:46:30] [INFO] Usuario 11 inscrito en tabla específica curso_34
+[2025-06-30 16:46:30] [INFO] Usuario 11 inscrito exitosamente en curso 34
+[2025-06-30 16:49:40] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:49:40] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 16:49:40] [INFO] Método: POST
+[2025-06-30 16:49:40] [INFO] Datos POST recibidos: {"tipo_usuario":"nino","nombre":"Cristiano","apellidos":"Ronaldo","curp":"ARTI161121HDFRMSA3","fecha_nacimiento":"2016-11-21","edad":"8","meses":"7","numero_usuario":"","salud":"","tutor":"Georgina","numero_tutor":"7651865434","cursos":["34"]}
+[2025-06-30 16:49:40] [INFO] Datos procesados: {"nombre":"Cristiano","apellidos":"Ronaldo","curp":"ARTI161121HDFRMSA3","fecha_nacimiento":"2016-11-21","edad":8,"meses":7,"salud":"","tutor":"Georgina","numero_tutor":"7651865434","numero_usuario":"","telefono_usuario":""}
+[2025-06-30 16:49:40] [INFO] Cursos seleccionados: ["34"]
+[2025-06-30 16:49:40] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
+[2025-06-30 16:49:40] [INFO] Campos disponibles en tabla usuarios: id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_registro
+[2025-06-30 16:49:40] [INFO] Columna primaria detectada: id_usuario
+[2025-06-30 16:49:40] [INFO] Agregando campo nombre con valor: Cristiano
+[2025-06-30 16:49:40] [INFO] Agregando campo apellidos con valor: Ronaldo
+[2025-06-30 16:49:40] [INFO] Agregando campo curp con valor: ARTI161121HDFRMSA3
+[2025-06-30 16:49:40] [INFO] Agregando campo fecha_nacimiento con valor: 2016-11-21
+[2025-06-30 16:49:40] [INFO] Agregando campo edad con valor: 8
+[2025-06-30 16:49:40] [INFO] Agregando campo meses con valor: 7
+[2025-06-30 16:49:40] [INFO] Agregando campo tutor con valor: Georgina
+[2025-06-30 16:49:40] [INFO] Agregando campo numero_tutor con valor: 7651865434
+[2025-06-30 16:49:40] [INFO] SQL INSERT: INSERT INTO usuarios (nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, fecha_registro) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-06-30 16:49:40] [INFO] Parámetros: ["Cristiano","Ronaldo","ARTI161121HDFRMSA3","2016-11-21",8,7,"Georgina","7651865434"]
+[2025-06-30 16:49:40] [INFO] Nuevo usuario registrado: ID 31, CURP: ARTI161121HDFRMSA3
+[2025-06-30 16:49:40] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-06-30 16:49:40] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-06-30 16:49:40] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-06-30 16:49:40] [INFO] Parámetros inscripción: ["31",34]
+[2025-06-30 16:49:40] [INFO] Campos disponibles en tabla curso_34: id_registro, id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_inscripcion, activo
+[2025-06-30 16:49:40] [INFO] SQL tabla curso: INSERT INTO curso_34 (id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, fecha_inscripcion) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-06-30 16:49:40] [INFO] Parámetros tabla curso: ["31","Cristiano","Ronaldo","ARTI161121HDFRMSA3","2016-11-21",8,7,"Georgina","7651865434"]
+[2025-06-30 16:49:40] [INFO] Usuario 31 inscrito en tabla específica curso_34
+[2025-06-30 16:49:40] [INFO] Usuario 31 inscrito exitosamente en curso 34
+[2025-06-30 16:49:47] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:49:50] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:49:57] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:01] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:05] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:05] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:07] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:11] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:14] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:18] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:22] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:24] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:50:25] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:51:03] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:51:04] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:51:05] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:51:41] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:52:22] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:52:51] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:00] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:01] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:01] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:03] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:04] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:05] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:07] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:09] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:09] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 16:53:11] [INFO] Sistema iniciado - Casa Telmex - Sistema de Registro v1.0.0
+[2025-06-30 17:00:56] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 17:00:56] [INFO] Método: POST
+[2025-06-30 17:00:56] [INFO] Datos POST recibidos: {"nombre":"Gabriel","apellidos":"Mata","curp":"MAG720527HDF5FVX","fecha_nacimiento":"1972-05-27","edad":"53","meses":"1","numero_usuario":"1657487015","salud":"Mala","tutor":"N\/A - Usuario adulto","numero_tutor":"","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"21"}
+[2025-06-30 17:00:56] [INFO] Datos procesados: {"nombre":"Gabriel","apellidos":"Mata","curp":"MAG720527HDF5FVX","fecha_nacimiento":"1972-05-27","edad":53,"meses":1,"salud":"Mala","tutor":"N\/A - Usuario adulto","numero_tutor":"","numero_usuario":"1657487015","telefono_usuario":""}
+[2025-06-30 17:00:56] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-06-30 17:01:03] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 17:01:03] [INFO] Método: POST
+[2025-06-30 17:01:03] [INFO] Datos POST recibidos: {"nombre":"Gabriel","apellidos":"Mata","curp":"MAG720527HDF5FVX","fecha_nacimiento":"1972-05-27","edad":"53","meses":"1","numero_usuario":"1657487015","salud":"Mala","tutor":"N\/A - Usuario adulto","numero_tutor":"","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"21"}
+[2025-06-30 17:01:03] [INFO] Datos procesados: {"nombre":"Gabriel","apellidos":"Mata","curp":"MAG720527HDF5FVX","fecha_nacimiento":"1972-05-27","edad":53,"meses":1,"salud":"Mala","tutor":"N\/A - Usuario adulto","numero_tutor":"","numero_usuario":"1657487015","telefono_usuario":""}
+[2025-06-30 17:01:03] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-06-30 17:01:16] [INFO] === INICIO API REGISTRO ===
+[2025-06-30 17:01:16] [INFO] Método: POST
+[2025-06-30 17:01:16] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"8","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-06-30 17:01:16] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":8,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-06-30 17:01:16] [INFO] Cursos seleccionados: ["34"]
+[2025-06-30 17:01:16] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
+[2025-06-30 17:01:16] [INFO] Usuario existente seleccionado: ID 11
+[2025-06-30 17:01:16] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-06-30 17:01:16] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-06-30 17:01:16] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-06-30 17:01:16] [INFO] Parámetros inscripción: [11,34]
+[2025-06-30 17:01:16] [INFO] Campos disponibles en tabla curso_34: id_registro, id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_inscripcion, activo
+[2025-06-30 17:01:16] [INFO] SQL tabla curso: INSERT INTO curso_34 (id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, fecha_inscripcion) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-06-30 17:01:16] [INFO] Parámetros tabla curso: [11,"Ismael","Martinez","MARI171010HDFRMSA3","2017-10-10",7,8,"Susana","9131035238"]
+[2025-06-30 17:01:16] [INFO] Usuario 11 inscrito en tabla específica curso_34
+[2025-06-30 17:01:16] [INFO] Usuario 11 inscrito exitosamente en curso 34
+[2025-07-01 12:39:14] [INFO] === INICIO API REGISTRO ===
+[2025-07-01 12:39:14] [INFO] Método: POST
+[2025-07-01 12:39:14] [INFO] Datos POST recibidos: {"nombre":"\u00darsula","apellidos":"Partida","curp":"PA\u00da150929HDF4PKR","fecha_nacimiento":"2015-09-29","edad":"9","meses":"10","numero_usuario":"3600831739","salud":"Regular","tutor":"Lic. Mar\u00eda Cristina Collazo","numero_tutor":"6393360383","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"14"}
+[2025-07-01 12:39:14] [INFO] Datos procesados: {"nombre":"\u00darsula","apellidos":"Partida","curp":"PA\u00da150929HDF4PKR","fecha_nacimiento":"2015-09-29","edad":9,"meses":10,"salud":"Regular","tutor":"Lic. Mar\u00eda Cristina Collazo","numero_tutor":"6393360383","numero_usuario":"3600831739","telefono_usuario":""}
+[2025-07-01 12:39:14] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-01 12:40:22] [INFO] === INICIO API REGISTRO ===
+[2025-07-01 12:40:22] [INFO] Método: POST
+[2025-07-01 12:40:22] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"9","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["36","34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-07-01 12:40:22] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":9,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-07-01 12:40:22] [INFO] Cursos seleccionados: ["36","34"]
+[2025-07-01 12:40:22] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-01 12:40:22] [INFO] Usuario existente seleccionado: ID 11
+[2025-07-01 12:40:22] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-01 12:40:22] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-01 12:40:22] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-01 12:40:22] [INFO] Parámetros inscripción: [11,36]
+[2025-07-01 12:40:22] [INFO] Campos disponibles en tabla curso_36: id_registro, id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_inscripcion, activo
+[2025-07-01 12:40:22] [INFO] SQL tabla curso: INSERT INTO curso_36 (id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, fecha_inscripcion) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-01 12:40:22] [INFO] Parámetros tabla curso: [11,"Ismael","Martinez","MARI171010HDFRMSA3","2017-10-10",7,9,"Susana","9131035238"]
+[2025-07-01 12:40:22] [INFO] Usuario 11 inscrito en tabla específica curso_36
+[2025-07-01 12:40:22] [INFO] Usuario 11 inscrito exitosamente en curso 36
+[2025-07-01 12:46:01] [INFO] === INICIO API REGISTRO ===
+[2025-07-01 12:46:01] [INFO] Método: POST
+[2025-07-01 12:46:01] [INFO] Datos POST recibidos: {"nombre":"Guadalupe","apellidos":"Serrano G\u00f3mez","curp":"SEGG360101MDFRLD03","fecha_nacimiento":"1936-01-01","edad":"89","meses":"6","numero_usuario":"","salud":"Presi\u00f3n alta","tutor":"N\/A - Usuario adulto","numero_tutor":"","cursos":["36"],"actualizar_usuario":"1","id_usuario_existente":"52"}
+[2025-07-01 12:46:01] [INFO] Datos procesados: {"nombre":"Guadalupe","apellidos":"Serrano G\u00f3mez","curp":"SEGG360101MDFRLD03","fecha_nacimiento":"1936-01-01","edad":89,"meses":6,"salud":"Presi\u00f3n alta","tutor":"N\/A - Usuario adulto","numero_tutor":"","numero_usuario":"","telefono_usuario":""}
+[2025-07-01 12:46:01] [INFO] Cursos seleccionados: ["36"]
+[2025-07-01 12:46:01] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-01 12:46:01] [INFO] Usuario existente seleccionado: ID 52
+[2025-07-01 12:46:01] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-01 12:46:01] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-01 12:46:01] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-01 12:46:01] [INFO] Parámetros inscripción: [52,36]
+[2025-07-01 12:46:01] [INFO] Campos disponibles en tabla curso_36: id_registro, id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_inscripcion, activo
+[2025-07-01 12:46:01] [INFO] SQL tabla curso: INSERT INTO curso_36 (id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, fecha_inscripcion) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-01 12:46:01] [INFO] Parámetros tabla curso: [52,"Guadalupe","Serrano G\u00f3mez","SEGG360101MDFRLD03","1936-01-01",89,6,"Presi\u00f3n alta","N\/A - Usuario adulto"]
+[2025-07-01 12:46:01] [INFO] Usuario 52 inscrito en tabla específica curso_36
+[2025-07-01 12:46:01] [INFO] Usuario 52 inscrito exitosamente en curso 36
+[2025-07-01 12:58:49] [INFO] === INICIO API REGISTRO ===
+[2025-07-01 12:58:49] [INFO] Método: POST
+[2025-07-01 12:58:49] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"9","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-07-01 12:58:49] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":9,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-07-01 12:58:49] [INFO] Cursos seleccionados: ["34"]
+[2025-07-01 12:58:49] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-01 12:58:49] [INFO] Usuario existente seleccionado: ID 11
+[2025-07-01 12:58:49] [ERROR] Error en registro: No se pudo inscribir al usuario en ningún curso. Errores: Ya está inscrito en el curso ID 34
+[2025-07-01 13:07:42] [INFO] === INICIO API REGISTRO ===
+[2025-07-01 13:07:42] [INFO] Método: POST
+[2025-07-01 13:07:42] [INFO] Datos POST recibidos: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":"7","meses":"9","numero_usuario":"7651543465","salud":"","tutor":"Susana","numero_tutor":"9131035238","cursos":["34"],"actualizar_usuario":"1","id_usuario_existente":"11"}
+[2025-07-01 13:07:42] [INFO] Datos procesados: {"nombre":"Ismael","apellidos":"Martinez","curp":"MARI171010HDFRMSA3","fecha_nacimiento":"2017-10-10","edad":7,"meses":9,"salud":"","tutor":"Susana","numero_tutor":"9131035238","numero_usuario":"7651543465","telefono_usuario":""}
+[2025-07-01 13:07:42] [INFO] Cursos seleccionados: ["34"]
+[2025-07-01 13:07:42] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-01 13:07:42] [INFO] Usuario existente seleccionado: ID 11
+[2025-07-01 13:07:42] [ERROR] Error en registro: No se pudo inscribir al usuario en ningún curso. Errores: Ya está inscrito en el curso ID 34

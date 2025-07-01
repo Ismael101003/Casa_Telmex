@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios - Casa Telmex</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .header-text h1 {
+            color: #333;
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .header-text .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .user-count {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.3);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        thead th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        thead th i {
+            margin-right: 8px;
+            opacity: 0.8;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            animation: fadeInRow 0.6s ease-out both;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8f9ff;
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(90deg, #f0f4ff 0%, #e8f2ff 100%);
+            transform: translateX(5px);
+            box-shadow: 5px 0 15px rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        tbody td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        /* Estilos específicos para diferentes tipos de celdas */
+        .cell-id {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .cell-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .cell-curp {
+            font-family: 'Courier New', monospace;
+            background: #e3f2fd;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #1565c0;
+            font-weight: 600;
+        }
+
+        .cell-age {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .cell-tutor {
+            color: #555;
+            font-weight: 500;
+        }
+
+        .cell-phone {
+            font-family: 'Courier New', monospace;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .cell-date {
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* Animaciones escalonadas para las filas */
+        tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        tbody tr:nth-child(2) { animation-delay: 0.15s; }
+        tbody tr:nth-child(3) { animation-delay: 0.2s; }
+        tbody tr:nth-child(4) { animation-delay: 0.25s; }
+        tbody tr:nth-child(5) { animation-delay: 0.3s; }
+        tbody tr:nth-child(6) { animation-delay: 0.35s; }
+        tbody tr:nth-child(7) { animation-delay: 0.4s; }
+        tbody tr:nth-child(8) { animation-delay: 0.45s; }
+        tbody tr:nth-child(9) { animation-delay: 0.5s; }
+        tbody tr:nth-child(10) { animation-delay: 0.55s; }
+
+        @keyframes fadeInRow {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Scrollbar personalizado */
+        .table-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a6fd8, #6a42a0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header-text h1 {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            thead th,
+            tbody td {
+                padding: 12px 8px;
+            }
+
+            .cell-curp {
+                font-size: 10px;
+                padding: 4px 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .header-text h1 {
+                font-size: 1.5em;
+            }
+
+            .user-count {
+                padding: 10px 15px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <div class="header-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="header-text">
+                    <h1>Lista de Usuarios</h1>
+                    <div class="subtitle">Usuarios registrados en el sistema</div>
+                </div>
+            </div>
+            <div class="user-count" id="userCount">
+                <i class="fas fa-user-friends"></i>
+                <span id="totalUsers">Cargando...</span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i>ID</th>
+                            <th><i class="fas fa-user"></i>Nombre</th>
+                            <th><i class="fas fa-id-card"></i>CURP</th>
+                            <th><i class="fas fa-birthday-cake"></i>Edad</th>
+                            <th><i class="fas fa-user-shield"></i>Tutor</th>
+                            <th><i class="fas fa-phone"></i>Tel. Tutor</th>
+                            <th><i class="fas fa-mobile-alt"></i>Tel. Usuario</th>
+                            <th><i class="fas fa-calendar-plus"></i>Fecha Registro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosTableBody">
+                        <tr>
+                            <td colspan="8" class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <div>Cargando usuarios...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Inicio
+            </a>
+        </div>
+
+        <div class="footer">
+            Casa Telmex © 2025 - Todos los derechos reservados
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== CARGANDO PÁGINA DE USUARIOS ===');
+            cargarUsuarios();
+        });
+
+        async function cargarUsuarios() {
+            const tableBody = document.getElementById('usuariosTableBody');
+            const userCountElement = document.getElementById('totalUsers');
+            
+            try {
+                console.log('Solicitando usuarios...');
+                const response = await fetch('api/obtener_usuarios.php');
+                const text = await response.text();
+                
+                console.log('Respuesta recibida:', text);
+                
+                let usuarios;
+                try {
+                    usuarios = JSON.parse(text);
+                } catch (parseError) {
+                    console.error('Error parsing JSON:', parseError);
+                    throw new Error('Respuesta del servidor no válida');
+                }
+
+                if (Array.isArray(usuarios)) {
+                    // Actualizar contador
+                    userCountElement.textContent = `${usuarios.length} usuarios`;
+                    
+                    if (usuarios.length === 0) {
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="8" class="no-data">
+                                    <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px; color: #ccc;"></i>
+                                    <div>No hay usuarios registrados</div>
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    const usuariosHTML = usuarios.map((usuario, index) => {
+                        const id = usuario.id_usuario || usuario.id || 'N/A';
+                        const nombre = `${usuario.nombre || 'N/A'} ${usuario.apellidos || ''}`.trim();
+                        const curp = usuario.curp || 'N/A';
+                        const edad = usuario.edad || 'N/A';
+                        const tutor = usuario.tutor || 'N/A';
+                        const telTutor = usuario.numero_tutor || 'N/A';
+                        const telUsuario = usuario.numero_usuario || 'N/A';
+                        const fechaRegistro = usuario.fecha_registro || 'N/A';
+
+                        return `
+                            <tr style="animation-delay: ${index * 0.05}s">
+                                <td class="cell-id">${id}</td>
+                                <td class="cell-name">${nombre}</td>
+                                <td class="cell-curp">${curp}</td>
+                                <td class="cell-age">${edad} años</td>
+                                <td class="cell-tutor">${tutor}</td>
+                                <td class="cell-phone">${telTutor}</td>
+                                <td class="cell-phone">${telUsuario}</td>
+                                <td class="cell-date">${fechaRegistro}</td>
+                            </tr>
+                        `;
+                    }).join('');
+
+                    tableBody.innerHTML = usuariosHTML;
+                    
+                    console.log(`${usuarios.length} usuarios cargados exitosamente`);
+                    
+                } else if (usuarios.error) {
+                    throw new Error(usuarios.mensaje || 'Error del servidor');
+                } else {
+                    throw new Error('Formato de respuesta no válido');
+                }
+                
+            } catch (error) {
+                console.error('Error al cargar usuarios:', error);
+                
+                userCountElement.textContent = '0 usuarios';
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="no-data">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 10px; color: #ff6b6b;"></i>
+                            <div>Error al cargar usuarios: ${error.message}</div>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

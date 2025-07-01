@@ -1,0 +1,657 @@
+[30-Jun-2025 16:23:14 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:23:14 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:23:14 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:23:14 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:23:14 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:23:14 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:23:14 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:23:14 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:23:14 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:23:14 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:23:14 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:23:14 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:23:14 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:23:14 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:25:15 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:25:15 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:25:15 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:25:15 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:25:15 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:25:15 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:25:15 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:25:15 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:25:15 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:25:15 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:25:15 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:25:15 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:25:15 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:25:15 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:27:20 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:27:20 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:27:20 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:27:20 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:27:20 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:27:20 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:27:20 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:27:20 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:27:20 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:27:20 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:27:20 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:27:20 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:27:20 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:27:20 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:31:26 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:31:26 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:31:26 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:31:26 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:31:26 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:31:26 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:31:26 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:31:26 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:31:26 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:31:26 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:31:26 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:31:26 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:31:26 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:31:26 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:34:43 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:34:43 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:34:43 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:34:43 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:34:43 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:34:43 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:34:43 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:34:43 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:34:43 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:34:43 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:34:43 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:34:43 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:34:43 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:34:43 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:34:52 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'field list' | SQL: SELECT id FROM usuarios WHERE id = ? LIMIT 1
+[30-Jun-2025 16:37:40 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:37:40 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:37:40 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:37:40 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:37:40 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:37:40 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:37:40 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:37:40 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:37:40 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:37:40 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:37:40 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:37:40 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:37:40 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:37:40 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:37:48 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'field list' | SQL: SELECT id FROM inscripciones WHERE usuario_id = ? AND curso_id = ? LIMIT 1
+[30-Jun-2025 16:46:21 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:46:21 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:46:21 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:46:21 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:46:21 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:46:21 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:46:21 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:46:21 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:46:21 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:46:21 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:46:21 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:46:21 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:46:21 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:46:21 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:50:05 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'activo' in 'where clause' | SQL: SELECT COUNT(*) as total FROM usuarios WHERE activo = 1
+[30-Jun-2025 16:50:05 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'activo' in 'where clause' | SQL: SELECT COUNT(*) as total FROM usuarios WHERE activo = 1
+[30-Jun-2025 16:50:11 America/Mexico_City] === OBTENER CURSOS USUARIO ===
+[30-Jun-2025 16:50:11 America/Mexico_City] ID Usuario solicitado: 31
+[30-Jun-2025 16:50:11 America/Mexico_City] Columna primaria detectada: id_usuario
+[30-Jun-2025 16:50:11 America/Mexico_City] SQL Usuario: SELECT 
+                    id_usuario as id_usuario,
+                    nombre,
+                    apellidos,
+                    curp,
+                    edad,
+                    fecha_registro
+                   FROM usuarios 
+                   WHERE id_usuario = ?
+[30-Jun-2025 16:50:11 America/Mexico_City] Usuario encontrado: Array
+(
+    [id_usuario] => 31
+    [nombre] => Cristiano
+    [apellidos] => Ronaldo
+    [curp] => ARTI161121HDFRMSA3
+    [edad] => 8
+    [fecha_registro] => 2025-06-30 16:49:40
+)
+
+[30-Jun-2025 16:50:11 America/Mexico_City] SQL Cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.horario, 'Por definir') as horario,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        i.fecha_inscripcion,
+                        'activo' as estado
+                      FROM inscripciones i
+                      INNER JOIN cursos c ON i.id_curso = c.id_curso
+                      WHERE i.id_usuario = ?
+                      ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:50:11 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.horario, 'Por definir') as horario,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        i.fecha_inscripcion,
+                        'activo' as estado
+                      FROM inscripciones i
+                      INNER JOIN cursos c ON i.id_curso = c.id_curso
+                      WHERE i.id_usuario = ?
+                      ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:50:11 America/Mexico_City] Error al obtener cursos: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:50:11 America/Mexico_City] Respuesta exitosa - Total cursos: 0
+[30-Jun-2025 16:50:14 America/Mexico_City] === OBTENER CURSOS USUARIO ===
+[30-Jun-2025 16:50:14 America/Mexico_City] ID Usuario solicitado: 31
+[30-Jun-2025 16:50:14 America/Mexico_City] Columna primaria detectada: id_usuario
+[30-Jun-2025 16:50:14 America/Mexico_City] SQL Usuario: SELECT 
+                    id_usuario as id_usuario,
+                    nombre,
+                    apellidos,
+                    curp,
+                    edad,
+                    fecha_registro
+                   FROM usuarios 
+                   WHERE id_usuario = ?
+[30-Jun-2025 16:50:14 America/Mexico_City] Usuario encontrado: Array
+(
+    [id_usuario] => 31
+    [nombre] => Cristiano
+    [apellidos] => Ronaldo
+    [curp] => ARTI161121HDFRMSA3
+    [edad] => 8
+    [fecha_registro] => 2025-06-30 16:49:40
+)
+
+[30-Jun-2025 16:50:14 America/Mexico_City] SQL Cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.horario, 'Por definir') as horario,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        i.fecha_inscripcion,
+                        'activo' as estado
+                      FROM inscripciones i
+                      INNER JOIN cursos c ON i.id_curso = c.id_curso
+                      WHERE i.id_usuario = ?
+                      ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:50:14 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.horario, 'Por definir') as horario,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        i.fecha_inscripcion,
+                        'activo' as estado
+                      FROM inscripciones i
+                      INNER JOIN cursos c ON i.id_curso = c.id_curso
+                      WHERE i.id_usuario = ?
+                      ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:50:14 America/Mexico_City] Error al obtener cursos: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:50:14 America/Mexico_City] Respuesta exitosa - Total cursos: 0
+[30-Jun-2025 16:50:18 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:50:18 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:50:18 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:50:18 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:50:18 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:50:18 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:50:18 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:50:22 America/Mexico_City] === OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:50:22 America/Mexico_City] Columna primaria de usuarios: id_usuario
+[30-Jun-2025 16:50:22 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:50:22 America/Mexico_City] SQL para cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        COALESCE(c.horario, '') as horario,
+                        COALESCE(c.activo, 1) as activo,
+                        COUNT(i.fecha_inscripcion) as total_inscritos
+                      FROM cursos c
+                      LEFT JOIN inscripciones i ON c.id_curso = i.id_curso
+                      WHERE COALESCE(c.activo, 1) = 1
+                      GROUP BY c.id_curso, c.nombre_curso, c.edad_min, c.edad_max, c.horario, c.activo
+                      ORDER BY c.nombre_curso
+[30-Jun-2025 16:50:22 America/Mexico_City] Cursos obtenidos: 1
+[30-Jun-2025 16:50:22 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                          u.id_usuario as id_usuario,
+                          COALESCE(u.nombre, '') as nombre,
+                          COALESCE(u.apellidos, '') as apellidos,
+                          COALESCE(u.curp, '') as curp,
+                          COALESCE(u.edad, 0) as edad,
+                          COALESCE(u.tutor, '') as tutor,
+                          COALESCE(u.numero_tutor, '') as numero_tutor,
+                          COALESCE(i.fecha_inscripcion, NOW()) as fecha_inscripcion
+                        FROM usuarios u
+                        INNER JOIN inscripciones i ON u.id_usuario = i.id_usuario
+                        WHERE i.id_curso = ?
+                        ORDER BY u.apellidos, u.nombre
+[30-Jun-2025 16:50:22 America/Mexico_City] ERROR en obtener_cursos_con_usuarios: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:50:22 America/Mexico_City] Stack trace: #0 C:\wamp64\www\Casa_Telmex\api\obtener_cursos_con_usuarios.php(138): Conexion->consultar('SELECT \n       ...', Array)
+#1 {main}
+[30-Jun-2025 16:50:22 America/Mexico_City] === FIN OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:50:24 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                i.fecha_inscripcion,
+                i.id_usuario,
+                i.id_curso,
+                i.fecha_inscripcion,
+                CONCAT(u.nombre, ' ', u.apellidos) as nombre_usuario,
+                c.nombre_curso
+            FROM inscripciones i
+            INNER JOIN usuarios u ON i.id_usuario = u.id_usuario
+            INNER JOIN cursos c ON i.id_curso = c.id_curso
+            ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:50:24 America/Mexico_City] Error al obtener inscripciones: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:50:25 America/Mexico_City] === OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:50:25 America/Mexico_City] Columna primaria de usuarios: id_usuario
+[30-Jun-2025 16:50:25 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:50:25 America/Mexico_City] SQL para cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        COALESCE(c.horario, '') as horario,
+                        COALESCE(c.activo, 1) as activo,
+                        COUNT(i.fecha_inscripcion) as total_inscritos
+                      FROM cursos c
+                      LEFT JOIN inscripciones i ON c.id_curso = i.id_curso
+                      WHERE COALESCE(c.activo, 1) = 1
+                      GROUP BY c.id_curso, c.nombre_curso, c.edad_min, c.edad_max, c.horario, c.activo
+                      ORDER BY c.nombre_curso
+[30-Jun-2025 16:50:25 America/Mexico_City] Cursos obtenidos: 1
+[30-Jun-2025 16:50:25 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                          u.id_usuario as id_usuario,
+                          COALESCE(u.nombre, '') as nombre,
+                          COALESCE(u.apellidos, '') as apellidos,
+                          COALESCE(u.curp, '') as curp,
+                          COALESCE(u.edad, 0) as edad,
+                          COALESCE(u.tutor, '') as tutor,
+                          COALESCE(u.numero_tutor, '') as numero_tutor,
+                          COALESCE(i.fecha_inscripcion, NOW()) as fecha_inscripcion
+                        FROM usuarios u
+                        INNER JOIN inscripciones i ON u.id_usuario = i.id_usuario
+                        WHERE i.id_curso = ?
+                        ORDER BY u.apellidos, u.nombre
+[30-Jun-2025 16:50:25 America/Mexico_City] ERROR en obtener_cursos_con_usuarios: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:50:25 America/Mexico_City] Stack trace: #0 C:\wamp64\www\Casa_Telmex\api\obtener_cursos_con_usuarios.php(138): Conexion->consultar('SELECT \n       ...', Array)
+#1 {main}
+[30-Jun-2025 16:50:25 America/Mexico_City] === FIN OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:51:03 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:51:03 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:51:03 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:51:03 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:51:03 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:51:03 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:51:03 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:51:05 America/Mexico_City] === OBTENER CURSOS USUARIO ===
+[30-Jun-2025 16:51:05 America/Mexico_City] ID Usuario solicitado: 31
+[30-Jun-2025 16:51:05 America/Mexico_City] Columna primaria detectada: id_usuario
+[30-Jun-2025 16:51:05 America/Mexico_City] SQL Usuario: SELECT 
+                    id_usuario as id_usuario,
+                    nombre,
+                    apellidos,
+                    curp,
+                    edad,
+                    fecha_registro
+                   FROM usuarios 
+                   WHERE id_usuario = ?
+[30-Jun-2025 16:51:05 America/Mexico_City] Usuario encontrado: Array
+(
+    [id_usuario] => 31
+    [nombre] => Cristiano
+    [apellidos] => Ronaldo
+    [curp] => ARTI161121HDFRMSA3
+    [edad] => 8
+    [fecha_registro] => 2025-06-30 16:49:40
+)
+
+[30-Jun-2025 16:51:05 America/Mexico_City] SQL Cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.horario, 'Por definir') as horario,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        i.fecha_inscripcion,
+                        'activo' as estado
+                      FROM inscripciones i
+                      INNER JOIN cursos c ON i.id_curso = c.id_curso
+                      WHERE i.id_usuario = ?
+                      ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:51:05 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.horario, 'Por definir') as horario,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        i.fecha_inscripcion,
+                        'activo' as estado
+                      FROM inscripciones i
+                      INNER JOIN cursos c ON i.id_curso = c.id_curso
+                      WHERE i.id_usuario = ?
+                      ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:51:05 America/Mexico_City] Error al obtener cursos: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:51:05 America/Mexico_City] Respuesta exitosa - Total cursos: 0
+[30-Jun-2025 16:51:41 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                i.fecha_inscripcion,
+                i.id_usuario,
+                i.id_curso,
+                i.fecha_inscripcion,
+                CONCAT(u.nombre, ' ', u.apellidos) as nombre_usuario,
+                c.nombre_curso
+            FROM inscripciones i
+            INNER JOIN usuarios u ON i.id_usuario = u.id_usuario
+            INNER JOIN cursos c ON i.id_curso = c.id_curso
+            ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:51:41 America/Mexico_City] Error al obtener inscripciones: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:53:01 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'activo' in 'where clause' | SQL: SELECT COUNT(*) as total FROM usuarios WHERE activo = 1
+[30-Jun-2025 16:53:03 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                i.fecha_inscripcion,
+                i.id_usuario,
+                i.id_curso,
+                i.fecha_inscripcion,
+                CONCAT(u.nombre, ' ', u.apellidos) as nombre_usuario,
+                c.nombre_curso
+            FROM inscripciones i
+            INNER JOIN usuarios u ON i.id_usuario = u.id_usuario
+            INNER JOIN cursos c ON i.id_curso = c.id_curso
+            ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:53:03 America/Mexico_City] Error al obtener inscripciones: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:53:04 America/Mexico_City] === OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:53:04 America/Mexico_City] Columna primaria de usuarios: id_usuario
+[30-Jun-2025 16:53:04 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:53:04 America/Mexico_City] SQL para cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        COALESCE(c.horario, '') as horario,
+                        COALESCE(c.activo, 1) as activo,
+                        COUNT(i.fecha_inscripcion) as total_inscritos
+                      FROM cursos c
+                      LEFT JOIN inscripciones i ON c.id_curso = i.id_curso
+                      WHERE COALESCE(c.activo, 1) = 1
+                      GROUP BY c.id_curso, c.nombre_curso, c.edad_min, c.edad_max, c.horario, c.activo
+                      ORDER BY c.nombre_curso
+[30-Jun-2025 16:53:04 America/Mexico_City] Cursos obtenidos: 1
+[30-Jun-2025 16:53:04 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                          u.id_usuario as id_usuario,
+                          COALESCE(u.nombre, '') as nombre,
+                          COALESCE(u.apellidos, '') as apellidos,
+                          COALESCE(u.curp, '') as curp,
+                          COALESCE(u.edad, 0) as edad,
+                          COALESCE(u.tutor, '') as tutor,
+                          COALESCE(u.numero_tutor, '') as numero_tutor,
+                          COALESCE(i.fecha_inscripcion, NOW()) as fecha_inscripcion
+                        FROM usuarios u
+                        INNER JOIN inscripciones i ON u.id_usuario = i.id_usuario
+                        WHERE i.id_curso = ?
+                        ORDER BY u.apellidos, u.nombre
+[30-Jun-2025 16:53:04 America/Mexico_City] ERROR en obtener_cursos_con_usuarios: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:53:04 America/Mexico_City] Stack trace: #0 C:\wamp64\www\Casa_Telmex\api\obtener_cursos_con_usuarios.php(138): Conexion->consultar('SELECT \n       ...', Array)
+#1 {main}
+[30-Jun-2025 16:53:04 America/Mexico_City] === FIN OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:53:05 America/Mexico_City] === OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:53:05 America/Mexico_City] Columna primaria de usuarios: id_usuario
+[30-Jun-2025 16:53:05 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:53:05 America/Mexico_City] SQL para cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        COALESCE(c.horario, '') as horario,
+                        COALESCE(c.activo, 1) as activo,
+                        COUNT(i.fecha_inscripcion) as total_inscritos
+                      FROM cursos c
+                      LEFT JOIN inscripciones i ON c.id_curso = i.id_curso
+                      WHERE COALESCE(c.activo, 1) = 1
+                      GROUP BY c.id_curso, c.nombre_curso, c.edad_min, c.edad_max, c.horario, c.activo
+                      ORDER BY c.nombre_curso
+[30-Jun-2025 16:53:05 America/Mexico_City] Cursos obtenidos: 1
+[30-Jun-2025 16:53:05 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                          u.id_usuario as id_usuario,
+                          COALESCE(u.nombre, '') as nombre,
+                          COALESCE(u.apellidos, '') as apellidos,
+                          COALESCE(u.curp, '') as curp,
+                          COALESCE(u.edad, 0) as edad,
+                          COALESCE(u.tutor, '') as tutor,
+                          COALESCE(u.numero_tutor, '') as numero_tutor,
+                          COALESCE(i.fecha_inscripcion, NOW()) as fecha_inscripcion
+                        FROM usuarios u
+                        INNER JOIN inscripciones i ON u.id_usuario = i.id_usuario
+                        WHERE i.id_curso = ?
+                        ORDER BY u.apellidos, u.nombre
+[30-Jun-2025 16:53:05 America/Mexico_City] ERROR en obtener_cursos_con_usuarios: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:53:05 America/Mexico_City] Stack trace: #0 C:\wamp64\www\Casa_Telmex\api\obtener_cursos_con_usuarios.php(138): Conexion->consultar('SELECT \n       ...', Array)
+#1 {main}
+[30-Jun-2025 16:53:05 America/Mexico_City] === FIN OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:53:07 America/Mexico_City] === OBTENER CURSOS ===
+[30-Jun-2025 16:53:07 America/Mexico_City] Columnas en tabla cursos: id_curso, nombre_curso, edad_min, edad_max, horario, tabla_curso, cupo_maximo, activo
+[30-Jun-2025 16:53:07 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:53:07 America/Mexico_City] SQL para obtener cursos: SELECT 
+                    id_curso,
+                    nombre_curso,
+                    COALESCE(edad_min, 0) as edad_min,
+                    COALESCE(edad_max, 100) as edad_max,
+                    COALESCE(cupo_maximo, 30) as cupo_maximo,
+                    COALESCE(horario, '') as horario,
+                    COALESCE(activo, 1) as activo,
+                    tabla_curso
+                FROM cursos 
+                ORDER BY nombre_curso
+[30-Jun-2025 16:53:07 America/Mexico_City] Total cursos obtenidos: 1
+[30-Jun-2025 16:53:07 America/Mexico_City] Primer curso: {"id_curso":34,"nombre_curso":"Curso de verano (Alfa)","edad_min":6,"edad_max":7,"cupo_maximo":30,"horario":"09:00 - 12:00","activo":1,"tabla_curso":"curso_34"}
+[30-Jun-2025 16:53:07 America/Mexico_City] === FIN OBTENER CURSOS ===
+[30-Jun-2025 16:53:09 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                i.fecha_inscripcion,
+                i.id_usuario,
+                i.id_curso,
+                i.fecha_inscripcion,
+                CONCAT(u.nombre, ' ', u.apellidos) as nombre_usuario,
+                c.nombre_curso
+            FROM inscripciones i
+            INNER JOIN usuarios u ON i.id_usuario = u.id_usuario
+            INNER JOIN cursos c ON i.id_curso = c.id_curso
+            ORDER BY i.fecha_inscripcion DESC
+[30-Jun-2025 16:53:09 America/Mexico_City] Error al obtener inscripciones: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:53:09 America/Mexico_City] === OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:53:09 America/Mexico_City] Columna primaria de usuarios: id_usuario
+[30-Jun-2025 16:53:09 America/Mexico_City] Tabla cursos tiene columna activo: SI
+[30-Jun-2025 16:53:09 America/Mexico_City] SQL para cursos: SELECT 
+                        c.id_curso,
+                        c.nombre_curso,
+                        COALESCE(c.edad_min, 0) as edad_min,
+                        COALESCE(c.edad_max, 100) as edad_max,
+                        COALESCE(c.horario, '') as horario,
+                        COALESCE(c.activo, 1) as activo,
+                        COUNT(i.fecha_inscripcion) as total_inscritos
+                      FROM cursos c
+                      LEFT JOIN inscripciones i ON c.id_curso = i.id_curso
+                      WHERE COALESCE(c.activo, 1) = 1
+                      GROUP BY c.id_curso, c.nombre_curso, c.edad_min, c.edad_max, c.horario, c.activo
+                      ORDER BY c.nombre_curso
+[30-Jun-2025 16:53:09 America/Mexico_City] Cursos obtenidos: 1
+[30-Jun-2025 16:53:09 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list' | SQL: SELECT 
+                          u.id_usuario as id_usuario,
+                          COALESCE(u.nombre, '') as nombre,
+                          COALESCE(u.apellidos, '') as apellidos,
+                          COALESCE(u.curp, '') as curp,
+                          COALESCE(u.edad, 0) as edad,
+                          COALESCE(u.tutor, '') as tutor,
+                          COALESCE(u.numero_tutor, '') as numero_tutor,
+                          COALESCE(i.fecha_inscripcion, NOW()) as fecha_inscripcion
+                        FROM usuarios u
+                        INNER JOIN inscripciones i ON u.id_usuario = i.id_usuario
+                        WHERE i.id_curso = ?
+                        ORDER BY u.apellidos, u.nombre
+[30-Jun-2025 16:53:09 America/Mexico_City] ERROR en obtener_cursos_con_usuarios: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'i.fecha_inscripcion' in 'field list'
+[30-Jun-2025 16:53:09 America/Mexico_City] Stack trace: #0 C:\wamp64\www\Casa_Telmex\api\obtener_cursos_con_usuarios.php(138): Conexion->consultar('SELECT \n       ...', Array)
+#1 {main}
+[30-Jun-2025 16:53:09 America/Mexico_City] === FIN OBTENER CURSOS CON USUARIOS ===
+[30-Jun-2025 16:53:11 America/Mexico_City] Error en consulta SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'activo' in 'where clause' | SQL: SELECT COUNT(*) as total FROM usuarios WHERE activo = 1
