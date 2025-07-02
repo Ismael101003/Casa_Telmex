@@ -663,6 +663,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function seleccionarUsuario(usuario) {
     console.log("👤 Usuario seleccionado:", usuario)
+    console.log("📋 Datos completos del usuario:", JSON.stringify(usuario, null, 2))
 
     selectedUser = usuario
     if (searchUsuarioInput) searchUsuarioInput.value = usuario.nombre_completo
@@ -697,48 +698,82 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selectedUserCurp) selectedUserCurp.textContent = usuario.curp || "Sin CURP"
     if (selectedUserAge) selectedUserAge.textContent = usuario.edad || 0
 
-    // Llenar formulario con datos del usuario
-    document.getElementById("updateUsuarioId").value = usuario.id || ""
-    document.getElementById("updateNombre").value = usuario.nombre || ""
-    document.getElementById("updateApellidos").value = usuario.apellidos || ""
-    document.getElementById("updateCurp").value = usuario.curp || ""
-    document.getElementById("updateFechaNacimiento").value = usuario.fecha_nacimiento || ""
-    document.getElementById("updateNumeroUsuario").value = usuario.numero_usuario || ""
-    document.getElementById("updateSalud").value = usuario.salud || ""
+    // Llenar formulario con datos del usuario - TODOS LOS CAMPOS
+    const updateUsuarioId = document.getElementById("updateUsuarioId")
+    const updateNombre = document.getElementById("updateNombre")
+    const updateApellidos = document.getElementById("updateApellidos")
+    const updateCurp = document.getElementById("updateCurp")
+    const updateFechaNacimiento = document.getElementById("updateFechaNacimiento")
+    const updateNumeroUsuario = document.getElementById("updateNumeroUsuario")
+    const updateSalud = document.getElementById("updateSalud")
+
+    if (updateUsuarioId) updateUsuarioId.value = usuario.id || ""
+    if (updateNombre) updateNombre.value = usuario.nombre || ""
+    if (updateApellidos) updateApellidos.value = usuario.apellidos || ""
+    if (updateCurp) updateCurp.value = usuario.curp || ""
+    if (updateFechaNacimiento) updateFechaNacimiento.value = usuario.fecha_nacimiento || ""
+    if (updateNumeroUsuario) updateNumeroUsuario.value = usuario.numero_usuario || ""
+    if (updateSalud) updateSalud.value = usuario.salud || ""
 
     // Datos del tutor
-    document.getElementById("updateTutor").value = usuario.tutor || ""
-    document.getElementById("updateNumeroTutor").value = usuario.numero_tutor || ""
+    const updateTutor = document.getElementById("updateTutor")
+    const updateNumeroTutor = document.getElementById("updateNumeroTutor")
+
+    if (updateTutor) updateTutor.value = usuario.tutor || ""
+    if (updateNumeroTutor) updateNumeroTutor.value = usuario.numero_tutor || ""
 
     // Derechohabiencia
+    const updateDerechohabienteSi = document.getElementById("updateDerechohabienteSi")
+    const updateDerechohabienteNo = document.getElementById("updateDerechohabienteNo")
+    const updateDocCedulaAfiliacion = document.getElementById("updateDocCedulaAfiliacion")
+
     if (usuario.es_derechohabiente == 1) {
-      document.getElementById("updateDerechohabienteSi").checked = true
-      document.getElementById("updateDocCedulaAfiliacion").style.display = "block"
+      if (updateDerechohabienteSi) updateDerechohabienteSi.checked = true
+      if (updateDocCedulaAfiliacion) updateDocCedulaAfiliacion.style.display = "block"
     } else {
-      document.getElementById("updateDerechohabienteNo").checked = true
-      document.getElementById("updateDocCedulaAfiliacion").style.display = "none"
+      if (updateDerechohabienteNo) updateDerechohabienteNo.checked = true
+      if (updateDocCedulaAfiliacion) updateDocCedulaAfiliacion.style.display = "none"
     }
 
     // Tipo de seguro
-    document.getElementById("updateTipoSeguro").value = usuario.tipo_seguro || ""
+    const updateTipoSeguro = document.getElementById("updateTipoSeguro")
+    if (updateTipoSeguro) updateTipoSeguro.value = usuario.tipo_seguro || ""
 
     // Dirección
-    document.getElementById("updateDireccionCalle").value = usuario.direccion_calle || ""
-    document.getElementById("updateDireccionNumero").value = usuario.direccion_numero || ""
-    document.getElementById("updateDireccionColonia").value = usuario.direccion_colonia || ""
-    document.getElementById("updateDireccionCiudad").value = usuario.direccion_ciudad || ""
-    document.getElementById("updateDireccionEstado").value = usuario.direccion_estado || ""
-    document.getElementById("updateDireccionCp").value = usuario.direccion_cp || ""
+    const updateDireccionCalle = document.getElementById("updateDireccionCalle")
+    const updateDireccionNumero = document.getElementById("updateDireccionNumero")
+    const updateDireccionColonia = document.getElementById("updateDireccionColonia")
+    const updateDireccionCiudad = document.getElementById("updateDireccionCiudad")
+    const updateDireccionEstado = document.getElementById("updateDireccionEstado")
+    const updateDireccionCp = document.getElementById("updateDireccionCp")
+
+    if (updateDireccionCalle) updateDireccionCalle.value = usuario.direccion_calle || ""
+    if (updateDireccionNumero) updateDireccionNumero.value = usuario.direccion_numero || ""
+    if (updateDireccionColonia) updateDireccionColonia.value = usuario.direccion_colonia || ""
+    if (updateDireccionCiudad) updateDireccionCiudad.value = usuario.direccion_ciudad || ""
+    if (updateDireccionEstado) updateDireccionEstado.value = usuario.direccion_estado || ""
+    if (updateDireccionCp) updateDireccionCp.value = usuario.direccion_cp || ""
 
     // Documentos
-    document.getElementById("updateDocFotografias").checked = usuario.doc_fotografias == 1
-    document.getElementById("updateDocActa").checked = usuario.doc_acta_nacimiento == 1
-    document.getElementById("updateDocCurp").checked = usuario.doc_curp == 1
-    document.getElementById("updateDocComprobante").checked = usuario.doc_comprobante_domicilio == 1
-    document.getElementById("updateDocIne").checked = usuario.doc_ine == 1
-    document.getElementById("updateDocCedula").checked = usuario.doc_cedula_afiliacion == 1
-    document.getElementById("updateDocFotosTutores").checked = usuario.doc_fotos_tutores == 1
-    document.getElementById("updateDocInesTutores").checked = usuario.doc_ines_tutores == 1
+    const updateDocFotografias = document.getElementById("updateDocFotografias")
+    const updateDocActa = document.getElementById("updateDocActa")
+    const updateDocCurp = document.getElementById("updateDocCurp")
+    const updateDocComprobante = document.getElementById("updateDocComprobante")
+    const updateDocIne = document.getElementById("updateDocIne")
+    const updateDocCedula = document.getElementById("updateDocCedula")
+    const updateDocFotosTutores = document.getElementById("updateDocFotosTutores")
+    const updateDocInesTutores = document.getElementById("updateDocInesTutores")
+
+    if (updateDocFotografias) updateDocFotografias.checked = usuario.doc_fotografias == 1
+    if (updateDocActa) updateDocActa.checked = usuario.doc_acta_nacimiento == 1
+    if (updateDocCurp) updateDocCurp.checked = usuario.doc_curp == 1
+    if (updateDocComprobante) updateDocComprobante.checked = usuario.doc_comprobante_domicilio == 1
+    if (updateDocIne) updateDocIne.checked = usuario.doc_ine == 1
+    if (updateDocCedula) updateDocCedula.checked = usuario.doc_cedula_afiliacion == 1
+    if (updateDocFotosTutores) updateDocFotosTutores.checked = usuario.doc_fotos_tutores == 1
+    if (updateDocInesTutores) updateDocInesTutores.checked = usuario.doc_ines_tutores == 1
+
+    console.log("✅ Todos los datos del usuario han sido cargados en el formulario")
   }
 
   function limpiarBusquedaCompleta() {
@@ -901,7 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .map((usuario) => {
             const id = usuario.id_usuario || usuario.id || "N/A"
             const esDerechohabiente = usuario.es_derechohabiente ? "Sí" : "No"
-            const documentacionCompleta = usuario.documentacion_completa ? "Completa" : "Incompleta"
+            const documentacionCompleta = usuario.documentacion_completa ? "COMPLETA" : "INCOMPLETA"
             const badgeClass = usuario.documentacion_completa ? "badge-success" : "badge-warning"
 
             return `
@@ -911,7 +946,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${usuario.curp || "N/A"}</td>
             <td>${usuario.edad || "N/A"} años</td>
             <td>${esDerechohabiente}</td>
-            <td><span class="badge ${badgeClass}">${documentacionCompleta}</span></td>
+            <td><span class="badge ${badgeClass}"><i class="fas ${usuario.documentacion_completa ? "fa-check" : "fa-exclamation-triangle"}"></i> ${documentacionCompleta}</span></td>
             <td>${usuario.fecha_registro || "N/A"}</td>
             <td>
               <button class="btn btn-secondary btn-sm" onclick="verUsuario(${id})" ${id === "N/A" ? "disabled" : ""}>
@@ -1005,43 +1040,53 @@ document.addEventListener("DOMContentLoaded", () => {
     tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">Cargando información de documentación...</td></tr>'
 
     try {
-      const response = await fetch(`api/obtener_usuarios_documentacion.php?filtro=${filtro}`)
-      const data = await response.json()
+      const response = await fetch(`api/obtener_usuarios.php`)
+      const usuarios = await response.json()
 
-      if (data.exito) {
-        const usuarios = data.usuarios
+      if (Array.isArray(usuarios)) {
+        // Filtrar según el filtro seleccionado
+        let usuariosFiltrados = usuarios
+        if (filtro === "completos") {
+          usuariosFiltrados = usuarios.filter((u) => u.documentacion_completa)
+        } else if (filtro === "incompletos") {
+          usuariosFiltrados = usuarios.filter((u) => !u.documentacion_completa)
+        }
 
-        if (usuarios.length === 0) {
+        if (usuariosFiltrados.length === 0) {
           tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">No hay usuarios con este filtro</td></tr>'
           return
         }
 
-        const usuariosHTML = usuarios
+        const usuariosHTML = usuariosFiltrados
           .map((usuario) => {
             const progressClass =
-              usuario.porcentaje_completado === 100
+              usuario.documentacion_porcentaje === 100
                 ? "progress-complete"
-                : usuario.porcentaje_completado >= 50
+                : usuario.documentacion_porcentaje >= 50
                   ? "progress-partial"
                   : "progress-low"
 
+            const documentosFaltantes = usuario.documentos_requeridos - usuario.documentos_completos
+            const textoFaltantes =
+              documentosFaltantes > 0 ? `${documentosFaltantes} documento(s) faltante(s)` : "Documentación completa"
+
             return `
             <tr>
-              <td>${usuario.id_usuario}</td>
+              <td>${usuario.id}</td>
               <td>${usuario.nombre_completo}</td>
               <td>
                 <div class="documentos-faltantes">
-                  ${usuario.documentos_faltantes_texto}
+                  ${textoFaltantes}
                 </div>
               </td>
               <td>
                 <div class="progress-container">
-                  <div class="progress-bar ${progressClass}" style="width: ${usuario.porcentaje_completado}%"></div>
-                  <span class="progress-text">${usuario.porcentaje_completado}%</span>
+                  <div class="progress-bar ${progressClass}" style="width: ${usuario.documentacion_porcentaje}%"></div>
+                  <span class="progress-text">${usuario.documentacion_porcentaje}%</span>
                 </div>
               </td>
               <td>
-                <button class="btn btn-primary btn-sm" onclick="irAGestionarUsuario(${usuario.id_usuario})">
+                <button class="btn btn-primary btn-sm" onclick="irAGestionarUsuario(${usuario.id})">
                   <i class="fas fa-edit"></i>
                 </button>
               </td>
@@ -1052,7 +1097,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tableBody.innerHTML = usuariosHTML
       } else {
-        tableBody.innerHTML = `<tr><td colspan="5" class="loading-row">Error: ${data.mensaje}</td></tr>`
+        tableBody.innerHTML = `<tr><td colspan="5" class="loading-row">Error al cargar documentación</td></tr>`
       }
     } catch (error) {
       console.error("Error al cargar documentación:", error)
@@ -1546,28 +1591,55 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function verListaUsuarios(idCurso) {
-    console.log("Viendo lista de usuarios del curso:", idCurso)
+    console.log("🔍 Viendo lista de usuarios del curso:", idCurso)
 
     try {
-      const response = await fetch(`api/obtener_tabla_curso.php?id_curso=${idCurso}`)
-      const data = await response.json()
+      // Mostrar modal inmediatamente con loading
+      const listaUsuariosTitle = document.getElementById("listaUsuariosTitle")
+      const tableBody = document.getElementById("listaUsuariosTableBody")
 
-      console.log("Datos de la lista de usuarios:", data)
+      if (listaUsuariosTitle) {
+        listaUsuariosTitle.textContent = "Cargando lista de usuarios..."
+      }
+
+      if (tableBody) {
+        tableBody.innerHTML =
+          '<tr><td colspan="7" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Cargando usuarios del curso...</td></tr>'
+      }
+
+      if (listaUsuariosModal) listaUsuariosModal.style.display = "block"
+
+      const response = await fetch(`api/obtener_tabla_curso.php?id_curso=${idCurso}`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const text = await response.text()
+      console.log("📥 Respuesta del servidor:", text.substring(0, 200))
+
+      let data
+      try {
+        data = JSON.parse(text)
+      } catch (parseError) {
+        console.error("Error parsing JSON:", parseError)
+        throw new Error("Respuesta del servidor no válida")
+      }
+
+      console.log("📊 Datos de la lista de usuarios:", data)
 
       if (data.exito) {
         const curso = data.curso
         const usuarios = data.usuarios
 
-        const listaUsuariosTitle = document.getElementById("listaUsuariosTitle")
         if (listaUsuariosTitle) {
           listaUsuariosTitle.textContent = `Lista de Usuarios - ${curso.nombre_curso}`
         }
 
-        const tableBody = document.getElementById("listaUsuariosTableBody")
         if (tableBody) {
           if (usuarios.length === 0) {
             tableBody.innerHTML =
-              '<tr><td colspan="7" class="no-data">No hay usuarios inscritos en este curso</td></tr>'
+              '<tr><td colspan="7" class="no-data"><i class="fas fa-info-circle"></i> No hay usuarios inscritos en este curso</td></tr>'
           } else {
             const usuariosHTML = usuarios
               .map(
@@ -1575,10 +1647,10 @@ document.addEventListener("DOMContentLoaded", () => {
               <tr>
                 <td>${index + 1}</td>
                 <td>${usuario.nombre} ${usuario.apellidos}</td>
-                <td>${usuario.curp}</td>
+                <td>${usuario.curp || "Sin CURP"}</td>
                 <td>${usuario.edad} años</td>
-                <td>${usuario.tutor}</td>
-                <td>${usuario.numero_tutor}</td>
+                <td>${usuario.tutor || "Sin tutor"}</td>
+                <td>${usuario.numero_tutor || "N/A"}</td>
                 <td>${usuario.fecha_inscripcion_formateada}</td>
               </tr>
             `,
@@ -1589,18 +1661,22 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
+        // Guardar datos para exportar/imprimir
         window.currentCourseData = {
           curso: curso,
           usuarios: usuarios,
         }
 
-        if (listaUsuariosModal) listaUsuariosModal.style.display = "block"
+        console.log("✅ Lista de usuarios cargada correctamente")
       } else {
+        console.error("❌ Error del servidor:", data.mensaje)
         alert("Error al cargar lista de usuarios: " + data.mensaje)
+        cerrarModalListaUsuarios()
       }
     } catch (error) {
-      console.error("Error:", error)
-      alert("Error de conexión al cargar lista de usuarios")
+      console.error("💥 Error completo:", error)
+      alert("Error de conexión al cargar lista de usuarios: " + error.message)
+      cerrarModalListaUsuarios()
     }
   }
 
@@ -1659,10 +1735,10 @@ document.addEventListener("DOMContentLoaded", () => {
               <tr>
                 <td>${index + 1}</td>
                 <td>${usuario.nombre} ${usuario.apellidos}</td>
-                <td>${usuario.curp}</td>
+                <td>${usuario.curp || "Sin CURP"}</td>
                 <td>${usuario.edad} años</td>
-                <td>${usuario.tutor}</td>
-                <td>${usuario.numero_tutor}</td>
+                <td>${usuario.tutor || "Sin tutor"}</td>
+                <td>${usuario.numero_tutor || "N/A"}</td>
                 <td>${usuario.fecha_inscripcion_formateada}</td>
               </tr>
             `,
@@ -1692,9 +1768,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let csv = "No.,Nombre Completo,CURP,Edad,Tutor,Teléfono,Fecha Inscripción\n"
 
     usuarios.forEach((usuario, index) => {
-      csv += `${index + 1},"${usuario.nombre} ${usuario.apellidos}","${usuario.curp}","${usuario.edad} años","${
-        usuario.tutor
-      }","${usuario.numero_tutor}","${usuario.fecha_inscripcion_formateada}"\n`
+      csv += `${index + 1},"${usuario.nombre} ${usuario.apellidos}","${usuario.curp || "Sin CURP"}","${usuario.edad} años","${
+        usuario.tutor || "Sin tutor"
+      }","${usuario.numero_tutor || "N/A"}","${usuario.fecha_inscripcion_formateada}"\n`
     })
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
@@ -2019,6 +2095,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
+
+  // Asignar función global para ver lista de usuarios
+  window.verListaUsuarios = verListaUsuarios
 
   // Cerrar modales al hacer clic fuera
   window.addEventListener("click", (e) => {
