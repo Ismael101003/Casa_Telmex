@@ -109,7 +109,7 @@ try {
         }
     }
     
-    // Construir consulta para obtener cursos según la estructura disponible
+    // Construir consulta para obtener cursos según la estructura disponible, incluyendo instructor y sala
     $campoFechaSelect = '';
     $campoFechaOrderBy = '';
     
@@ -123,7 +123,7 @@ try {
         $campoFechaOrderBy = "u.fecha_registro DESC";
     }
     
-    // Obtener cursos del usuario
+    // Agregar sala e instructor con COALESCE para evitar NULLs
     $sqlCursos = "SELECT 
                       c.$columnaPrimariaCursos as id_curso,
                       c.nombre_curso,
@@ -131,6 +131,8 @@ try {
                       c.edad_max,
                       COALESCE(c.cupo_maximo, 30) as cupo_maximo,
                       COALESCE(c.horario, 'Por definir') as horario,
+                      COALESCE(c.sala, 'No asignada') as sala,
+                      COALESCE(c.instructor, 'Sin instructor') as instructor,
                       COALESCE(c.activo, 1) as activo,
                       $campoFechaSelect
                       u.nombre,
@@ -165,6 +167,8 @@ try {
             'edad_max' => $curso['edad_max'],
             'cupo_maximo' => $curso['cupo_maximo'],
             'horario' => $curso['horario'],
+            'sala' => $curso['sala'],
+            'instructor' => $curso['instructor'],
             'activo' => $curso['activo'],
             'estado' => $curso['activo'] ? 'activo' : 'inactivo',
             'fecha_inscripcion' => $fechaInscripcion

@@ -1,76 +1,909 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso Administrativo - Casa Telmex</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin-login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Casa Telmex</title>
+    <link rel="stylesheet" href="css/admin-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="page-container">
-    <div class="login-container">
-      <div class="login-header">
-        <div class="logo-container">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h1>Acceso Administrativo</h1>
-        <p class="subtitle">Casa Telmex - Panel de Control</p>
-      </div>
-      
-      <div class="login-form">
-        <div class="alert error" id="errorAlert" style="display: none;">
-          <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
-          <div class="alert-content">
-            <p id="errorMessage">Usuario o contraseña incorrectos</p>
-          </div>
-        </div>
-
-        <form id="adminLoginForm">
-          <div class="form-group">
-            <label for="usuario">
-              <i class="fas fa-user"></i> Usuario
-            </label>
-            <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="password">
-              <i class="fas fa-lock"></i> Contraseña
-            </label>
-            <div class="password-input">
-              <input type="password" id="password" name="password" placeholder="Contraseña" required>
-              <button type="button" class="toggle-password" id="togglePassword">
-                <i class="fas fa-eye"></i>
-              </button>
+    <script>
+// Verificar sesión al cargar
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si hay sesión activa
+    fetch('api/verificar_sesion.php')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.exito) {
+                window.location.href = 'admin-login.html';
+            }
+        })
+        .catch(() => {
+            window.location.href = 'admin-login.html';
+        });
+});
+</script>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>Casa Telmex</h2>
+                <p>Panel Administrativo</p>
             </div>
-          </div>
-          
-          <button type="submit" class="btn primary" id="loginButton">
-            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-          </button>
-        </form>
-        
-        <div class="login-help">
-          <p><i class="fas fa-info-circle"></i> Credenciales por defecto:</p>
-          <p><strong>Usuario:</strong> admin</p>
-          <p><strong>Contraseña:</strong> password</p>
-          <small>Cambia estas credenciales después del primer acceso</small>
-        </div>
-      </div>
-      
-      <div class="login-footer">
-        <a href="index.html" class="back-link">
-          <i class="fas fa-arrow-left"></i> Volver al inicio
-        </a>
-        <p>Casa Telmex © <span id="currentYear"></span></p>
-      </div>
-    </div>
-  </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" data-section="usuarios">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </li>
+                <li class="nav-item" data-section="gestionar-usuario">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Gestionar Usuario</span>
+                </li>
+                <li class="nav-item" data-section="documentacion">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Documentación</span>
+                </li>
+                <li class="nav-item" data-section="cursos">
+                    <i class="fas fa-book"></i>
+                    <span>Gestión de Cursos</span>
+                </li>
+                <li class="nav-item" data-section="cursos-usuarios">
+                    <i class="fas fa-list-alt"></i>
+                    <span>Cursos y Listas</span>
+                </li>
+                <li class="nav-item" data-section="inscripciones">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Inscripciones</span>
+                </li>
+                <li class="nav-item" data-section="admins">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Administradores</span>
+                </li>
+                <li class="nav-item" data-section="reportes">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Administrador</span>
+                </div>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </button>
+            </div>
+        </nav>
 
-  <script src="js/admin-login.js"></script>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-info">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">Resumen general del sistema</p>
+                </div>
+                <button id="addNewBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Agregar Nuevo
+                </button>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalUsuarios">0</h3>
+                            <p>Total Usuarios</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalCursos">0</h3>
+                            <p>Total Cursos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalInscripciones">0</h3>
+                            <p>Total Inscripciones</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="usuariosSinDocumentacion">0</h3>
+                            <p>Sin Documentación</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usuarios Section -->
+            <section id="usuarios-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre Completo</th>
+                                <th>CURP</th>
+                                <th>Edad</th>
+                                <th>Derechohabiente</th>
+                                <th>Documentación</th>
+                                <th>Fecha Registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosTableBody">
+                            <tr>
+                                <td colspan="8" class="loading-row">Cargando usuarios...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Gestionar Usuario Section (Unificada) -->
+            <section id="gestionar-usuario-section" class="content-section">
+                <div class="form-container">
+                    <div class="section-tabs">
+                        <button class="tab-button active" data-mode="add">
+                            <i class="fas fa-user-plus"></i>
+                            Añadir Usuario
+                        </button>
+                        <button class="tab-button" data-mode="update">
+                            <i class="fas fa-user-edit"></i>
+                            Actualizar Usuario
+                        </button>
+                    </div>
+
+                    <!-- Modo Añadir Usuario -->
+                    <div id="addUserMode" class="user-mode active">
+                        <h2>Añadir Usuario Completo</h2>
+                        <form id="addUsuarioForm" class="admin-form">
+                            <!-- Datos Básicos -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-user"></i> Datos Básicos</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addNombre">Nombre *</label>
+                                        <input type="text" id="addNombre" name="nombre" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addApellidos">Apellidos *</label>
+                                        <input type="text" id="addApellidos" name="apellidos" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addCurp">CURP</label>
+                                        <input type="text" id="addCurp" name="curp" maxlength="18">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addFechaNacimiento">Fecha de Nacimiento *</label>
+                                        <input type="date" id="addFechaNacimiento" name="fecha_nacimiento" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addNumeroUsuario">Teléfono Usuario</label>
+                                        <input type="tel" id="addNumeroUsuario" name="numero_usuario" maxlength="10">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addSalud">Condiciones de Salud</label>
+                                        <textarea id="addSalud" name="salud" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Datos del Tutor -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-users"></i> Datos del Tutor</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addTutor">Nombre del Tutor</label>
+                                        <input type="text" id="addTutor" name="tutor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addNumeroTutor">Teléfono del Tutor</label>
+                                        <input type="tel" id="addNumeroTutor" name="numero_tutor" maxlength="10">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Derechohabiencia y Seguros -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-shield-alt"></i> Derechohabiencia y Seguros</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>¿Es derechohabiente?</label>
+                                        <div class="radio-group">
+                                            <label class="radio-label">
+                                                <input type="radio" name="es_derechohabiente" value="1">
+                                                <span>Sí</span>
+                                            </label>
+                                            <label class="radio-label">
+                                                <input type="radio" name="es_derechohabiente" value="0" checked>
+                                                <span>No</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addTipoSeguro">Tipo de Seguro</label>
+                                        <select id="addTipoSeguro" name="tipo_seguro">
+                                            <option value="">Seleccionar...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dirección -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-map-marker-alt"></i> Dirección</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addDireccionCalle">Calle</label>
+                                        <input type="text" id="addDireccionCalle" name="direccion_calle">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addDireccionNumero">Número</label>
+                                        <input type="text" id="addDireccionNumero" name="direccion_numero">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addDireccionColonia">Colonia</label>
+                                        <input type="text" id="addDireccionColonia" name="direccion_colonia">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addDireccionCiudad">Ciudad</label>
+                                        <input type="text" id="addDireccionCiudad" name="direccion_ciudad">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addDireccionEstado">Estado</label>
+                                        <input type="text" id="addDireccionEstado" name="direccion_estado">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addDireccionCp">Código Postal</label>
+                                        <input type="text" id="addDireccionCp" name="direccion_cp" maxlength="5">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Documentos -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-file-alt"></i> Documentos Requeridos</h3>
+                                <div class="documents-checklist">
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_fotografias" value="1">
+                                            <span class="checkmark"></span>
+                                            2 fotografías tamaño infantil
+                                        </label>
+                                    </div>
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_acta_nacimiento" value="1">
+                                            <span class="checkmark"></span>
+                                            Copia de acta de nacimiento
+                                        </label>
+                                    </div>
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_curp" value="1">
+                                            <span class="checkmark"></span>
+                                            Copia de CURP
+                                        </label>
+                                    </div>
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_comprobante_domicilio" value="1">
+                                            <span class="checkmark"></span>
+                                            Copia de comprobante de domicilio
+                                        </label>
+                                    </div>
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_ine" value="1">
+                                            <span class="checkmark"></span>
+                                            Copia del INE
+                                        </label>
+                                    </div>
+                                    <div class="document-item" id="addDocCedulaAfiliacion" style="display: none;">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_cedula_afiliacion" value="1">
+                                            <span class="checkmark"></span>
+                                            Copia de cédula de afiliación
+                                        </label>
+                                    </div>
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_fotos_tutores" value="1">
+                                            <span class="checkmark"></span>
+                                            2 fotos de los tutores
+                                        </label>
+                                    </div>
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_ines_tutores" value="1">
+                                            <span class="checkmark"></span>
+                                            2 INEs de tutores
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Guardar Usuario
+                                </button>
+                                <button type="reset" class="btn btn-secondary">
+                                    <i class="fas fa-undo"></i>
+                                    Limpiar Formulario
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modo Actualizar Usuario -->
+                    <div id="updateUserMode" class="user-mode">
+                        <h2>Actualizar Usuario</h2>
+                        
+                        <!-- Buscador de usuarios -->
+                        <div class="search-section">
+                            <div class="search-container">
+                                <div class="search-input-group">
+                                    <input type="text" id="searchUsuarioInput" placeholder="Buscar usuario por nombre, apellidos o CURP..." class="search-input">
+                                    <button id="clearSearchBtn" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div id="searchResults" class="search-results" style="display: none;">
+                                    <!-- Resultados de búsqueda aparecerán aquí -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formulario de actualización (inicialmente oculto) -->
+                        <div id="updateFormContainer" style="display: none;">
+                            <div class="selected-user-info">
+                                <h3>Usuario Seleccionado: <span id="selectedUserName"></span></h3>
+                                <p>ID: <span id="selectedUserId"></span> | CURP: <span id="selectedUserCurp"></span></p>
+                            </div>
+
+                            <form id="updateUsuarioForm" class="admin-form">
+                                <input type="hidden" id="updateUsuarioId" name="id_usuario">
+                                
+                                <!-- Datos Básicos -->
+                                <div class="form-section">
+                                    <h3><i class="fas fa-user"></i> Datos Básicos</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="updateNombre">Nombre *</label>
+                                            <input type="text" id="updateNombre" name="nombre" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateApellidos">Apellidos *</label>
+                                            <input type="text" id="updateApellidos" name="apellidos" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="updateCurp">CURP</label>
+                                            <input type="text" id="updateCurp" name="curp" maxlength="18">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateFechaNacimiento">Fecha de Nacimiento *</label>
+                                            <input type="date" id="updateFechaNacimiento" name="fecha_nacimiento" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="updateNumeroUsuario">Teléfono Usuario</label>
+                                            <input type="tel" id="updateNumeroUsuario" name="numero_usuario" maxlength="10">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateSalud">Condiciones de Salud</label>
+                                            <textarea id="updateSalud" name="salud" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Datos del Tutor -->
+                                <div class="form-section">
+                                    <h3><i class="fas fa-users"></i> Datos del Tutor</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="updateTutor">Nombre del Tutor</label>
+                                            <input type="text" id="updateTutor" name="tutor">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateNumeroTutor">Teléfono del Tutor</label>
+                                            <input type="tel" id="updateNumeroTutor" name="numero_tutor" maxlength="10">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Derechohabiencia y Seguros -->
+                                <div class="form-section">
+                                    <h3><i class="fas fa-shield-alt"></i> Derechohabiencia y Seguros</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>¿Es derechohabiente?</label>
+                                            <div class="radio-group">
+                                                <label class="radio-label">
+                                                    <input type="radio" name="es_derechohabiente" value="1" id="updateDerechohabienteSi">
+                                                    <span>Sí</span>
+                                                </label>
+                                                <label class="radio-label">
+                                                    <input type="radio" name="es_derechohabiente" value="0" id="updateDerechohabienteNo">
+                                                    <span>No</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateTipoSeguro">Tipo de Seguro</label>
+                                            <select id="updateTipoSeguro" name="tipo_seguro">
+                                                <option value="">Seleccionar...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Dirección -->
+                                <div class="form-section">
+                                    <h3><i class="fas fa-map-marker-alt"></i> Dirección</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="updateDireccionCalle">Calle</label>
+                                            <input type="text" id="updateDireccionCalle" name="direccion_calle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateDireccionNumero">Número</label>
+                                            <input type="text" id="updateDireccionNumero" name="direccion_numero">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="updateDireccionColonia">Colonia</label>
+                                            <input type="text" id="updateDireccionColonia" name="direccion_colonia">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateDireccionCiudad">Ciudad</label>
+                                            <input type="text" id="updateDireccionCiudad" name="direccion_ciudad">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="updateDireccionEstado">Estado</label>
+                                            <input type="text" id="updateDireccionEstado" name="direccion_estado">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updateDireccionCp">Código Postal</label>
+                                            <input type="text" id="updateDireccionCp" name="direccion_cp" maxlength="5">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Documentos -->
+                                <div class="form-section">
+                                    <h3><i class="fas fa-file-alt"></i> Documentos Requeridos</h3>
+                                    <div class="documents-checklist">
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_fotografias" value="1" id="updateDocFotografias">
+                                                <span class="checkmark"></span>
+                                                2 fotografías tamaño infantil
+                                            </label>
+                                        </div>
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_acta_nacimiento" value="1" id="updateDocActa">
+                                                <span class="checkmark"></span>
+                                                Copia de acta de nacimiento
+                                            </label>
+                                        </div>
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_curp" value="1" id="updateDocCurp">
+                                                <span class="checkmark"></span>
+                                                Copia de CURP
+                                            </label>
+                                        </div>
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_comprobante_domicilio" value="1" id="updateDocComprobante">
+                                                <span class="checkmark"></span>
+                                                Copia de comprobante de domicilio
+                                            </label>
+                                        </div>
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_ine" value="1" id="updateDocIne">
+                                                <span class="checkmark"></span>
+                                                Copia del INE
+                                            </label>
+                                        </div>
+                                        <div class="document-item" id="updateDocCedulaAfiliacion" style="display: none;">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_cedula_afiliacion" value="1" id="updateDocCedula">
+                                                <span class="checkmark"></span>
+                                                Copia de cédula de afiliación
+                                            </label>
+                                        </div>
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_fotos_tutores" value="1" id="updateDocFotosTutores">
+                                                <span class="checkmark"></span>
+                                                2 fotos de los tutores
+                                            </label>
+                                        </div>
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_ines_tutores" value="1" id="updateDocInesTutores">
+                                                <span class="checkmark"></span>
+                                                2 INEs de tutores
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        Actualizar Usuario
+                                    </button>
+                                    <button type="button" id="cancelUpdateBtn" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i>
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documentación Section -->
+            <section id="documentacion-section" class="content-section">
+                <div class="section-header">
+                    <h2>Usuarios con Documentación Incompleta</h2>
+                    <div class="filter-buttons">
+                        <button class="btn btn-secondary" id="filterAllDocs">Todos</button>
+                        <button class="btn btn-warning" id="filterIncomplete">Incompletos</button>
+                        <button class="btn btn-success" id="filterComplete">Completos</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Documentos Faltantes</th>
+                                <th>Progreso</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="documentacionTableBody">
+                            <tr>
+                                <td colspan="5" class="loading-row">Cargando información de documentación...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Cursos Section -->
+            <section id="cursos-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre del Curso</th>
+                                <th>Edad Mín</th>
+                                <th>Edad Máx</th>
+                                <th>Cupo Máx</th>
+                                <th>Horario</th>
+                                <th>Sala</th>
+                                <th>Instructor</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cursosTableBody">
+                            <tr>
+                                <td colspan="10" class="loading-row">Cargando cursos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Cursos y Listas Section -->
+            <section id="cursos-usuarios-section" class="content-section">
+                <div class="section-header">
+                    <h2>Cursos y Listas de Usuarios</h2>
+                    <button id="limpiarCursosBtn" class="btn btn-warning">
+                        <i class="fas fa-broom"></i>
+                        Limpiar Cursos Terminados
+                    </button>
+                </div>
+                <div id="coursesGrid" class="courses-grid">
+                    <div class="loading-courses">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Cargando cursos...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inscripciones Section -->
+            <section id="inscripciones-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Curso</th>
+                                <th>Fecha Inscripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inscripcionesTableBody">
+                            <tr>
+                                <td colspan="5" class="loading-row">Cargando inscripciones...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Administradores Section -->
+            <section id="admins-section" class="content-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Estado</th>
+                                <th>Último Acceso</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminsTableBody">
+                            <tr>
+                                <td colspan="7" class="loading-row">Cargando administradores...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Reportes Section -->
+            <section id="reportes-section" class="content-section">
+                <div class="reports-container">
+                    <h2>Reportes y Estadísticas</h2>
+                    <p>Sección en desarrollo...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Curso -->
+    <div id="cursoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="cursoModalTitle">Nuevo Curso</h2>
+                <span id="closeCursoModal" class="close">&times;</span>
+            </div>
+            <form id="cursoForm">
+                <input type="hidden" id="cursoId" name="id_curso">
+                
+                <div class="form-group">
+                    <label for="nombreCurso">Nombre del Curso *</label>
+                    <input type="text" id="nombreCurso" name="nombre_curso" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edadMinima">Edad Mínima *</label>
+                        <input type="number" id="edadMinima" name="edad_min" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edadMaxima">Edad Máxima *</label>
+                        <input type="number" id="edadMaxima" name="edad_max" min="0" max="100" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cupoMaximo">Cupo Máximo *</label>
+                        <input type="number" id="cupoMaximo" name="cupo_maximo" min="1" max="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horarioCurso">Horario</label>
+                        <input type="text" id="horarioCurso" name="horario" placeholder="Ej: 9:00 - 11:00">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="salaCurso">Sala</label>
+                        <select id="salaCurso" name="sala">
+                            <option value="">Seleccionar sala...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="instructorCurso">Instructor</label>
+                        <select id="instructorCurso" name="instructor">
+                            <option value="">Seleccionar instructor...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="estadoCurso">Estado del Curso *</label>
+                    <select id="estadoCurso" name="activo" required>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
+                    <small class="form-help">Los cursos activos aparecen en el formulario de registro</small>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" id="cancelCursoBtn" class="btn btn-secondary">Cancelar</button>
+                    <button type="button" id="saveCursoBtn" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Admin -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="adminModalTitle">Nuevo Administrador</h2>
+                <span id="closeAdminModal" class="close">&times;</span>
+            </div>
+            <form id="adminForm">
+                <input type="hidden" id="adminId" name="id_admin">
+                
+                <div class="form-group">
+                    <label for="usuarioAdmin">Usuario *</label>
+                    <input type="text" id="usuarioAdmin" name="usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nombreAdmin">Nombre Completo *</label>
+                    <input type="text" id="nombreAdmin" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailAdmin">Email *</label>
+                    <input type="email" id="emailAdmin" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="passwordAdmin">Contraseña *</label>
+                    <input type="password" id="passwordAdmin" name="password" required>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" id="cancelAdminBtn" class="btn btn-secondary">Cancelar</button>
+                    <button type="button" id="saveAdminBtn" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Detalles de Usuario -->
+    <div id="usuarioDetallesModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="usuarioDetallesTitle">Detalles del Usuario</h2>
+                <span id="closeUsuarioDetallesModal" class="close">&times;</span>
+            </div>
+            <div class="usuario-detalles">
+                <div class="detalles-info">
+                    <div class="info-item">
+                        <label>Nombre Completo:</label>
+                        <span id="detalleNombre">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>CURP:</label>
+                        <span id="detalleCurp">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Edad:</label>
+                        <span id="detalleEdad">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Fecha de Registro:</label>
+                        <span id="detalleFechaRegistro">-</span>
+                    </div>
+                </div>
+                
+                <div class="cursos-usuario">
+                    <h3>Cursos Inscritos <span id="totalCursosUsuario">(0)</span></h3>
+                    <div id="cursosUsuarioContainer">
+                        <!-- Los cursos se cargarán aquí -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="cerrarDetallesBtn" class="btn btn-secondary">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Lista de Usuarios -->
+    <div id="listaUsuariosModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="listaUsuariosTitle">Lista de Usuarios</h2>
+                <span id="closeListaUsuariosModal" class="close">&times;</span>
+            </div>
+            <div class="lista-usuarios">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre Completo</th>
+                                <th>CURP</th>
+                                <th>Edad</th>
+                                <th>Tutor</th>
+                                <th>Teléfono</th>
+                                <th>Fecha Inscripción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaUsuariosTableBody">
+                            <!-- Los usuarios se cargarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="imprimirListaBtn" class="btn btn-primary">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button type="button" id="exportarListaBtn" class="btn btn-success">
+                    <i class="fas fa-download"></i> Exportar CSV
+                </button>
+                <button type="button" id="cerrarListaBtn" class="btn btn-secondary">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin-panel.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 /**
- * API para obtener cursos con información de usuarios inscritos
+ * API para obtener cursos con información de usuarios inscritos (ahora incluye sala e instructor)
  */
 
 require_once '../config/conexion.php';
@@ -23,7 +23,7 @@ try {
     $estructuraCursos = $conexion->consultar("DESCRIBE cursos");
     $estructuraInscripciones = $conexion->consultar("DESCRIBE inscripciones");
     
-    // Determinar columnas primarias
+    // Determinar columnas primarias y claves
     $columnaPrimariaCursos = 'id_curso';
     $columnaPrimariaInscripciones = 'id_inscripcion';
     $campoUsuarioInscripciones = 'id_usuario';
@@ -40,17 +40,15 @@ try {
         if ($col['Key'] === 'PRI') {
             $columnaPrimariaInscripciones = $col['Field'];
         }
-        // Detectar campo de usuario
         if (in_array($col['Field'], ['usuario_id', 'id_usuario', 'user_id'])) {
             $campoUsuarioInscripciones = $col['Field'];
         }
-        // Detectar campo de curso
         if (in_array($col['Field'], ['curso_id', 'id_curso', 'course_id'])) {
             $campoCursoInscripciones = $col['Field'];
         }
     }
     
-    // Obtener cursos con conteo de usuarios (simplificado para evitar problemas de estructura)
+    // Obtener cursos con conteo de usuarios
     $sql = "SELECT 
                 c.$columnaPrimariaCursos as id_curso,
                 c.nombre_curso,
@@ -58,16 +56,20 @@ try {
                 c.edad_max,
                 COALESCE(c.cupo_maximo, 30) as cupo_maximo,
                 COALESCE(c.horario, 'Por definir') as horario,
+                COALESCE(c.sala, 'No asignada') as sala,
+                COALESCE(c.instructor, 'Sin instructor') as instructor,
                 COALESCE(c.activo, 1) as activo,
                 COUNT(i.$campoUsuarioInscripciones) as total_inscritos
             FROM cursos c
             LEFT JOIN inscripciones i ON c.$columnaPrimariaCursos = i.$campoCursoInscripciones
-            GROUP BY c.$columnaPrimariaCursos, c.nombre_curso, c.edad_min, c.edad_max, c.cupo_maximo, c.horario, c.activo
+            GROUP BY 
+                c.$columnaPrimariaCursos, c.nombre_curso, c.edad_min, c.edad_max, 
+                c.cupo_maximo, c.horario, c.sala, c.instructor, c.activo
             ORDER BY c.nombre_curso";
     
     $cursos = $conexion->consultar($sql);
     
-    // Formatear datos
+    // Formatear resultados
     $cursosFormateados = [];
     foreach ($cursos as $curso) {
         $cursosFormateados[] = [
@@ -77,6 +79,8 @@ try {
             'edad_max' => $curso['edad_max'],
             'cupo_maximo' => $curso['cupo_maximo'],
             'horario' => $curso['horario'],
+            'sala' => $curso['sala'],
+            'instructor' => $curso['instructor'],
             'activo' => $curso['activo'],
             'total_inscritos' => (int)$curso['total_inscritos']
         ];

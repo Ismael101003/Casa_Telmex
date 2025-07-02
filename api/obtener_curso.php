@@ -1,6 +1,6 @@
 <?php
 /**
- * API para obtener un curso específico - CON CAMPO ACTIVO
+ * API para obtener un curso específico - AHORA INCLUYE SALA E INSTRUCTOR
  */
 
 require_once '../config/conexion.php';
@@ -42,6 +42,8 @@ try {
                 COALESCE(edad_max, 100) as edad_max,
                 COALESCE(cupo_maximo, 30) as cupo_maximo,
                 COALESCE(horario, '') as horario,
+                COALESCE(sala, '') as sala,
+                COALESCE(instructor, '') as instructor,
                 COALESCE(activo, 1) as activo,
                 tabla_curso
             FROM cursos 

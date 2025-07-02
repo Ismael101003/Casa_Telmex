@@ -212,3 +212,39 @@
 [2025-07-01 13:07:42] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","fecha_registro"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","tabla_curso","cupo_maximo","activo"]}}
 [2025-07-01 13:07:42] [INFO] Usuario existente seleccionado: ID 11
 [2025-07-01 13:07:42] [ERROR] Error en registro: No se pudo inscribir al usuario en ningún curso. Errores: Ya está inscrito en el curso ID 34
+[2025-07-01 17:59:21] [INFO] === INICIO API REGISTRO ===
+[2025-07-01 17:59:21] [INFO] Método: POST
+[2025-07-01 17:59:21] [INFO] Datos POST recibidos: {"nombre":"Mateo","apellidos":"Ram\u00edrez L\u00f3pez","curp":"RALM160717HDFMPT09","fecha_nacimiento":"2017-07-01","edad":"8","meses":"0","numero_usuario":"USR008","salud":"","tutor":"","numero_tutor":"","cursos":["37"],"actualizar_usuario":"1","id_usuario_existente":"55"}
+[2025-07-01 17:59:21] [INFO] Datos procesados: {"nombre":"Mateo","apellidos":"Ram\u00edrez L\u00f3pez","curp":"RALM160717HDFMPT09","fecha_nacimiento":"2017-07-01","edad":8,"meses":0,"salud":"","tutor":"","numero_tutor":"","numero_usuario":"USR008","telefono_usuario":""}
+[2025-07-01 17:59:21] [INFO] Cursos seleccionados: ["37"]
+[2025-07-01 17:59:21] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","es_derechohabiente","tipo_seguro","direccion_calle","direccion_numero","direccion_colonia","direccion_ciudad","direccion_estado","direccion_cp","doc_fotografias","doc_acta_nacimiento","doc_curp","doc_comprobante_domicilio","doc_ine","doc_cedula_afiliacion","doc_fotos_tutores","doc_ines_tutores","documentacion_completa","fecha_registro","fecha_ultima_actualizacion"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","sala","instructor","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-01 17:59:21] [INFO] Usuario existente seleccionado: ID 55
+[2025-07-01 17:59:21] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-01 17:59:21] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-01 17:59:21] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-01 17:59:21] [INFO] Parámetros inscripción: [55,37]
+[2025-07-01 17:59:21] [INFO] Campos disponibles en tabla curso_37: id_registro, id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_inscripcion, activo
+[2025-07-01 17:59:21] [INFO] SQL tabla curso: INSERT INTO curso_37 (id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, fecha_inscripcion) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-01 17:59:21] [INFO] Parámetros tabla curso: [55,"Mateo","Ram\u00edrez L\u00f3pez","RALM160717HDFMPT09","2017-07-01",8,0]
+[2025-07-01 17:59:21] [INFO] Usuario 55 inscrito en tabla específica curso_37
+[2025-07-01 17:59:21] [INFO] Usuario 55 inscrito exitosamente en curso 37
+[2025-07-01 18:58:22] [INFO] === INICIO API REGISTRO ===
+[2025-07-01 18:58:22] [INFO] Método: POST
+[2025-07-01 18:58:22] [INFO] Datos POST recibidos: {"nombre":"Juan","apellidos":"P\u00e9rez G\u00f3mez","curp":"PEPJ850101HDFRRN09","fecha_nacimiento":"2015-03-12","edad":"10","meses":"4","numero_usuario":"5511223344","salud":"Sin alergias","tutor":"Mar\u00eda G\u00f3mez","numero_tutor":"5512345678","cursos":["38"],"actualizar_usuario":"1","id_usuario_existente":"56"}
+[2025-07-01 18:58:22] [INFO] Datos procesados: {"nombre":"Juan","apellidos":"P\u00e9rez G\u00f3mez","curp":"PEPJ850101HDFRRN09","fecha_nacimiento":"2015-03-12","edad":10,"meses":4,"salud":"Sin alergias","tutor":"Mar\u00eda G\u00f3mez","numero_tutor":"5512345678","numero_usuario":"5511223344","telefono_usuario":""}
+[2025-07-01 18:58:22] [INFO] Cursos seleccionados: ["38"]
+[2025-07-01 18:58:22] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","es_derechohabiente","tipo_seguro","direccion_calle","direccion_numero","direccion_colonia","direccion_ciudad","direccion_estado","direccion_cp","doc_fotografias","doc_acta_nacimiento","doc_curp","doc_comprobante_domicilio","doc_ine","doc_cedula_afiliacion","doc_fotos_tutores","doc_ines_tutores","documentacion_completa","fecha_registro","fecha_ultima_actualizacion"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","sala","instructor","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-01 18:58:22] [INFO] Usuario existente seleccionado: ID 56
+[2025-07-01 18:58:22] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-01 18:58:22] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-01 18:58:22] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-01 18:58:22] [INFO] Parámetros inscripción: [56,38]
+[2025-07-01 18:58:22] [INFO] Campos disponibles en tabla curso_38: id_registro, id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, fecha_inscripcion, activo
+[2025-07-01 18:58:22] [INFO] SQL tabla curso: INSERT INTO curso_38 (id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, fecha_inscripcion) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-01 18:58:22] [INFO] Parámetros tabla curso: [56,"Juan","P\u00e9rez G\u00f3mez","PEPJ850101HDFRRN09","2015-03-12",10,4,"Sin alergias","Mar\u00eda G\u00f3mez","5512345678"]
+[2025-07-01 18:58:22] [INFO] Usuario 56 inscrito en tabla específica curso_38
+[2025-07-01 18:58:22] [INFO] Usuario 56 inscrito exitosamente en curso 38

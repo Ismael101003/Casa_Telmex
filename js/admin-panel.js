@@ -15,14 +15,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const usuarioDetallesModal = document.getElementById("usuarioDetallesModal")
   const listaUsuariosModal = document.getElementById("listaUsuariosModal")
 
+  // Elementos de gestión de usuarios
+  const tabButtons = document.querySelectorAll(".tab-button")
+  const addUserMode = document.getElementById("addUserMode")
+  const updateUserMode = document.getElementById("updateUserMode")
+  const searchUsuarioInput = document.getElementById("searchUsuarioInput")
+  const clearSearchBtn = document.getElementById("clearSearchBtn")
+  const autocompleteDropdown = document.getElementById("autocompleteDropdown")
+  const updateFormContainer = document.getElementById("updateFormContainer")
+  const updateUsuarioForm = document.getElementById("updateUsuarioForm")
+  const cancelUpdateBtn = document.getElementById("cancelUpdateBtn")
+  const userFoundAlert = document.getElementById("userFoundAlert")
+  const clearSelectionBtn = document.getElementById("clearSelectionBtn")
+
   // Nuevos elementos
   const coursesGrid = document.getElementById("coursesGrid")
   const limpiarCursosBtn = document.getElementById("limpiarCursosBtn")
 
   // Variables globales
   let currentSection = "dashboard"
+  let currentUserMode = "add"
   let cursosConUsuarios = []
-  let editingCourseId = null // Variable para rastrear si estamos editando
+  let editingCourseId = null
+  let searchTimeout = null
+  let selectedUser = null
+  let catalogos = {
+    tipos_seguros: [],
+    salas: [],
+    instructores: [],
+  }
 
   // Inicializar panel
   inicializarPanel()
@@ -33,6 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault()
       const section = item.dataset.section
       cambiarSeccion(section)
+    })
+  })
+
+  // Event listeners para tabs de gestión de usuarios
+  tabButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault()
+      const mode = button.dataset.mode
+      cambiarModoUsuario(mode)
     })
   })
 
@@ -49,57 +79,695 @@ document.addEventListener("DOMContentLoaded", () => {
   if (addNewBtn) {
     addNewBtn.addEventListener("click", () => {
       if (currentSection === "cursos") {
-        abrirModalCurso() // Sin parámetros = nuevo curso
+        abrirModalCurso()
       } else if (currentSection === "usuarios") {
         window.location.href = "registro.html"
       } else if (currentSection === "admins") {
         abrirModalAdmin()
+      } else if (currentSection === "gestionar-usuario") {
+        cambiarModoUsuario("add")
       }
     })
   }
 
   // Event listeners para modales
-  const closeCursoModal = document.getElementById("closeCursoModal")
-  const closeAdminModal = document.getElementById("closeAdminModal")
-  const cancelCursoBtn = document.getElementById("cancelCursoBtn")
-  const cancelAdminBtn = document.getElementById("cancelAdminBtn")
-  const saveCursoBtn = document.getElementById("saveCursoBtn")
-  const saveAdminBtn = document.getElementById("saveAdminBtn")
-
-  if (closeCursoModal) closeCursoModal.addEventListener("click", cerrarModalCurso)
-  if (closeAdminModal) closeAdminModal.addEventListener("click", cerrarModalAdmin)
-  if (cancelCursoBtn) cancelCursoBtn.addEventListener("click", cerrarModalCurso)
-  if (cancelAdminBtn) cancelAdminBtn.addEventListener("click", cerrarModalAdmin)
-  if (saveCursoBtn) saveCursoBtn.addEventListener("click", guardarCurso)
-  if (saveAdminBtn) saveAdminBtn.addEventListener("click", guardarAdmin)
-
-  // Event listeners para modal de detalles de usuario
-  const closeUsuarioDetallesModal = document.getElementById("closeUsuarioDetallesModal")
-  const cerrarDetallesBtn = document.getElementById("cerrarDetallesBtn")
-  if (closeUsuarioDetallesModal) closeUsuarioDetallesModal.addEventListener("click", cerrarModalUsuarioDetalles)
-  if (cerrarDetallesBtn) cerrarDetallesBtn.addEventListener("click", cerrarModalUsuarioDetalles)
-
-  // Event listeners para modal de lista de usuarios
-  const closeListaUsuariosModal = document.getElementById("closeListaUsuariosModal")
-  const cerrarListaBtn = document.getElementById("cerrarListaBtn")
-  const imprimirListaBtn = document.getElementById("imprimirListaBtn")
-  const exportarListaBtn = document.getElementById("exportarListaBtn")
-  const exportarExcelBtn = document.getElementById("exportarExcelBtn")
-
-  if (closeListaUsuariosModal) closeListaUsuariosModal.addEventListener("click", cerrarModalListaUsuarios)
-  if (cerrarListaBtn) cerrarListaBtn.addEventListener("click", cerrarModalListaUsuarios)
-  if (imprimirListaBtn) imprimirListaBtn.addEventListener("click", imprimirLista)
-  if (exportarListaBtn) exportarListaBtn.addEventListener("click", exportarLista)
-  if (exportarExcelBtn) exportarExcelBtn.addEventListener("click", exportarExcel)
+  setupModalEventListeners()
 
   // Event listener para limpiar cursos
   if (limpiarCursosBtn) {
     limpiarCursosBtn.addEventListener("click", limpiarCursosTerminados)
   }
 
+  // Event listeners para gestión de usuarios
+  setupUsuarioEventListeners()
+
+  // Event listeners para documentación
+  setupDocumentacionEventListeners()
+
   function inicializarPanel() {
+    cargarCatalogos()
     cargarEstadisticas()
     cambiarSeccion("dashboard")
+  }
+
+  async function cargarCatalogos() {
+    try {
+      const response = await fetch("api/obtener_catalogos.php")
+      const data = await response.json()
+
+      if (data.exito) {
+        catalogos = data.catalogos
+        console.log("Catálogos cargados:", catalogos)
+
+        // Llenar selects de tipos de seguro
+        llenarSelectTiposSeguro()
+
+        // Llenar selects de salas e instructores en modal de curso
+        llenarSelectsSalaInstructor()
+      }
+    } catch (error) {
+      console.error("Error cargando catálogos:", error)
+    }
+  }
+
+  function llenarSelectTiposSeguro() {
+    const selects = [document.getElementById("addTipoSeguro"), document.getElementById("updateTipoSeguro")]
+
+    selects.forEach((select) => {
+      if (select) {
+        select.innerHTML = '<option value="">Seleccionar...</option>'
+        catalogos.tipos_seguros.forEach((tipo) => {
+          select.innerHTML += `<option value="${tipo.nombre_seguro}">${tipo.nombre_seguro}</option>`
+        })
+      }
+    })
+  }
+
+  function llenarSelectsSalaInstructor() {
+    // Llenar select de salas
+    const salaSelect = document.getElementById("salaCurso")
+    if (salaSelect) {
+      salaSelect.innerHTML = '<option value="">Seleccionar sala...</option>'
+      catalogos.salas.forEach((sala) => {
+        salaSelect.innerHTML += `<option value="${sala.nombre_sala}">${sala.nombre_sala}</option>`
+      })
+    }
+
+    // Llenar select de instructores
+    const instructorSelect = document.getElementById("instructorCurso")
+    if (instructorSelect) {
+      instructorSelect.innerHTML = '<option value="">Seleccionar instructor...</option>'
+      catalogos.instructores.forEach((instructor) => {
+        instructorSelect.innerHTML += `<option value="${instructor.nombre_instructor}">${instructor.nombre_instructor}</option>`
+      })
+    }
+  }
+
+  function cambiarModoUsuario(mode) {
+    currentUserMode = mode
+
+    // Actualizar tabs
+    tabButtons.forEach((btn) => {
+      btn.classList.remove("active")
+      if (btn.dataset.mode === mode) {
+        btn.classList.add("active")
+      }
+    })
+
+    // Mostrar/ocultar modos
+    if (mode === "add") {
+      addUserMode.classList.add("active")
+      updateUserMode.classList.remove("active")
+    } else {
+      addUserMode.classList.remove("active")
+      updateUserMode.classList.add("active")
+      // Limpiar búsqueda al cambiar a modo actualizar
+      limpiarBusquedaCompleta()
+    }
+  }
+
+  function setupModalEventListeners() {
+    const closeCursoModal = document.getElementById("closeCursoModal")
+    const closeAdminModal = document.getElementById("closeAdminModal")
+    const cancelCursoBtn = document.getElementById("cancelCursoBtn")
+    const cancelAdminBtn = document.getElementById("cancelAdminBtn")
+    const saveCursoBtn = document.getElementById("saveCursoBtn")
+    const saveAdminBtn = document.getElementById("saveAdminBtn")
+
+    if (closeCursoModal) closeCursoModal.addEventListener("click", cerrarModalCurso)
+    if (closeAdminModal) closeAdminModal.addEventListener("click", cerrarModalAdmin)
+    if (cancelCursoBtn) cancelCursoBtn.addEventListener("click", cerrarModalCurso)
+    if (cancelAdminBtn) cancelAdminBtn.addEventListener("click", cerrarModalAdmin)
+    if (saveCursoBtn) saveCursoBtn.addEventListener("click", guardarCurso)
+    if (saveAdminBtn) saveAdminBtn.addEventListener("click", guardarAdmin)
+
+    // Event listeners para modal de detalles de usuario
+    const closeUsuarioDetallesModal = document.getElementById("closeUsuarioDetallesModal")
+    const cerrarDetallesBtn = document.getElementById("cerrarDetallesBtn")
+    if (closeUsuarioDetallesModal) closeUsuarioDetallesModal.addEventListener("click", cerrarModalUsuarioDetalles)
+    if (cerrarDetallesBtn) cerrarDetallesBtn.addEventListener("click", cerrarModalUsuarioDetalles)
+
+    // Event listeners para modal de lista de usuarios
+    const closeListaUsuariosModal = document.getElementById("closeListaUsuariosModal")
+    const cerrarListaBtn = document.getElementById("cerrarListaBtn")
+    const imprimirListaBtn = document.getElementById("imprimirListaBtn")
+    const exportarListaBtn = document.getElementById("exportarListaBtn")
+
+    if (closeListaUsuariosModal) closeListaUsuariosModal.addEventListener("click", cerrarModalListaUsuarios)
+    if (cerrarListaBtn) cerrarListaBtn.addEventListener("click", cerrarModalListaUsuarios)
+    if (imprimirListaBtn) imprimirListaBtn.addEventListener("click", imprimirLista)
+    if (exportarListaBtn) exportarListaBtn.addEventListener("click", exportarLista)
+  }
+
+  function setupUsuarioEventListeners() {
+    // Event listener para formulario de añadir usuario
+    const addUsuarioForm = document.getElementById("addUsuarioForm")
+    if (addUsuarioForm) {
+      addUsuarioForm.addEventListener("submit", async (e) => {
+        e.preventDefault()
+
+        const formData = new FormData(addUsuarioForm)
+
+        try {
+          const response = await fetch("api/guardar_usuario_completo.php", {
+            method: "POST",
+            body: formData,
+          })
+
+          const result = await response.json()
+
+          if (result.exito) {
+            alert("Usuario guardado exitosamente")
+            addUsuarioForm.reset()
+            cargarEstadisticas()
+            if (currentSection === "usuarios") {
+              cargarUsuarios()
+            }
+          } else {
+            alert("Error al guardar usuario: " + result.mensaje)
+          }
+        } catch (error) {
+          console.error("Error:", error)
+          alert("Error de conexión al guardar usuario")
+        }
+      })
+    }
+
+    // Event listeners para búsqueda avanzada con autocompletado
+    if (searchUsuarioInput) {
+      searchUsuarioInput.addEventListener("input", manejarBusquedaAutocompletado)
+      searchUsuarioInput.addEventListener("focus", mostrarDropdownSiTieneResultados)
+      searchUsuarioInput.addEventListener("keydown", manejarTeclasAutocompletado)
+    }
+
+    // Event listener para limpiar búsqueda
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener("click", limpiarBusquedaCompleta)
+    }
+
+    // Event listener para limpiar selección
+    if (clearSelectionBtn) {
+      clearSelectionBtn.addEventListener("click", limpiarBusquedaCompleta)
+    }
+
+    // Event listener para cancelar actualización
+    if (cancelUpdateBtn) {
+      cancelUpdateBtn.addEventListener("click", limpiarBusquedaCompleta)
+    }
+
+    // Event listener para formulario de actualización
+    if (updateUsuarioForm) {
+      updateUsuarioForm.addEventListener("submit", async (e) => {
+        e.preventDefault()
+
+        const formData = new FormData(updateUsuarioForm)
+
+        try {
+          const response = await fetch("api/actualizar_usuario_completo.php", {
+            method: "POST",
+            body: formData,
+          })
+
+          const result = await response.json()
+
+          if (result.exito) {
+            alert("Usuario actualizado exitosamente")
+            limpiarBusquedaCompleta()
+            cargarEstadisticas()
+            if (currentSection === "usuarios") {
+              cargarUsuarios()
+            }
+          } else {
+            alert("Error al actualizar usuario: " + result.mensaje)
+          }
+        } catch (error) {
+          console.error("Error:", error)
+          alert("Error de conexión al actualizar usuario")
+        }
+      })
+    }
+
+    // Event listeners para mostrar/ocultar cédula de afiliación
+    const addDerechohabienteRadios = document.querySelectorAll('#addUserMode input[name="es_derechohabiente"]')
+    addDerechohabienteRadios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        const docCedulaAfiliacion = document.getElementById("addDocCedulaAfiliacion")
+        if (radio.value === "1" && radio.checked) {
+          if (docCedulaAfiliacion) docCedulaAfiliacion.style.display = "block"
+        } else if (radio.value === "0" && radio.checked) {
+          if (docCedulaAfiliacion) docCedulaAfiliacion.style.display = "none"
+        }
+      })
+    })
+
+    const updateDerechohabienteRadios = document.querySelectorAll('#updateUserMode input[name="es_derechohabiente"]')
+    updateDerechohabienteRadios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        const docCedulaAfiliacion = document.getElementById("updateDocCedulaAfiliacion")
+        if (radio.value === "1" && radio.checked) {
+          if (docCedulaAfiliacion) docCedulaAfiliacion.style.display = "block"
+        } else if (radio.value === "0" && radio.checked) {
+          if (docCedulaAfiliacion) docCedulaAfiliacion.style.display = "none"
+        }
+      })
+    })
+
+    // Event listeners para CURP y extracción automática de fecha
+    setupCurpEventListeners()
+
+    // Cerrar dropdown al hacer clic fuera
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".autocomplete-container")) {
+        ocultarDropdown()
+      }
+    })
+  }
+
+  function setupCurpEventListeners() {
+    // CURP para modo añadir
+    const addCurpInput = document.getElementById("addCurp")
+    const addFechaNacimientoInput = document.getElementById("addFechaNacimiento")
+    const addFechaAutoNotice = document.getElementById("addFechaAutoNotice")
+
+    if (addCurpInput) {
+      addCurpInput.addEventListener("input", function () {
+        this.value = this.value.toUpperCase()
+        if (this.value.trim() && this.value.length >= 10) {
+          const fechaExtraida = extraerFechaDeCURP(this.value)
+          if (fechaExtraida && addFechaNacimientoInput) {
+            addFechaNacimientoInput.value = fechaExtraida
+            if (addFechaAutoNotice) {
+              addFechaAutoNotice.style.display = "block"
+            }
+            // Efecto visual
+            addFechaNacimientoInput.style.background = "#e8f5e8"
+            setTimeout(() => {
+              addFechaNacimientoInput.style.background = ""
+            }, 2000)
+          }
+        }
+      })
+    }
+
+    // CURP para modo actualizar
+    const updateCurpInput = document.getElementById("updateCurp")
+    const updateFechaNacimientoInput = document.getElementById("updateFechaNacimiento")
+    const updateFechaAutoNotice = document.getElementById("updateFechaAutoNotice")
+
+    if (updateCurpInput) {
+      updateCurpInput.addEventListener("input", function () {
+        this.value = this.value.toUpperCase()
+        if (this.value.trim() && this.value.length >= 10) {
+          const fechaExtraida = extraerFechaDeCURP(this.value)
+          if (fechaExtraida && updateFechaNacimientoInput) {
+            updateFechaNacimientoInput.value = fechaExtraida
+            if (updateFechaAutoNotice) {
+              updateFechaAutoNotice.style.display = "block"
+            }
+            // Efecto visual
+            updateFechaNacimientoInput.style.background = "#e8f5e8"
+            setTimeout(() => {
+              updateFechaNacimientoInput.style.background = ""
+            }, 2000)
+          }
+        }
+      })
+    }
+  }
+
+  function extraerFechaDeCURP(curp) {
+    console.log("🔍 Extrayendo fecha del CURP:", curp)
+
+    if (!curp || curp.length < 10) {
+      console.log("❌ CURP muy corto o vacío")
+      return null
+    }
+
+    try {
+      const yearStr = curp.substring(4, 6)
+      const monthStr = curp.substring(6, 8)
+      const dayStr = curp.substring(8, 10)
+
+      let year = Number.parseInt(yearStr, 10)
+      const month = Number.parseInt(monthStr, 10)
+      const day = Number.parseInt(dayStr, 10)
+
+      if (isNaN(year) || isNaN(month) || isNaN(day)) {
+        console.log("❌ Componentes de fecha no válidos")
+        return null
+      }
+
+      if (month < 1 || month > 12 || day < 1 || day > 31) {
+        console.log("❌ Fecha inválida en CURP")
+        return null
+      }
+
+      // Determinar el siglo correcto
+      const currentYear = new Date().getFullYear()
+      const currentTwoDigitYear = currentYear % 100
+
+      if (year <= currentTwoDigitYear + 5) {
+        year += 2000
+      } else {
+        year += 1900
+      }
+
+      // Validar que la fecha sea válida
+      const fecha = new Date(year, month - 1, day)
+      if (fecha.getFullYear() !== year || fecha.getMonth() !== month - 1 || fecha.getDate() !== day) {
+        console.log("❌ Fecha no válida")
+        return null
+      }
+
+      // Validar que no sea una fecha futura
+      if (fecha > new Date()) {
+        console.log("❌ Fecha futura no válida")
+        return null
+      }
+
+      const fechaFormateada = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`
+      console.log("✅ Fecha extraída:", fechaFormateada)
+      return fechaFormateada
+    } catch (error) {
+      console.error("Error al extraer fecha del CURP:", error)
+      return null
+    }
+  }
+
+  // Funciones para autocompletado mejoradas
+  function manejarBusquedaAutocompletado() {
+    if (!searchUsuarioInput) return
+
+    const query = searchUsuarioInput.value.trim()
+
+    if (query.length > 0 && clearSearchBtn) {
+      clearSearchBtn.style.display = "block"
+    } else if (clearSearchBtn) {
+      clearSearchBtn.style.display = "none"
+      ocultarDropdown()
+      return
+    }
+
+    clearTimeout(searchTimeout)
+
+    if (query.length < 2) {
+      ocultarDropdown()
+      return
+    }
+
+    // Mostrar indicador de carga
+    if (autocompleteDropdown) {
+      autocompleteDropdown.innerHTML = `
+        <div class="autocomplete-item loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <span>Buscando usuarios...</span>
+        </div>
+      `
+      autocompleteDropdown.style.display = "block"
+    }
+
+    searchTimeout = setTimeout(() => {
+      buscarUsuarios(query)
+    }, 300)
+  }
+
+  function manejarTeclasAutocompletado(e) {
+    if (!autocompleteDropdown || autocompleteDropdown.style.display === "none") return
+
+    const items = autocompleteDropdown.querySelectorAll(".autocomplete-item:not(.no-results):not(.loading)")
+    const activeItem = autocompleteDropdown.querySelector(".autocomplete-item.active")
+    let currentIndex = -1
+
+    if (activeItem) {
+      currentIndex = Array.from(items).indexOf(activeItem)
+    }
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault()
+        if (currentIndex < items.length - 1) {
+          if (activeItem) activeItem.classList.remove("active")
+          items[currentIndex + 1].classList.add("active")
+        }
+        break
+
+      case "ArrowUp":
+        e.preventDefault()
+        if (currentIndex > 0) {
+          if (activeItem) activeItem.classList.remove("active")
+          items[currentIndex - 1].classList.add("active")
+        }
+        break
+
+      case "Enter":
+        e.preventDefault()
+        if (activeItem && !activeItem.classList.contains("no-results") && !activeItem.classList.contains("loading")) {
+          const usuario = JSON.parse(activeItem.dataset.usuario)
+          seleccionarUsuario(usuario)
+        }
+        break
+
+      case "Escape":
+        ocultarDropdown()
+        searchUsuarioInput.blur()
+        break
+    }
+  }
+
+  async function buscarUsuarios(query) {
+    try {
+      console.log("🔍 Buscando usuarios con query:", query)
+
+      const response = await fetch(`api/buscar_usuarios_autocompletado.php?q=${encodeURIComponent(query)}`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const text = await response.text()
+      console.log("📥 Respuesta del servidor:", text.substring(0, 200))
+
+      let data
+      try {
+        data = JSON.parse(text)
+      } catch (parseError) {
+        console.error("Error parsing JSON:", parseError)
+        throw new Error("Respuesta del servidor no válida")
+      }
+
+      if (data.exito) {
+        console.log("✅ Usuarios encontrados:", data.usuarios.length)
+        mostrarResultadosAutocompletado(data.usuarios)
+      } else {
+        console.log("❌ No se encontraron usuarios:", data.mensaje)
+        mostrarSinResultados(data.mensaje)
+      }
+    } catch (error) {
+      console.error("Error en búsqueda:", error)
+      mostrarErrorBusqueda(error.message)
+    }
+  }
+
+  function mostrarResultadosAutocompletado(usuarios) {
+    if (!autocompleteDropdown) return
+
+    if (usuarios.length === 0) {
+      mostrarSinResultados("No se encontraron usuarios")
+      return
+    }
+
+    const resultadosHTML = usuarios
+      .map(
+        (usuario) => `
+      <div class="autocomplete-item" data-usuario='${JSON.stringify(usuario)}'>
+        <div class="autocomplete-item-content">
+          <div class="autocomplete-name">
+            <i class="fas fa-user"></i>
+            <strong>${usuario.nombre_completo}</strong>
+          </div>
+          <div class="autocomplete-details">
+            <span class="autocomplete-curp">
+              <i class="fas fa-id-card"></i> ${usuario.curp || "Sin CURP"}
+            </span>
+            <span class="autocomplete-age">
+              <i class="fas fa-birthday-cake"></i> ${usuario.edad} años
+            </span>
+            <span class="autocomplete-date">
+              <i class="fas fa-calendar"></i> ${usuario.fecha_registro_formateada}
+            </span>
+          </div>
+        </div>
+        <div class="autocomplete-action">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+      </div>
+    `,
+      )
+      .join("")
+
+    autocompleteDropdown.innerHTML = resultadosHTML
+    autocompleteDropdown.style.display = "block"
+
+    // Agregar event listeners
+    autocompleteDropdown.querySelectorAll(".autocomplete-item").forEach((item, index) => {
+      if (!item.classList.contains("no-results") && !item.classList.contains("loading")) {
+        item.addEventListener("click", () => {
+          const usuario = JSON.parse(item.dataset.usuario)
+          seleccionarUsuario(usuario)
+        })
+
+        item.addEventListener("mouseenter", () => {
+          autocompleteDropdown.querySelectorAll(".autocomplete-item").forEach((i) => i.classList.remove("active"))
+          item.classList.add("active")
+        })
+      }
+    })
+  }
+
+  function mostrarSinResultados(mensaje) {
+    if (!autocompleteDropdown) return
+
+    autocompleteDropdown.innerHTML = `
+      <div class="autocomplete-item no-results">
+        <i class="fas fa-info-circle"></i>
+        <span>${mensaje}</span>
+      </div>
+    `
+    autocompleteDropdown.style.display = "block"
+  }
+
+  function mostrarErrorBusqueda(mensaje) {
+    if (!autocompleteDropdown) return
+
+    autocompleteDropdown.innerHTML = `
+      <div class="autocomplete-item error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Error: ${mensaje}</span>
+      </div>
+    `
+    autocompleteDropdown.style.display = "block"
+  }
+
+  function mostrarDropdownSiTieneResultados() {
+    if (autocompleteDropdown && autocompleteDropdown.children.length > 0) {
+      autocompleteDropdown.style.display = "block"
+    }
+  }
+
+  function ocultarDropdown() {
+    if (autocompleteDropdown) {
+      autocompleteDropdown.style.display = "none"
+      autocompleteDropdown.querySelectorAll(".autocomplete-item").forEach((i) => i.classList.remove("active"))
+    }
+  }
+
+  function seleccionarUsuario(usuario) {
+    console.log("👤 Usuario seleccionado:", usuario)
+
+    selectedUser = usuario
+    if (searchUsuarioInput) searchUsuarioInput.value = usuario.nombre_completo
+    ocultarDropdown()
+    llenarDatosUsuario(usuario)
+
+    if (userFoundAlert) {
+      userFoundAlert.style.display = "flex"
+    }
+
+    if (updateFormContainer) {
+      updateFormContainer.style.display = "block"
+    }
+
+    // Scroll suave hacia el formulario
+    setTimeout(() => {
+      updateFormContainer.scrollIntoView({ behavior: "smooth", block: "start" })
+    }, 100)
+  }
+
+  function llenarDatosUsuario(usuario) {
+    console.log("📝 Llenando datos del usuario:", usuario)
+
+    // Mostrar información del usuario seleccionado
+    const selectedUserName = document.getElementById("selectedUserName")
+    const selectedUserId = document.getElementById("selectedUserId")
+    const selectedUserCurp = document.getElementById("selectedUserCurp")
+    const selectedUserAge = document.getElementById("selectedUserAge")
+
+    if (selectedUserName) selectedUserName.textContent = usuario.nombre_completo
+    if (selectedUserId) selectedUserId.textContent = usuario.id
+    if (selectedUserCurp) selectedUserCurp.textContent = usuario.curp || "Sin CURP"
+    if (selectedUserAge) selectedUserAge.textContent = usuario.edad || 0
+
+    // Llenar formulario con datos del usuario
+    document.getElementById("updateUsuarioId").value = usuario.id || ""
+    document.getElementById("updateNombre").value = usuario.nombre || ""
+    document.getElementById("updateApellidos").value = usuario.apellidos || ""
+    document.getElementById("updateCurp").value = usuario.curp || ""
+    document.getElementById("updateFechaNacimiento").value = usuario.fecha_nacimiento || ""
+    document.getElementById("updateNumeroUsuario").value = usuario.numero_usuario || ""
+    document.getElementById("updateSalud").value = usuario.salud || ""
+
+    // Datos del tutor
+    document.getElementById("updateTutor").value = usuario.tutor || ""
+    document.getElementById("updateNumeroTutor").value = usuario.numero_tutor || ""
+
+    // Derechohabiencia
+    if (usuario.es_derechohabiente == 1) {
+      document.getElementById("updateDerechohabienteSi").checked = true
+      document.getElementById("updateDocCedulaAfiliacion").style.display = "block"
+    } else {
+      document.getElementById("updateDerechohabienteNo").checked = true
+      document.getElementById("updateDocCedulaAfiliacion").style.display = "none"
+    }
+
+    // Tipo de seguro
+    document.getElementById("updateTipoSeguro").value = usuario.tipo_seguro || ""
+
+    // Dirección
+    document.getElementById("updateDireccionCalle").value = usuario.direccion_calle || ""
+    document.getElementById("updateDireccionNumero").value = usuario.direccion_numero || ""
+    document.getElementById("updateDireccionColonia").value = usuario.direccion_colonia || ""
+    document.getElementById("updateDireccionCiudad").value = usuario.direccion_ciudad || ""
+    document.getElementById("updateDireccionEstado").value = usuario.direccion_estado || ""
+    document.getElementById("updateDireccionCp").value = usuario.direccion_cp || ""
+
+    // Documentos
+    document.getElementById("updateDocFotografias").checked = usuario.doc_fotografias == 1
+    document.getElementById("updateDocActa").checked = usuario.doc_acta_nacimiento == 1
+    document.getElementById("updateDocCurp").checked = usuario.doc_curp == 1
+    document.getElementById("updateDocComprobante").checked = usuario.doc_comprobante_domicilio == 1
+    document.getElementById("updateDocIne").checked = usuario.doc_ine == 1
+    document.getElementById("updateDocCedula").checked = usuario.doc_cedula_afiliacion == 1
+    document.getElementById("updateDocFotosTutores").checked = usuario.doc_fotos_tutores == 1
+    document.getElementById("updateDocInesTutores").checked = usuario.doc_ines_tutores == 1
+  }
+
+  function limpiarBusquedaCompleta() {
+    console.log("🧹 Limpiando búsqueda completa")
+
+    if (searchUsuarioInput) searchUsuarioInput.value = ""
+    if (clearSearchBtn) clearSearchBtn.style.display = "none"
+    if (userFoundAlert) userFoundAlert.style.display = "none"
+    if (updateFormContainer) updateFormContainer.style.display = "none"
+
+    selectedUser = null
+    ocultarDropdown()
+
+    // Limpiar formulario de actualización
+    if (updateUsuarioForm) updateUsuarioForm.reset()
+
+    // Ocultar notificaciones automáticas
+    const updateFechaAutoNotice = document.getElementById("updateFechaAutoNotice")
+    if (updateFechaAutoNotice) updateFechaAutoNotice.style.display = "none"
+  }
+
+  function setupDocumentacionEventListeners() {
+    const filterAllDocs = document.getElementById("filterAllDocs")
+    const filterIncomplete = document.getElementById("filterIncomplete")
+    const filterComplete = document.getElementById("filterComplete")
+
+    if (filterAllDocs) filterAllDocs.addEventListener("click", () => cargarDocumentacion("todos"))
+    if (filterIncomplete) filterIncomplete.addEventListener("click", () => cargarDocumentacion("incompletos"))
+    if (filterComplete) filterComplete.addEventListener("click", () => cargarDocumentacion("completos"))
   }
 
   function cambiarSeccion(section) {
@@ -133,6 +801,13 @@ document.addEventListener("DOMContentLoaded", () => {
       case "usuarios":
         cargarUsuarios()
         break
+      case "gestionar-usuario":
+        // Asegurar que esté en modo añadir por defecto
+        cambiarModoUsuario("add")
+        break
+      case "documentacion":
+        cargarDocumentacion()
+        break
       case "cursos":
         cargarCursos()
         break
@@ -152,6 +827,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const titulos = {
       dashboard: { titulo: "Dashboard", subtitulo: "Resumen general del sistema" },
       usuarios: { titulo: "Gestión de Usuarios", subtitulo: "Administrar usuarios registrados" },
+      "gestionar-usuario": {
+        titulo: "Gestionar Usuario",
+        subtitulo: "Añadir nuevos usuarios o actualizar existentes",
+      },
+      documentacion: { titulo: "Documentación", subtitulo: "Control de documentos de usuarios" },
       cursos: { titulo: "Gestión de Cursos", subtitulo: "Administrar cursos disponibles" },
       "cursos-usuarios": { titulo: "Cursos y Listas", subtitulo: "Ver listas de usuarios por curso" },
       inscripciones: { titulo: "Inscripciones", subtitulo: "Gestionar inscripciones de usuarios" },
@@ -177,12 +857,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const totalUsuarios = document.getElementById("totalUsuarios")
         const totalCursos = document.getElementById("totalCursos")
         const totalInscripciones = document.getElementById("totalInscripciones")
-        const totalAdmins = document.getElementById("totalAdmins")
+        const usuariosSinDocumentacion = document.getElementById("usuariosSinDocumentacion")
 
         if (totalUsuarios) totalUsuarios.textContent = stats.total_usuarios || 0
         if (totalCursos) totalCursos.textContent = stats.total_cursos || 0
         if (totalInscripciones) totalInscripciones.textContent = stats.total_inscripciones || 0
-        if (totalAdmins) totalAdmins.textContent = stats.total_admins || 0
+        if (usuariosSinDocumentacion) usuariosSinDocumentacion.textContent = stats.usuarios_sin_documentacion || 0
       } else {
         console.error("Error al cargar estadísticas:", data.mensaje)
       }
@@ -196,7 +876,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("usuariosTableBody")
     if (!tableBody) return
 
-    tableBody.innerHTML = '<tr><td colspan="7" class="loading-row">Cargando usuarios...</td></tr>'
+    tableBody.innerHTML = '<tr><td colspan="8" class="loading-row">Cargando usuarios...</td></tr>'
 
     try {
       const response = await fetch("api/obtener_usuarios.php")
@@ -213,24 +893,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (Array.isArray(usuarios)) {
         if (usuarios.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="7" class="loading-row">No hay usuarios registrados</td></tr>'
+          tableBody.innerHTML = '<tr><td colspan="8" class="loading-row">No hay usuarios registrados</td></tr>'
           return
         }
 
         const usuariosHTML = usuarios
           .map((usuario) => {
             const id = usuario.id_usuario || usuario.id || "N/A"
+            const esDerechohabiente = usuario.es_derechohabiente ? "Sí" : "No"
+            const documentacionCompleta = usuario.documentacion_completa ? "Completa" : "Incompleta"
+            const badgeClass = usuario.documentacion_completa ? "badge-success" : "badge-warning"
+
             return `
           <tr>
             <td>${id}</td>
             <td>${usuario.nombre || "N/A"} ${usuario.apellidos || ""}</td>
             <td>${usuario.curp || "N/A"}</td>
             <td>${usuario.edad || "N/A"} años</td>
-            <td>${usuario.tutor || "N/A"}</td>
+            <td>${esDerechohabiente}</td>
+            <td><span class="badge ${badgeClass}">${documentacionCompleta}</span></td>
             <td>${usuario.fecha_registro || "N/A"}</td>
             <td>
               <button class="btn btn-secondary btn-sm" onclick="verUsuario(${id})" ${id === "N/A" ? "disabled" : ""}>
                 <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="irAGestionarUsuario(${id})" ${id === "N/A" ? "disabled" : ""}>
+                <i class="fas fa-edit"></i>
               </button>
               <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${id})" ${id === "N/A" ? "disabled" : ""}>
                 <i class="fas fa-trash"></i>
@@ -243,13 +931,132 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tableBody.innerHTML = usuariosHTML
       } else if (usuarios.error) {
-        tableBody.innerHTML = `<tr><td colspan="7" class="loading-row">Error: ${usuarios.mensaje}</td></tr>`
+        tableBody.innerHTML = `<tr><td colspan="8" class="loading-row">Error: ${usuarios.mensaje}</td></tr>`
       } else {
-        tableBody.innerHTML = '<tr><td colspan="7" class="loading-row">Formato de respuesta no válido</td></tr>'
+        tableBody.innerHTML = '<tr><td colspan="8" class="loading-row">Formato de respuesta no válido</td></tr>'
       }
     } catch (error) {
       console.error("Error al cargar usuarios:", error)
-      tableBody.innerHTML = `<tr><td colspan="7" class="loading-row">Error al cargar usuarios: ${error.message}</td></tr>`
+      tableBody.innerHTML = `<tr><td colspan="8" class="loading-row">Error al cargar usuarios: ${error.message}</td></tr>`
+    }
+  }
+
+  // Función para ir a gestionar usuario desde otras secciones
+  window.irAGestionarUsuario = async (idUsuario) => {
+    cambiarSeccion("gestionar-usuario")
+    cambiarModoUsuario("update")
+
+    // Simular búsqueda y selección del usuario
+    try {
+      const response = await fetch(`api/obtener_usuario_completo.php?id=${idUsuario}`)
+      const data = await response.json()
+
+      if (data.exito) {
+        const usuario = data.usuario
+        // Crear objeto compatible con la función de selección
+        const usuarioFormateado = {
+          id: usuario.id_usuario,
+          nombre: usuario.nombre,
+          apellidos: usuario.apellidos,
+          nombre_completo: `${usuario.nombre} ${usuario.apellidos}`,
+          curp: usuario.curp,
+          edad: usuario.edad,
+          fecha_nacimiento: usuario.fecha_nacimiento,
+          numero_usuario: usuario.numero_usuario,
+          salud: usuario.salud,
+          tutor: usuario.tutor,
+          numero_tutor: usuario.numero_tutor,
+          es_derechohabiente: usuario.es_derechohabiente,
+          tipo_seguro: usuario.tipo_seguro,
+          direccion_calle: usuario.direccion_calle,
+          direccion_numero: usuario.direccion_numero,
+          direccion_colonia: usuario.direccion_colonia,
+          direccion_ciudad: usuario.direccion_ciudad,
+          direccion_estado: usuario.direccion_estado,
+          direccion_cp: usuario.direccion_cp,
+          doc_fotografias: usuario.doc_fotografias,
+          doc_acta_nacimiento: usuario.doc_acta_nacimiento,
+          doc_curp: usuario.doc_curp,
+          doc_comprobante_domicilio: usuario.doc_comprobante_domicilio,
+          doc_ine: usuario.doc_ine,
+          doc_cedula_afiliacion: usuario.doc_cedula_afiliacion,
+          doc_fotos_tutores: usuario.doc_fotos_tutores,
+          doc_ines_tutores: usuario.doc_ines_tutores,
+          fecha_registro_formateada: usuario.fecha_registro || "Sin fecha",
+        }
+
+        setTimeout(() => {
+          seleccionarUsuario(usuarioFormateado)
+        }, 500)
+      } else {
+        alert("Error al cargar datos del usuario: " + data.mensaje)
+      }
+    } catch (error) {
+      console.error("Error:", error)
+      alert("Error de conexión al cargar usuario")
+    }
+  }
+
+  async function cargarDocumentacion(filtro = "todos") {
+    console.log("Cargando documentación con filtro:", filtro)
+    const tableBody = document.getElementById("documentacionTableBody")
+    if (!tableBody) return
+
+    tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">Cargando información de documentación...</td></tr>'
+
+    try {
+      const response = await fetch(`api/obtener_usuarios_documentacion.php?filtro=${filtro}`)
+      const data = await response.json()
+
+      if (data.exito) {
+        const usuarios = data.usuarios
+
+        if (usuarios.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">No hay usuarios con este filtro</td></tr>'
+          return
+        }
+
+        const usuariosHTML = usuarios
+          .map((usuario) => {
+            const progressClass =
+              usuario.porcentaje_completado === 100
+                ? "progress-complete"
+                : usuario.porcentaje_completado >= 50
+                  ? "progress-partial"
+                  : "progress-low"
+
+            return `
+            <tr>
+              <td>${usuario.id_usuario}</td>
+              <td>${usuario.nombre_completo}</td>
+              <td>
+                <div class="documentos-faltantes">
+                  ${usuario.documentos_faltantes_texto}
+                </div>
+              </td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress-bar ${progressClass}" style="width: ${usuario.porcentaje_completado}%"></div>
+                  <span class="progress-text">${usuario.porcentaje_completado}%</span>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="irAGestionarUsuario(${usuario.id_usuario})">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          `
+          })
+          .join("")
+
+        tableBody.innerHTML = usuariosHTML
+      } else {
+        tableBody.innerHTML = `<tr><td colspan="5" class="loading-row">Error: ${data.mensaje}</td></tr>`
+      }
+    } catch (error) {
+      console.error("Error al cargar documentación:", error)
+      tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">Error al cargar documentación</td></tr>'
     }
   }
 
@@ -258,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("cursosTableBody")
     if (!tableBody) return
 
-    tableBody.innerHTML = '<tr><td colspan="9" class="loading-row">Cargando cursos...</td></tr>'
+    tableBody.innerHTML = '<tr><td colspan="10" class="loading-row">Cargando cursos...</td></tr>'
 
     try {
       const response = await fetch("api/obtener_cursos.php")
@@ -276,7 +1083,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cursos = data.cursos
 
         if (cursos.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="9" class="loading-row">No hay cursos registrados</td></tr>'
+          tableBody.innerHTML = '<tr><td colspan="10" class="loading-row">No hay cursos registrados</td></tr>'
           return
         }
 
@@ -290,14 +1097,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${curso.edad_max}</td>
             <td>${curso.cupo_maximo || 30}</td>
             <td>${curso.horario || "Por definir"}</td>
+            <td>${curso.sala || "Sin asignar"}</td>
+            <td>${curso.instructor || "Sin asignar"}</td>
             <td>
               <span class="badge ${curso.activo == 1 ? "badge-success" : "badge-danger"}">
                 ${curso.activo == 1 ? "Activo" : "Inactivo"}
-              </span>
-            </td>
-            <td>
-              <span class="table-badge ${curso.tabla_curso ? "badge-success" : "badge-warning"}">
-                ${curso.tabla_curso || "Sin tabla"}
               </span>
             </td>
             <td>
@@ -315,11 +1119,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tableBody.innerHTML = cursosHTML
       } else {
-        tableBody.innerHTML = `<tr><td colspan="9" class="loading-row">Error: ${data.mensaje || "Error desconocido"}</td></tr>`
+        tableBody.innerHTML = `<tr><td colspan="10" class="loading-row">Error: ${data.mensaje || "Error desconocido"}</td></tr>`
       }
     } catch (error) {
       console.error("Error al cargar cursos:", error)
-      tableBody.innerHTML = `<tr><td colspan="9" class="loading-row">Error al cargar cursos: ${error.message}</td></tr>`
+      tableBody.innerHTML = `<tr><td colspan="10" class="loading-row">Error al cargar cursos: ${error.message}</td></tr>`
     }
   }
 
@@ -356,7 +1160,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="course-info-admin">
             <p><i class="fas fa-users"></i> Edad: ${curso.edad_min}-${curso.edad_max} años</p>
             <p><i class="fas fa-clock"></i> ${curso.horario || "Horario por definir"}</p>
-            <p><i class="fas fa-table"></i> Tabla: curso_${curso.id_curso}</p>
+            <p><i class="fas fa-chalkboard"></i> Sala: ${curso.sala || "Sin asignar"}</p>
+            <p><i class="fas fa-user-tie"></i> Instructor: ${curso.instructor || "Sin asignar"}</p>
             ${
               curso.activo == 1
                 ? '<p><i class="fas fa-check-circle" style="color: #10b981;"></i> Curso Activo</p>'
@@ -391,7 +1196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("inscripcionesTableBody")
     if (!tableBody) return
 
-    tableBody.innerHTML = '<tr><td colspan="6" class="loading-row">Cargando inscripciones...</td></tr>'
+    tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">Cargando inscripciones...</td></tr>'
 
     try {
       const response = await fetch("api/obtener_inscripciones.php")
@@ -403,7 +1208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const inscripciones = data.inscripciones
 
         if (inscripciones.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="6" class="loading-row">No hay inscripciones registradas</td></tr>'
+          tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">No hay inscripciones registradas</td></tr>'
           return
         }
 
@@ -413,7 +1218,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <tr>
             <td>${inscripcion.id_inscripcion}</td>
             <td>${inscripcion.nombre_usuario}</td>
-            <td>${inscripcion.curp}</td>
             <td>${inscripcion.nombre_curso}</td>
             <td>${inscripcion.fecha_inscripcion_formateada}</td>
             <td>
@@ -428,11 +1232,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tableBody.innerHTML = inscripcionesHTML
       } else {
-        tableBody.innerHTML = `<tr><td colspan="6" class="loading-row">Error: ${data.mensaje || "Error al cargar inscripciones"}</td></tr>`
+        tableBody.innerHTML = `<tr><td colspan="5" class="loading-row">Error: ${data.mensaje || "Error al cargar inscripciones"}</td></tr>`
       }
     } catch (error) {
       console.error("Error al cargar inscripciones:", error)
-      tableBody.innerHTML = '<tr><td colspan="6" class="loading-row">Error al cargar inscripciones</td></tr>'
+      tableBody.innerHTML = '<tr><td colspan="5" class="loading-row">Error al cargar inscripciones</td></tr>'
     }
   }
 
@@ -490,7 +1294,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Funciones de modales - CORREGIDAS PARA EVITAR CONFLICTOS
+  // Funciones de modales
   function abrirModalCurso(curso = null) {
     console.log("=== ABRIENDO MODAL CURSO ===")
     console.log("Curso recibido:", curso)
@@ -514,6 +1318,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const cupoMaximo = document.getElementById("cupoMaximo")
     const horarioCurso = document.getElementById("horarioCurso")
     const estadoCurso = document.getElementById("estadoCurso")
+    const salaCurso = document.getElementById("salaCurso")
+    const instructorCurso = document.getElementById("instructorCurso")
 
     if (curso) {
       // MODO EDICIÓN
@@ -528,6 +1334,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cupoMaximo) cupoMaximo.value = curso.cupo_maximo || 30
       if (horarioCurso) horarioCurso.value = curso.horario || ""
       if (estadoCurso) estadoCurso.value = curso.activo || 1
+      if (salaCurso) salaCurso.value = curso.sala || ""
+      if (instructorCurso) instructorCurso.value = curso.instructor || ""
 
       console.log("Datos cargados para edición:", {
         id: curso.id_curso,
@@ -549,6 +1357,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cupoMaximo) cupoMaximo.value = "30"
       if (horarioCurso) horarioCurso.value = ""
       if (estadoCurso) estadoCurso.value = "1"
+      if (salaCurso) salaCurso.value = ""
+      if (instructorCurso) instructorCurso.value = ""
 
       console.log("Formulario preparado para nuevo curso")
     }
@@ -898,18 +1708,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.removeChild(link)
   }
 
-  function exportarExcel() {
-    if (!window.currentCourseData) {
-      alert("No hay datos para exportar a Excel")
-      return
-    }
-
-    const { curso } = window.currentCourseData
-    const url = `api/exportar_usuarios_excel.php?id_curso=${curso.id_curso}`
-
-    window.open(url, "_blank")
-  }
-
   async function limpiarCursosTerminados() {
     if (!cursosConUsuarios || cursosConUsuarios.length === 0) {
       alert("No hay cursos para limpiar")
@@ -1070,8 +1868,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       console.error("Error:", error)
-      alert("Error de conexión al cargar detalles del usuario")
-      cerrarModalUsuarioDetalles()
+      alert("Error de conexión al cargar usuario")
     }
   }
 
@@ -1137,7 +1934,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json()
 
         if (result.exito) {
-          alert("Curso y tabla específica eliminados exitosamente")
+          alert("Curso eliminado exitosamente")
           cargarCursos()
           cargarEstadisticas()
           if (currentSection === "cursos-usuarios") {
@@ -1161,7 +1958,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.exito) {
         abrirModalAdmin(data.admin)
       } else {
-        alert("Error al cargar administrador")
+        alert("Error al cargar administrador: " + data.mensaje)
       }
     } catch (error) {
       console.error("Error:", error)
@@ -1223,31 +2020,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Asignar funciones específicas de la sección cursos-usuarios
-  window.verListaUsuarios = verListaUsuarios
-  window.verTablaCurso = (idCurso) => {
-    window.open(`tabla-curso.html?id=${idCurso}`, "_blank")
-  }
-
   // Cerrar modales al hacer clic fuera
   window.addEventListener("click", (e) => {
-    if (e.target === cursoModal) {
-      cerrarModalCurso()
-    }
-    if (e.target === adminModal) {
-      cerrarModalAdmin()
-
-      cerrarModalCurso()
-    }
-    if (e.target === adminModal) {
-      cerrarModalAdmin()
-    }
-    if (e.target === usuarioDetallesModal) {
-      cerrarModalUsuarioDetalles()
-    }
-    if (e.target === listaUsuariosModal) {
-      cerrarModalListaUsuarios()
-    }
+    if (e.target === cursoModal) cerrarModalCurso()
+    if (e.target === adminModal) cerrarModalAdmin()
+    if (e.target === usuarioDetallesModal) cerrarModalUsuarioDetalles()
+    if (e.target === listaUsuariosModal) cerrarModalListaUsuarios()
   })
 
   console.log("=== ADMIN PANEL INICIALIZADO ===")

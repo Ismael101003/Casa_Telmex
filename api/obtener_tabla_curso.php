@@ -40,7 +40,7 @@ try {
     $columnaPrimariaInscripciones = 'id_inscripcion';
     $campoUsuarioInscripciones = 'id_usuario';
     $campoCursoInscripciones = 'id_curso';
-    $campoFechaInscripcion = null; // No asumimos que existe
+    $campoFechaInscripcion = null;
     
     foreach ($estructuraCursos as $col) {
         if ($col['Key'] === 'PRI') {
@@ -66,13 +66,12 @@ try {
         if (in_array($col['Field'], ['curso_id', 'id_curso', 'course_id'])) {
             $campoCursoInscripciones = $col['Field'];
         }
-        // Verificar si existe algún campo de fecha en inscripciones
         if (in_array($col['Field'], ['fecha_inscripcion', 'created_at', 'fecha_registro', 'fecha_creacion'])) {
             $campoFechaInscripcion = $col['Field'];
         }
     }
     
-    // Primero obtener información del curso
+    // Obtener información del curso con sala e instructor
     $sqlCurso = "SELECT 
                     $columnaPrimariaCursos as id_curso,
                     nombre_curso,
@@ -80,6 +79,8 @@ try {
                     edad_max,
                     COALESCE(cupo_maximo, 30) as cupo_maximo,
                     COALESCE(horario, 'Por definir') as horario,
+                    COALESCE(sala, 'No asignada') as sala,
+                    COALESCE(instructor, 'Sin instructor') as instructor,
                     COALESCE(activo, 1) as activo
                  FROM cursos 
                  WHERE $columnaPrimariaCursos = ?";
@@ -97,10 +98,9 @@ try {
     
     $curso = $resultadoCurso[0];
     
-    // Construir campo de fecha según disponibilidad
     $campoFechaSQL = $campoFechaInscripcion ? "i.$campoFechaInscripcion" : "u.fecha_registro";
     
-    // Obtener usuarios inscritos en el curso
+    // Obtener usuarios inscritos
     $sqlUsuarios = "SELECT 
                         u.$columnaPrimariaUsuarios as id_usuario,
                         u.nombre,
@@ -123,10 +123,8 @@ try {
     
     $usuarios = $conexion->consultar($sqlUsuarios, [$idCurso]);
     
-    // Formatear datos de usuarios
     $usuariosFormateados = [];
     foreach ($usuarios as $usuario) {
-        // Formatear fecha de nacimiento
         $fechaNacimientoFormateada = '';
         if (!empty($usuario['fecha_nacimiento'])) {
             try {
@@ -136,8 +134,7 @@ try {
                 $fechaNacimientoFormateada = 'Fecha inválida';
             }
         }
-        
-        // Formatear fecha de inscripción
+
         $fechaInscripcionFormateada = '';
         if (!empty($usuario['fecha_inscripcion'])) {
             try {
@@ -147,8 +144,7 @@ try {
                 $fechaInscripcionFormateada = 'Fecha inválida';
             }
         }
-        
-        // Formatear fecha de registro
+
         $fechaRegistroFormateada = '';
         if (!empty($usuario['fecha_registro'])) {
             try {
@@ -158,7 +154,7 @@ try {
                 $fechaRegistroFormateada = 'Fecha inválida';
             }
         }
-        
+
         $usuariosFormateados[] = [
             'id_usuario' => $usuario['id_usuario'],
             'id_inscripcion' => $usuario['id_inscripcion'],
@@ -180,7 +176,7 @@ try {
             'fecha_inscripcion_formateada' => $fechaInscripcionFormateada
         ];
     }
-    
+
     echo json_encode([
         'exito' => true,
         'curso' => [
@@ -190,6 +186,8 @@ try {
             'edad_max' => $curso['edad_max'],
             'cupo_maximo' => $curso['cupo_maximo'],
             'horario' => $curso['horario'],
+            'sala' => $curso['sala'],
+            'instructor' => $curso['instructor'],
             'activo' => $curso['activo'],
             'total_inscritos' => count($usuariosFormateados)
         ],
@@ -200,7 +198,7 @@ try {
             'usando_fecha_usuarios' => !$campoFechaInscripcion
         ]
     ]);
-    
+
 } catch (Exception $e) {
     error_log("Error en obtener_tabla_curso: " . $e->getMessage());
     echo json_encode([

@@ -1,16 +1,16 @@
 <?php
 /**
- * API para obtener usuarios - VERSIÓN CORREGIDA FINAL
+ * API para obtener todos los usuarios con información completa
+ * Incluye cálculo correcto de documentación completa
  */
 
-require_once '../config/conexion.php';
-require_once '../config/configuracion.php';
-
-// Headers para CORS y JSON
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json; charset=utf-8');
+
+require_once '../config/conexion.php';
+require_once '../config/configuracion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
@@ -20,100 +20,168 @@ try {
     $conexion = obtenerConexion();
     
     // Verificar estructura de la tabla usuarios
-    $sqlEstructura = "DESCRIBE usuarios";
-    $estructura = $conexion->consultar($sqlEstructura);
+    $sqlVerificarColumnas = "SHOW COLUMNS FROM usuarios";
+    $columnas = $conexion->consultar($sqlVerificarColumnas);
     
-    $columnas = array_column($estructura, 'Field');
+    $columnaPrimaria = "id_usuario";
+    $camposDisponibles = [];
     
-    // Determinar columna primaria
-    $columnaPrimaria = 'id';
-    foreach ($estructura as $col) {
-        if ($col['Key'] === 'PRI') {
-            $columnaPrimaria = $col['Field'];
-            break;
+    foreach ($columnas as $columna) {
+        $camposDisponibles[] = $columna['Field'];
+        if ($columna['Key'] === 'PRI') {
+            $columnaPrimaria = $columna['Field'];
         }
     }
     
-    // Verificar columnas disponibles
-    $tieneNumeroTutor = in_array('numero_tutor', $columnas);
-    $tieneNumeroUsuario = in_array('numero_usuario', $columnas);
-    $tieneActivo = in_array('activo', $columnas);
-    
-    // Construir consulta con manejo seguro de NULLs usando COALESCE
-    $selectColumns = [
-        "u.$columnaPrimaria as id_usuario",
-        "u.nombre",
-        "u.apellidos",
-        "u.curp",
-        "u.fecha_nacimiento",
-        "u.edad",
-        "COALESCE(u.meses, 0) as meses",
-        "COALESCE(u.salud, '') as salud",
-        "u.tutor",
-        "u.fecha_registro"
+    // Construir campos SELECT dinámicamente
+    $camposSelect = [
+        $columnaPrimaria . ' as id',
+        'nombre',
+        'apellidos',
+        'curp',
+        'fecha_nacimiento',
+        'edad',
+        'meses',
+        'salud',
+        'tutor',
+        'numero_tutor',
+        'numero_usuario',
+        'fecha_registro',
+        "CONCAT(nombre, ' ', apellidos) as nombre_completo"
     ];
-
-    // Manejar numero_tutor - usar COALESCE para convertir NULL a 'N/A'
-    if ($tieneNumeroTutor) {
-        $selectColumns[] = "COALESCE(NULLIF(TRIM(u.numero_tutor), ''), 'N/A') as numero_tutor";
-    } else {
-        $selectColumns[] = "'N/A' as numero_tutor";
-    }
-
-    // Manejar numero_usuario - usar COALESCE para convertir NULL a 'N/A'
-    if ($tieneNumeroUsuario) {
-        $selectColumns[] = "COALESCE(NULLIF(TRIM(u.numero_usuario), ''), 'N/A') as numero_usuario";
-    } else {
-        $selectColumns[] = "'N/A' as numero_usuario";
-    }
-
-    $selectClause = implode(", ", $selectColumns);
     
-    // Condición WHERE solo si existe la columna activo
-    $whereClause = $tieneActivo ? "WHERE u.activo = 1" : "";
-
-    // Consulta final
-    $sql = "SELECT $selectClause 
-            FROM usuarios u 
-            $whereClause 
-            ORDER BY u.fecha_registro DESC";
-
-    // Ejecutar consulta
-    $usuarios = $conexion->consultar($sql);
-
-    // Formatear datos para el frontend
-    $usuariosFormateados = [];
-    foreach ($usuarios as $usuario) {
-        $usuarioFormateado = $usuario;
-        
-        // Formatear fecha de registro
-        if (!empty($usuario['fecha_registro'])) {
-            try {
-                $fecha = new DateTime($usuario['fecha_registro']);
-                $usuarioFormateado['fecha_registro'] = $fecha->format('d/m/Y H:i');
-            } catch (Exception $e) {
-                // Mantener formato original si hay error
+    // Campos de documentación
+    $camposDocumentacion = [
+        'doc_fotografias',
+        'doc_acta_nacimiento', 
+        'doc_curp',
+        'doc_comprobante_domicilio',
+        'doc_ine',
+        'doc_cedula_afiliacion',
+        'doc_fotos_tutores',
+        'doc_ines_tutores',
+        'es_derechohabiente'
+    ];
+    
+    // Agregar campos que existen
+    foreach ($camposDocumentacion as $campo) {
+        if (in_array($campo, $camposDisponibles)) {
+            $camposSelect[] = $campo;
+        }
+    }
+    
+    // Filtrar campos que realmente existen
+    $camposSelectFiltrados = [];
+    foreach ($camposSelect as $campo) {
+        if (strpos($campo, ' as ') !== false) {
+            $partes = explode(' as ', $campo);
+            $campoBase = trim($partes[0]);
+            if (strpos($campoBase, 'CONCAT') !== false || in_array($campoBase, $camposDisponibles)) {
+                $camposSelectFiltrados[] = $campo;
+            }
+        } else {
+            if (in_array($campo, $camposDisponibles)) {
+                $camposSelectFiltrados[] = $campo;
             }
         }
-
-        // Asegurar que los campos no sean NULL (doble verificación)
-        $usuarioFormateado['numero_tutor'] = $usuario['numero_tutor'] ?: 'N/A';
-        $usuarioFormateado['numero_usuario'] = $usuario['numero_usuario'] ?: 'N/A';
-        $usuarioFormateado['salud'] = $usuario['salud'] ?: '';
-        
-        // Agregar alias para compatibilidad
-        $usuarioFormateado['id'] = $usuario['id_usuario'];
-        
-        $usuariosFormateados[] = $usuarioFormateado;
     }
-
-    // Devolver array de usuarios (no objeto con propiedades)
-    echo json_encode($usuariosFormateados);
-
-} catch (Exception $e) {
-    error_log("ERROR en obtener_usuarios: " . $e->getMessage());
     
-    // En caso de error, devolver array vacío para que el frontend no falle
-    echo json_encode([]);
+    $sql = "SELECT " . implode(', ', $camposSelectFiltrados) . " FROM usuarios ORDER BY fecha_registro DESC";
+    
+    $usuarios = $conexion->consultar($sql);
+    
+    // Procesar cada usuario para calcular documentación
+    foreach ($usuarios as &$usuario) {
+        // Formatear fecha de nacimiento
+        if (isset($usuario['fecha_nacimiento']) && $usuario['fecha_nacimiento']) {
+            try {
+                $fecha = new DateTime($usuario['fecha_nacimiento']);
+                $usuario['fecha_nacimiento_formateada'] = $fecha->format('d/m/Y');
+            } catch (Exception $e) {
+                $usuario['fecha_nacimiento_formateada'] = 'Fecha inválida';
+            }
+        } else {
+            $usuario['fecha_nacimiento_formateada'] = 'Sin fecha';
+        }
+        
+        // Formatear fecha de registro
+        if (isset($usuario['fecha_registro']) && $usuario['fecha_registro']) {
+            try {
+                $fecha = new DateTime($usuario['fecha_registro']);
+                $usuario['fecha_registro_formateada'] = $fecha->format('d/m/Y H:i');
+            } catch (Exception $e) {
+                $usuario['fecha_registro_formateada'] = 'Fecha inválida';
+            }
+        } else {
+            $usuario['fecha_registro_formateada'] = 'Sin fecha';
+        }
+        
+        // **CÁLCULO CORREGIDO DE DOCUMENTACIÓN**
+        $documentosRequeridos = [
+            'doc_fotografias',
+            'doc_acta_nacimiento', 
+            'doc_curp',
+            'doc_comprobante_domicilio',
+            'doc_ine',
+            'doc_fotos_tutores',
+            'doc_ines_tutores'
+        ];
+        
+        // Si es derechohabiente, agregar cédula de afiliación
+        $esDerechohabiente = isset($usuario['es_derechohabiente']) ? (int)$usuario['es_derechohabiente'] : 0;
+        if ($esDerechohabiente) {
+            $documentosRequeridos[] = 'doc_cedula_afiliacion';
+        }
+        
+        $documentosCompletos = 0;
+        $totalRequeridos = 0;
+        
+        foreach ($documentosRequeridos as $doc) {
+            if (in_array($doc, $camposDisponibles)) {
+                $totalRequeridos++;
+                $valor = isset($usuario[$doc]) ? (int)$usuario[$doc] : 0;
+                if ($valor == 1) {
+                    $documentosCompletos++;
+                }
+            }
+        }
+        
+        // Calcular porcentaje y estado
+        $porcentajeCompleto = $totalRequeridos > 0 ? round(($documentosCompletos / $totalRequeridos) * 100) : 0;
+        $documentacionCompleta = ($documentosCompletos == $totalRequeridos && $totalRequeridos > 0);
+        
+        $usuario['documentacion_completa'] = $documentacionCompleta;
+        $usuario['documentacion_porcentaje'] = $porcentajeCompleto;
+        $usuario['documentos_completos'] = $documentosCompletos;
+        $usuario['documentos_requeridos'] = $totalRequeridos;
+        $usuario['es_derechohabiente_texto'] = $esDerechohabiente ? 'Sí' : 'No';
+        
+        // Estado de documentación para mostrar
+        if ($documentacionCompleta) {
+            $usuario['documentacion_estado'] = 'COMPLETA';
+            $usuario['documentacion_clase'] = 'completa';
+        } elseif ($porcentajeCompleto >= 50) {
+            $usuario['documentacion_estado'] = 'PARCIAL';
+            $usuario['documentacion_clase'] = 'parcial';
+        } else {
+            $usuario['documentacion_estado'] = 'INCOMPLETA';
+            $usuario['documentacion_clase'] = 'incompleta';
+        }
+    }
+    
+    echo json_encode([
+        'exito' => true,
+        'usuarios' => $usuarios,
+        'total' => count($usuarios),
+        'campos_disponibles' => $camposDisponibles
+    ]);
+    
+} catch (Exception $e) {
+    error_log("Error en obtener_usuarios.php: " . $e->getMessage());
+    echo json_encode([
+        'exito' => false,
+        'mensaje' => 'Error al obtener usuarios: ' . $e->getMessage(),
+        'usuarios' => []
+    ]);
 }
 ?>
