@@ -1,146 +1,166 @@
 <?php
 /**
- * API para búsqueda de usuarios con autocompletado
- * Devuelve TODOS los datos del usuario para el formulario de actualización
+ * API para búsqueda de usuarios con autocompletado - TODOS LOS DATOS
  */
 
-header('Content-Type: application/json; charset=utf-8');
+require_once '../config/conexion.php';
+require_once '../config/configuracion.php';
+
+// Headers para CORS y JSON
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
-require_once '../config/conexion.php';
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    http_response_code(405);
+    echo json_encode(['exito' => false, 'mensaje' => 'Método no permitido']);
+    exit;
+}
 
 try {
-    $query = isset($_GET['q']) ? trim($_GET['q']) : '';
+    $conexion = obtenerConexion();
     
-    if (empty($query)) {
-        echo json_encode([
-            'exito' => false,
-            'mensaje' => 'Parámetro de búsqueda requerido',
-            'usuarios' => []
-        ]);
-        exit;
-    }
+    $query = $_GET['q'] ?? '';
+    $query = trim($query);
     
     if (strlen($query) < 2) {
         echo json_encode([
             'exito' => false,
-            'mensaje' => 'Mínimo 2 caracteres para buscar',
+            'mensaje' => 'La búsqueda debe tener al menos 2 caracteres',
             'usuarios' => []
         ]);
         exit;
     }
     
-    $conexion = obtenerConexion();
+    // Detectar la columna primaria
+    $sqlVerificarColumnas = "SHOW COLUMNS FROM usuarios";
+    $columnas = $conexion->consultar($sqlVerificarColumnas);
     
-    // Consulta completa con TODOS los datos del usuario
-    $sql = "SELECT 
-                id_usuario,
-                nombre,
-                apellidos,
-                CONCAT(nombre, ' ', apellidos) as nombre_completo,
-                curp,
-                fecha_nacimiento,
-                TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) as edad,
-                numero_usuario,
-                salud,
-                tutor,
-                numero_tutor,
-                COALESCE(es_derechohabiente, 0) as es_derechohabiente,
-                tipo_seguro,
-                direccion_calle,
-                direccion_numero,
-                direccion_colonia,
-                direccion_ciudad,
-                direccion_estado,
-                direccion_cp,
-                COALESCE(doc_fotografias, 0) as doc_fotografias,
-                COALESCE(doc_acta_nacimiento, 0) as doc_acta_nacimiento,
-                COALESCE(doc_curp, 0) as doc_curp,
-                COALESCE(doc_comprobante_domicilio, 0) as doc_comprobante_domicilio,
-                COALESCE(doc_ine, 0) as doc_ine,
-                COALESCE(doc_cedula_afiliacion, 0) as doc_cedula_afiliacion,
-                COALESCE(doc_fotos_tutores, 0) as doc_fotos_tutores,
-                COALESCE(doc_ines_tutores, 0) as doc_ines_tutores,
-                fecha_registro,
-                DATE_FORMAT(fecha_registro, '%d/%m/%Y') as fecha_registro_formateada
-            FROM usuarios 
-            WHERE (
-                nombre LIKE ? OR 
-                apellidos LIKE ? OR 
-                CONCAT(nombre, ' ', apellidos) LIKE ? OR
-                curp LIKE ?
-            )
-            ORDER BY nombre, apellidos
-            LIMIT 10";
-    
-    $searchTerm = "%{$query}%";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param('ssss', $searchTerm, $searchTerm, $searchTerm, $searchTerm);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    $usuarios = [];
-    while ($row = $result->fetch_assoc()) {
-        $usuarios[] = [
-            'id' => $row['id_usuario'],
-            'id_usuario' => $row['id_usuario'],
-            'nombre' => $row['nombre'],
-            'apellidos' => $row['apellidos'],
-            'nombre_completo' => $row['nombre_completo'],
-            'curp' => $row['curp'],
-            'fecha_nacimiento' => $row['fecha_nacimiento'],
-            'edad' => $row['edad'],
-            'numero_usuario' => $row['numero_usuario'],
-            'salud' => $row['salud'],
-            'tutor' => $row['tutor'],
-            'numero_tutor' => $row['numero_tutor'],
-            'es_derechohabiente' => $row['es_derechohabiente'],
-            'tipo_seguro' => $row['tipo_seguro'],
-            'direccion_calle' => $row['direccion_calle'],
-            'direccion_numero' => $row['direccion_numero'],
-            'direccion_colonia' => $row['direccion_colonia'],
-            'direccion_ciudad' => $row['direccion_ciudad'],
-            'direccion_estado' => $row['direccion_estado'],
-            'direccion_cp' => $row['direccion_cp'],
-            'doc_fotografias' => $row['doc_fotografias'],
-            'doc_acta_nacimiento' => $row['doc_acta_nacimiento'],
-            'doc_curp' => $row['doc_curp'],
-            'doc_comprobante_domicilio' => $row['doc_comprobante_domicilio'],
-            'doc_ine' => $row['doc_ine'],
-            'doc_cedula_afiliacion' => $row['doc_cedula_afiliacion'],
-            'doc_fotos_tutores' => $row['doc_fotos_tutores'],
-            'doc_ines_tutores' => $row['doc_ines_tutores'],
-            'fecha_registro' => $row['fecha_registro'],
-            'fecha_registro_formateada' => $row['fecha_registro_formateada']
-        ];
+    $columnaPrimaria = "id_usuario";
+    foreach ($columnas as $columna) {
+        if ($columna['Key'] === 'PRI') {
+            $columnaPrimaria = $columna['Field'];
+            break;
+        }
     }
     
-    if (empty($usuarios)) {
+    // Búsqueda en múltiples campos con TODOS los datos del usuario
+    $sqlBusqueda = "SELECT 
+                        u.*,
+                        CONCAT(u.nombre, ' ', u.apellidos) as nombre_completo,
+                        TIMESTAMPDIFF(YEAR, u.fecha_nacimiento, CURDATE()) as edad_calculada,
+                        DATE_FORMAT(u.fecha_nacimiento, '%d/%m/%Y') as fecha_nacimiento_formateada,
+                        DATE_FORMAT(u.fecha_registro, '%d/%m/%Y %H:%i') as fecha_registro_formateada,
+                        
+                        -- Calcular documentación
+                        (CASE WHEN u.doc_fotografias = 1 THEN 1 ELSE 0 END +
+                         CASE WHEN u.doc_acta_nacimiento = 1 THEN 1 ELSE 0 END +
+                         CASE WHEN u.doc_curp = 1 THEN 1 ELSE 0 END +
+                         CASE WHEN u.doc_comprobante_domicilio = 1 THEN 1 ELSE 0 END +
+                         CASE WHEN u.doc_ine = 1 THEN 1 ELSE 0 END +
+                         CASE WHEN u.es_derechohabiente = 1 AND u.doc_cedula_afiliacion = 1 THEN 1 
+                              WHEN u.es_derechohabiente = 0 THEN 0 ELSE 0 END) as documentos_completos,
+                        
+                        (5 + CASE WHEN u.es_derechohabiente = 1 THEN 1 ELSE 0 END) as documentos_requeridos
+                        
+                    FROM usuarios u
+                    WHERE (u.nombre LIKE ? OR 
+                           u.apellidos LIKE ? OR 
+                           u.curp LIKE ? OR 
+                           CONCAT(u.nombre, ' ', u.apellidos) LIKE ?)
+                    ORDER BY u.nombre, u.apellidos
+                    LIMIT 10";
+    
+    $searchTerm = "%{$query}%";
+    $resultados = $conexion->consultar($sqlBusqueda, [$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+    
+    if (empty($resultados)) {
         echo json_encode([
             'exito' => false,
             'mensaje' => 'No se encontraron usuarios que coincidan con la búsqueda',
             'usuarios' => []
         ]);
-    } else {
-        echo json_encode([
-            'exito' => true,
-            'mensaje' => 'Usuarios encontrados',
-            'usuarios' => $usuarios,
-            'total' => count($usuarios)
-        ]);
+        exit;
     }
     
+    $usuariosFormateados = [];
+    foreach ($resultados as $usuario) {
+        // Calcular porcentaje de documentación
+        $porcentajeDocumentacion = 0;
+        if ($usuario['documentos_requeridos'] > 0) {
+            $porcentajeDocumentacion = round(($usuario['documentos_completos'] / $usuario['documentos_requeridos']) * 100);
+        }
+        
+        $usuariosFormateados[] = [
+            // Datos básicos
+            'id' => $usuario[$columnaPrimaria],
+            'id_usuario' => $usuario[$columnaPrimaria],
+            'nombre' => $usuario['nombre'],
+            'apellidos' => $usuario['apellidos'],
+            'nombre_completo' => $usuario['nombre_completo'],
+            'curp' => $usuario['curp'],
+            'fecha_nacimiento' => $usuario['fecha_nacimiento'],
+            'fecha_nacimiento_formateada' => $usuario['fecha_nacimiento_formateada'],
+            'edad' => $usuario['edad_calculada'] ?: 0,
+            'numero_usuario' => $usuario['numero_usuario'],
+            'salud' => $usuario['salud'] ?: 'Sin especificar',
+            
+            // Datos del tutor
+            'tutor' => $usuario['tutor'],
+            'numero_tutor' => $usuario['numero_tutor'],
+            
+            // Derechohabiencia y seguro
+            'es_derechohabiente' => $usuario['es_derechohabiente'],
+            'tipo_seguro' => $usuario['tipo_seguro'],
+            
+            // Dirección
+            'direccion_calle' => $usuario['direccion_calle'],
+            'direccion_numero' => $usuario['direccion_numero'],
+            'direccion_colonia' => $usuario['direccion_colonia'],
+            'direccion_ciudad' => $usuario['direccion_ciudad'],
+            'direccion_estado' => $usuario['direccion_estado'],
+            'direccion_cp' => $usuario['direccion_cp'],
+            
+            // Documentos
+            'doc_fotografias' => $usuario['doc_fotografias'],
+            'doc_acta_nacimiento' => $usuario['doc_acta_nacimiento'],
+            'doc_curp' => $usuario['doc_curp'],
+            'doc_comprobante_domicilio' => $usuario['doc_comprobante_domicilio'],
+            'doc_ine' => $usuario['doc_ine'],
+            'doc_cedula_afiliacion' => $usuario['doc_cedula_afiliacion'],
+            'doc_fotos_tutores' => $usuario['doc_fotos_tutores'],
+            'doc_ines_tutores' => $usuario['doc_ines_tutores'],
+            
+            // Estadísticas de documentación
+            'documentos_completos' => $usuario['documentos_completos'],
+            'documentos_requeridos' => $usuario['documentos_requeridos'],
+            'porcentaje_documentacion' => $porcentajeDocumentacion,
+            'documentacion_completa' => $porcentajeDocumentacion === 100,
+            
+            // Fechas formateadas
+            'fecha_registro' => $usuario['fecha_registro'],
+            'fecha_registro_formateada' => $usuario['fecha_registro_formateada']
+        ];
+    }
+    
+    echo json_encode([
+        'exito' => true,
+        'usuarios' => $usuariosFormateados,
+        'total' => count($usuariosFormateados),
+        'mensaje' => 'Usuarios encontrados exitosamente',
+        'query' => $query
+    ]);
+    
 } catch (Exception $e) {
-    error_log("Error en buscar_usuarios_autocompletado.php: " . $e->getMessage());
+    error_log("Error en búsqueda de usuarios: " . $e->getMessage());
     echo json_encode([
         'exito' => false,
-        'mensaje' => 'Error en la búsqueda: ' . $e->getMessage(),
+        'mensaje' => 'Error interno del servidor: ' . $e->getMessage(),
         'usuarios' => []
     ]);
 }
