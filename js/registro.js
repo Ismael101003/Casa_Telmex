@@ -1256,11 +1256,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="course-header">
             <h5 class="course-title">${curso.nombre_curso}</h5>
             <div class="course-actions">
-              ${
-                sinCupos
-                  ? '<span class="badge badge-danger">Sin cupos</span>'
-                  : `<span class="badge badge-success">${cuposDisponibles} cupos</span>`
-              }
+              ${sinCupos
+            ? '<span class="badge badge-danger">Sin cupos</span>'
+            : `<span class="badge badge-success">${cuposDisponibles} cupos</span>`
+          }
               <button type="button" class="btn btn-sm ${isSelected ? "btn-danger" : "btn-primary"} course-toggle-btn"
                       ${sinCupos ? "disabled" : ""}>
                 <i class="fas ${isSelected ? "fa-minus" : "fa-plus"}"></i>
@@ -1269,35 +1268,57 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
           <div class="course-details">
-            <div class="course-info">
-              <span class="course-schedule">
-                <i class="fas fa-clock"></i>
-                ${curso.horario || "Horario por definir"}
-              </span>
-              <span class="course-duration">
-                <i class="fas fa-calendar-alt"></i>
-                ${curso.duracion || "Duración por definir"}
-              </span>
-            </div>
-            ${
-              curso.descripcion
-                ? `<p class="course-description">${curso.descripcion}</p>`
-                : '<p class="course-description text-muted">Sin descripción disponible</p>'
-            }
-            <div class="course-meta">
-              <span class="course-capacity">
-                <i class="fas fa-users"></i>
-                ${curso.usuarios_inscritos || 0}/${curso.cupo_maximo} inscritos
-              </span>
-              ${
-                curso.edad_minima
-                  ? `<span class="course-age">
-                      <i class="fas fa-child"></i>
-                      Edad mínima: ${curso.edad_minima} años
-                    </span>`
-                  : ""
-              }
-            </div>
+  <!-- Primera fila: Horario y Sala -->
+  <div class="course-info-row">
+    <span class="course-info-item">
+      <i class="fas fa-clock"></i>
+      <strong>Horario:</strong> ${curso.horario || "Por definir"}
+    </span>
+    
+    <span class="course-info-item">
+      <i class="fas fa-door-open"></i>
+      <strong>Sala:</strong> ${curso.sala || "Por asignar"}
+    </span>
+  </div>
+
+  <!-- Segunda fila: Instructor y Capacidad -->
+  <div class="course-info-row">
+    ${curso.instructor
+            ? `<span class="course-info-item">
+           <i class="fas fa-chalkboard-teacher"></i>
+           <strong>Instructor:</strong> ${curso.instructor}
+         </span>`
+            : `<span class="course-info-item">
+           <i class="fas fa-chalkboard-teacher"></i>
+           <strong>Instructor:</strong> Por asignar
+         </span>`
+          }
+    
+    <span class="course-info-item">
+      <i class="fas fa-users"></i>
+      <strong>Inscritos:</strong> ${curso.usuarios_inscritos || 0}/${curso.cupo_maximo}
+    </span>
+  </div>
+
+  <!-- Tercera fila: Edad y Duración (si existen) -->
+  <div class="course-info-row">
+    ${curso.edad_minima
+            ? `<span class="course-info-item">
+           <i class="fas fa-child"></i>
+           <strong>Edad:</strong> ${curso.edad_minima}${curso.edad_maxima ? `-${curso.edad_maxima}` : ''} años
+         </span>`
+            : ''
+          }
+    
+    ${curso.duracion
+            ? `<span class="course-info-item">
+           <i class="fas fa-hourglass-half"></i>
+           <strong>Duración:</strong> ${curso.duracion}
+         </span>`
+            : ''
+          }
+  </div>
+</div>
           </div>
         </div>
       `
@@ -1617,11 +1638,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <i class="fas fa-check-circle"></i>
           <strong>¡Éxito!</strong> ${mensaje}
           ${data.total_cursos ? `<br><small>Cursos inscritos: ${data.total_cursos}</small>` : ""}
-          ${
-            data.advertencias && data.advertencias.length > 0
-              ? `<br><small class="text-warning">Advertencias: ${data.advertencias.join(", ")}</small>`
-              : ""
-          }
+          ${data.advertencias && data.advertencias.length > 0
+          ? `<br><small class="text-warning">Advertencias: ${data.advertencias.join(", ")}</small>`
+          : ""
+        }
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
       `
@@ -1650,11 +1670,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <i class="fas fa-exclamation-triangle"></i>
           <strong>Error</strong> ${mensaje}
-          ${
-            errores && errores.length > 0
-              ? `<ul class="mt-2 mb-0">${errores.map((error) => `<li>${error}</li>`).join("")}</ul>`
-              : ""
-          }
+          ${errores && errores.length > 0
+          ? `<ul class="mt-2 mb-0">${errores.map((error) => `<li>${error}</li>`).join("")}</ul>`
+          : ""
+        }
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
       `
