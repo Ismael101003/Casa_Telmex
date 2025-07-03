@@ -274,3 +274,63 @@
                       VALUES (?, ?)
 [2025-07-02 18:04:34] [INFO] Parámetros inscripción: [58,41]
 [2025-07-02 18:04:34] [INFO] Usuario 58 inscrito exitosamente en curso 41
+[2025-07-02 20:52:59] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 20:52:59] [INFO] Método: POST
+[2025-07-02 20:52:59] [INFO] Datos POST recibidos: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":"15","meses":"6","numero_usuario":"","salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"],"actualizar_usuario":"1","id_usuario_existente":"62"}
+[2025-07-02 20:52:59] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":15,"meses":6,"salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 20:52:59] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-02 20:57:13] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 20:57:13] [INFO] Método: POST
+[2025-07-02 20:57:13] [INFO] Datos POST recibidos: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":"15","meses":"6","numero_usuario":"","salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"],"actualizar_usuario":"1","id_usuario_existente":"62"}
+[2025-07-02 20:57:13] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":15,"meses":6,"salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 20:57:13] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-02 20:58:20] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 20:58:20] [INFO] Método: POST
+[2025-07-02 20:58:20] [INFO] Datos POST recibidos: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":"15","meses":"6","numero_usuario":"","salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"],"actualizar_usuario":"1","id_usuario_existente":"62"}
+[2025-07-02 20:58:20] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":15,"meses":6,"salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 20:58:20] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-02 20:59:48] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 20:59:48] [INFO] Método: POST
+[2025-07-02 20:59:48] [INFO] Datos POST recibidos: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":"15","meses":"6","numero_usuario":"","salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"],"actualizar_usuario":"1","id_usuario_existente":"62"}
+[2025-07-02 20:59:48] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":15,"meses":6,"salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 20:59:48] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-02 21:00:39] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 21:00:39] [INFO] Método: POST
+[2025-07-02 21:00:39] [INFO] Datos POST recibidos: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":"15","meses":"6","numero_usuario":"","salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"],"actualizar_usuario":"1","id_usuario_existente":"62"}
+[2025-07-02 21:00:39] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":15,"meses":6,"salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 21:00:39] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-02 21:02:09] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 21:02:09] [INFO] Método: POST
+[2025-07-02 21:02:09] [INFO] Datos POST recibidos: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":"15","meses":"6","numero_usuario":"","salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"],"actualizar_usuario":"1","id_usuario_existente":"62"}
+[2025-07-02 21:02:09] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":15,"meses":6,"salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 21:02:09] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-02 21:06:56] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 21:06:56] [INFO] Método: POST
+[2025-07-02 21:06:56] [INFO] Datos POST recibidos: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":"15","meses":"6","numero_usuario":"","salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"],"actualizar_usuario":"1","id_usuario_existente":"62"}
+[2025-07-02 21:06:56] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"PASG010101MDFLSA9","fecha_nacimiento":"2010-01-01","edad":15,"meses":6,"salud":"Ning\u00fan padecimiento conocido","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 21:06:56] [ERROR] Error en registro: El CURP no tiene un formato válido
+[2025-07-02 21:15:32] [INFO] === INICIO API REGISTRO ===
+[2025-07-02 21:15:32] [INFO] Método: POST
+[2025-07-02 21:15:32] [INFO] Datos POST recibidos: {"tipo_usuario":"adulto","nombre":"Pepe","apellidos":"hernadez","curp":"MARI031010HDFRMSA3","fecha_nacimiento":"2003-10-10","edad":"21","meses":"9","numero_usuario":"","salud":"","tutor":"N\/A - Usuario adulto","numero_tutor":"","cursos":["41"]}
+[2025-07-02 21:15:32] [INFO] Datos procesados: {"nombre":"Pepe","apellidos":"hernadez","curp":"MARI031010HDFRMSA3","fecha_nacimiento":"2003-10-10","edad":21,"meses":9,"salud":"","tutor":"N\/A - Usuario adulto","numero_tutor":"","numero_usuario":"","telefono_usuario":""}
+[2025-07-02 21:15:32] [INFO] Cursos seleccionados: ["41"]
+[2025-07-02 21:15:32] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","es_derechohabiente","tipo_seguro","direccion_calle","direccion_numero","direccion_colonia","direccion_ciudad","direccion_estado","direccion_cp","doc_fotografias","doc_acta_nacimiento","doc_curp","doc_comprobante_domicilio","doc_ine","doc_cedula_afiliacion","doc_fotos_tutores","doc_ines_tutores","documentacion_completa","fecha_registro","fecha_ultima_actualizacion"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","sala","instructor","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-02 21:15:32] [INFO] Campos disponibles en tabla usuarios: id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, es_derechohabiente, tipo_seguro, direccion_calle, direccion_numero, direccion_colonia, direccion_ciudad, direccion_estado, direccion_cp, doc_fotografias, doc_acta_nacimiento, doc_curp, doc_comprobante_domicilio, doc_ine, doc_cedula_afiliacion, doc_fotos_tutores, doc_ines_tutores, documentacion_completa, fecha_registro, fecha_ultima_actualizacion
+[2025-07-02 21:15:32] [INFO] Columna primaria detectada: id_usuario
+[2025-07-02 21:15:32] [INFO] Agregando campo nombre con valor: Pepe
+[2025-07-02 21:15:32] [INFO] Agregando campo apellidos con valor: hernadez
+[2025-07-02 21:15:32] [INFO] Agregando campo curp con valor: MARI031010HDFRMSA3
+[2025-07-02 21:15:32] [INFO] Agregando campo fecha_nacimiento con valor: 2003-10-10
+[2025-07-02 21:15:32] [INFO] Agregando campo edad con valor: 21
+[2025-07-02 21:15:32] [INFO] Agregando campo meses con valor: 9
+[2025-07-02 21:15:32] [INFO] Agregando campo tutor con valor: N/A - Usuario adulto
+[2025-07-02 21:15:32] [INFO] SQL INSERT: INSERT INTO usuarios (nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, fecha_registro) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-02 21:15:32] [INFO] Parámetros: ["Pepe","hernadez","MARI031010HDFRMSA3","2003-10-10",21,9,"N\/A - Usuario adulto"]
+[2025-07-02 21:15:32] [INFO] Nuevo usuario registrado: ID 63, CURP: MARI031010HDFRMSA3
+[2025-07-02 21:15:32] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-02 21:15:32] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-02 21:15:32] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-02 21:15:32] [INFO] Parámetros inscripción: ["63",41]
+[2025-07-02 21:15:32] [INFO] Usuario 63 inscrito exitosamente en curso 41

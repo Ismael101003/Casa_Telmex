@@ -20,7 +20,7 @@ function inicializarFormulario() {
   if (curpInput) {
     curpInput.addEventListener("input", function () {
       this.value = this.value.toUpperCase()
-      validarCURP(this.value)
+      // validarCURP(this.value)
     })
   }
 
@@ -279,11 +279,7 @@ function validarCampo(event) {
 
   // Validaciones específicas
   switch (input.id) {
-    case "curp":
-      if (valor && !validarCURP(valor)) {
-        mostrarErrorCampo(input, "CURP no válida")
-      }
-      break
+    
 
     case "numero_tutor":
     case "numero_usuario":
@@ -302,9 +298,7 @@ function validarCampo(event) {
 }
 
 function validarCURP(curp) {
-  if (!curp || curp.length !== 18) return false
-  const patron = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]\d$/
-  return patron.test(curp.toUpperCase())
+  return curp && curp.length === 18;
 }
 
 function validarTelefono(telefono) {
@@ -516,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Expresiones regulares para validación
-  const regexCurp = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]\d$/i
+
   const regexTelefono = /^\d{10}$/
 
   // Inicializar componentes
@@ -594,7 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
       elementos.curpInput.addEventListener("input", function (e) {
         console.log("🔤 CURP input event:", this.value)
         this.value = this.value.toUpperCase()
-        validarCampo(this, regexCurp, "El CURP no tiene un formato válido")
+        
 
         if (this.value.length >= 10) {
           const fechaExtraida = extraerFechaDeCURP(this.value)

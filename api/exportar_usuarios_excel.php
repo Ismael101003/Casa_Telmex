@@ -91,7 +91,7 @@ try {
     echo '<div class="official-header">';
     echo '<h1>DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL</h1>';
     echo '<h2>CENTRO EDUCATIVO CUEMANCO</h2>';
-    echo '<h2>DEPARTAMENTO DE HABILIDADES TECNOLÓGICAS</h2>';
+    echo '<h2>DEPARTAMENTO DE HABILIDADES PEDAGOGICAS Y EDUCATIVAS</h2>';
     echo '<h3>CURSO DE VERANO 2025</h3>';
     echo '<h3>ACTIVIDAD ESPECIAL, 27 DE JUNIO 2025</h3>';
     echo '</div>';

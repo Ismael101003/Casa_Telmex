@@ -1709,7 +1709,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="header">
           <h3>DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL</h3>
           <h3>CENTRO EDUCATIVO CUEMANCO</h3>
-          <h3>DEPARTAMENTO DE HABILIDADES TECNOLÓGICAS</h3>
+          <h3>DEPARTAMENTO DE HABILIDADES PEDAGOGICAS Y EDUCATIVAS</h3>
           <h4>Lista de Usuarios</h4>
         </div>
         <div class="course-info">
@@ -1774,7 +1774,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const headerLines = [
       'DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL',
       'CENTRO EDUCATIVO CUEMANCO',
-      'DEPARTAMENTO DE HABILIDADES TECNOLÓGICAS',
+      'DEPARTAMENTO DE HABILIDADES PEDAGOGICAS Y EDUCATIVAS',
       `LISTA DE USUARIOS - CURSO: ${curso.nombre_curso}`,
       `FECHA DE EXPORTACIÓN: ${formatDateForHeader(new Date())}`,
       '' // Línea vacía para separar
