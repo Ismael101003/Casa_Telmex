@@ -475,24 +475,6 @@ body {
   border-top: 1px solid var(--border-color);
 }
 
-.demo-credentials {
-  background: var(--bg-secondary);
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  border-left: 4px solid var(--info-color);
-}
-
-.demo-credentials h4 {
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.demo-credentials h4 i {
-  color: var(--info-color);
-}
 
 .credential-item {
   margin-bottom: 0.5rem;

@@ -182,12 +182,7 @@ body {
   text-align: center;
 }
 
-.stats-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
+
 
 .stat-item {
   background: white;
@@ -253,7 +248,5 @@ body {
     margin-top: 5px;
   }
 
-  .stats-container {
-    grid-template-columns: 1fr;
-  }
+
 }

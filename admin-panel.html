@@ -26,14 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
     <div class="admin-container">
         <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <i class="fas fa-graduation-cap"></i>
-                <h2>Casa Telmex</h2>
-                <p>Panel Administrativo</p>
-            </div>
-            
-            <ul class="nav-menu">
+        <nav class="sidebar">    
+        <ul class="nav-menu">
                 <li class="nav-item active" data-section="dashboard">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -66,10 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <i class="fas fa-user-shield"></i>
                     <span>Administradores</span>
                 </li>
-                <li class="nav-item" data-section="reportes">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reportes</span>
-                </li>
+
             </ul>
             
             <div class="sidebar-footer">
@@ -760,13 +751,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </section>
 
-            <!-- Reportes Section -->
-            <section id="reportes-section" class="content-section">
-                <div class="reports-container">
-                    <h2>Reportes y Estadísticas</h2>
-                    <p>Sección en desarrollo...</p>
-                </div>
-            </section>
+
         </main>
     </div>
 
@@ -899,6 +884,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span id="detalleEdad">-</span>
                     </div>
                     <div class="info-item">
+                        <label>Salud</label>
+                        <span id="detalleSalud">-</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Numero de Tutor</label>
+                        <span id="detalleNumTutor">-</span>
+                    </div>
+                    <div class="info-item">
                         <label>Fecha de Registro:</label>
                         <span id="detalleFechaRegistro">-</span>
                     </div>
@@ -931,11 +924,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             <tr>
                                 <th>#</th>
                                 <th>Nombre Completo</th>
-                                <th>CURP</th>
-                                <th>Edad</th>
                                 <th>Tutor</th>
-                                <th>Teléfono</th>
-                                <th>Fecha Inscripción</th>
+                                <th>Edad</th>
+                                <th>Telefono</th>
+                                <th>Padecimiento</th>
                             </tr>
                         </thead>
                         <tbody id="listaUsuariosTableBody">

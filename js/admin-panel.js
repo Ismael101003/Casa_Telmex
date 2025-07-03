@@ -871,7 +871,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "cursos-usuarios": { titulo: "Cursos y Listas", subtitulo: "Ver listas de usuarios por curso" },
       inscripciones: { titulo: "Inscripciones", subtitulo: "Gestionar inscripciones de usuarios" },
       admins: { titulo: "Administradores", subtitulo: "Gestionar administradores del sistema" },
-      reportes: { titulo: "Reportes", subtitulo: "Estadísticas y reportes del sistema" },
+      
     }
 
     const info = titulos[section] || { titulo: "Panel", subtitulo: "Administración" }
@@ -1389,6 +1389,8 @@ document.addEventListener("DOMContentLoaded", () => {
         edad_max: curso.edad_max,
       })
     } else {
+
+
       // MODO CREACIÓN
       console.log("MODO: Crear nuevo curso")
       editingCourseId = null
@@ -1639,7 +1641,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (tableBody) {
           if (usuarios.length === 0) {
             tableBody.innerHTML =
-              '<tr><td colspan="7" class="no-data"><i class="fas fa-info-circle"></i> No hay usuarios inscritos en este curso</td></tr>'
+              '<tr><td colspan="9" class="no-data"><i class="fas fa-info-circle"></i> No hay usuarios inscritos en este curso</td></tr>'
           } else {
             const usuariosHTML = usuarios
               .map(
@@ -1647,12 +1649,11 @@ document.addEventListener("DOMContentLoaded", () => {
               <tr>
                 <td>${index + 1}</td>
                 <td>${usuario.nombre} ${usuario.apellidos}</td>
-                <td>${usuario.curp || "Sin CURP"}</td>
-                <td>${usuario.edad} años</td>
                 <td>${usuario.tutor || "Sin tutor"}</td>
+                <td>${usuario.edad} años</td>
                 <td>${usuario.numero_tutor || "N/A"}</td>
-                <td>${usuario.fecha_inscripcion_formateada}</td>
-              </tr>
+                <td>${usuario.salud || "Ninguna"}</td>
+                </tr>
             `,
               )
               .join("")
@@ -1706,27 +1707,29 @@ document.addEventListener("DOMContentLoaded", () => {
       </head>
       <body>
         <div class="header">
-          <h1>Casa Telmex</h1>
-          <h2>Lista de Usuarios</h2>
+          <h3>DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL</h3>
+          <h3>CENTRO EDUCATIVO CUEMANCO</h3>
+          <h3>DEPARTAMENTO DE HABILIDADES TECNOLÓGICAS</h3>
+          <h4>Lista de Usuarios</h4>
         </div>
         <div class="course-info">
           <p><strong>Curso:</strong> ${curso.nombre_curso}</p>
           <p><strong>Horario:</strong> ${curso.horario || "Por definir"}</p>
           <p><strong>Edad:</strong> ${curso.edad_min}-${curso.edad_max} años</p>
           <p><strong>Total de usuarios:</strong> ${usuarios.length}</p>
-          <p><strong>Fecha de impresión:</strong> ${new Date().toLocaleDateString()}</p>
         </div>
         <table>
           <thead>
             <tr>
               <th>#</th>
               <th>Nombre Completo</th>
-              <th>CURP</th>
-              <th>Edad</th>
               <th>Tutor</th>
-              <th>Teléfono</th>
-              <th>Fecha Inscripción</th>
-            </tr>
+              <th>Edad</th>
+              <th>Telefono</th>
+              <th>Padecimiento</th>
+              <th>Asistencia</th>
+              <th>Documentacion</th>
+              </tr>
           </thead>
           <tbody>
             ${usuarios
@@ -1735,11 +1738,12 @@ document.addEventListener("DOMContentLoaded", () => {
               <tr>
                 <td>${index + 1}</td>
                 <td>${usuario.nombre} ${usuario.apellidos}</td>
-                <td>${usuario.curp || "Sin CURP"}</td>
-                <td>${usuario.edad} años</td>
                 <td>${usuario.tutor || "Sin tutor"}</td>
+                <td>${usuario.edad} años</td>
                 <td>${usuario.numero_tutor || "N/A"}</td>
-                <td>${usuario.fecha_inscripcion_formateada}</td>
+                <td>${usuario.salud || "ninguna"} </td>
+                <td></td>
+                <td></td>
               </tr>
             `,
               )
@@ -1758,31 +1762,106 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function exportarLista() {
-    if (!window.currentCourseData) {
-      alert("No hay datos para exportar")
-      return
-    }
+  if (!window.currentCourseData || !window.currentCourseData.usuarios || window.currentCourseData.usuarios.length === 0) {
+    showAlert('error', 'No hay datos de usuarios para exportar', 3000);
+    return;
+  }
 
-    const { curso, usuarios } = window.currentCourseData
+  const { curso, usuarios } = window.currentCourseData;
 
-    let csv = "No.,Nombre Completo,CURP,Edad,Tutor,Teléfono,Fecha Inscripción\n"
+  try {
+    // Información institucional
+    const headerLines = [
+      'DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL',
+      'CENTRO EDUCATIVO CUEMANCO',
+      'DEPARTAMENTO DE HABILIDADES TECNOLÓGICAS',
+      `LISTA DE USUARIOS - CURSO: ${curso.nombre_curso}`,
+      `FECHA DE EXPORTACIÓN: ${formatDateForHeader(new Date())}`,
+      '' // Línea vacía para separar
+    ];
+
+    // Cabeceras del CSV
+    const headers = [
+      'No.', 
+      'Nombre Completo',
+      'CURP',
+      'Edad',
+      'Tutor',
+      'Teléfono Tutor',
+      'Documentación Completa'
+    ];
+
+    // Construcción del contenido CSV
+    let csvContent = headerLines.join('\n') + '\n';
+    csvContent += headers.join(',') + '\n';
 
     usuarios.forEach((usuario, index) => {
-      csv += `${index + 1},"${usuario.nombre} ${usuario.apellidos}","${usuario.curp || "Sin CURP"}","${usuario.edad} años","${
-        usuario.tutor || "Sin tutor"
-      }","${usuario.numero_tutor || "N/A"}","${usuario.fecha_inscripcion_formateada}"\n`
-    })
+      const row = [
+        index + 1,
+        `"${usuario.nombre} ${usuario.apellidos || ''}"`.replace(/"/g, '""'),
+        `"${usuario.curp || 'Sin CURP'}"`,
+        `"${usuario.edad || 0} años"`,
+        `"${usuario.tutor || 'Sin tutor'}"`,
+        `"${usuario.numero_tutor || 'N/A'}"`,
+        `"${usuario.documentacion_completa ? 'Completa' : 'Incompleta'}"`
+      ];
+      
+      csvContent += row.join(',') + '\n';
+    });
 
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
-    const link = document.createElement("a")
-    const url = URL.createObjectURL(blob)
-    link.setAttribute("href", url)
-    link.setAttribute("download", `lista_usuarios_${curso.nombre_curso.replace(/\s+/g, "_")}.csv`)
-    link.style.visibility = "hidden"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    // Creación y descarga del archivo
+    const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const filename = `lista_usuarios_${normalizeFilename(curso.nombre_curso)}_${formatDate(new Date())}.csv`;
+
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // Limpieza
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 100);
+
+  } catch (error) {
+    console.error('Error al exportar lista:', error);
+    showAlert('error', 'Ocurrió un error al generar el archivo', 3000);
   }
+}
+
+// Función para formatear fecha del encabezado
+function formatDateForHeader(date) {
+  const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  return date.toLocaleDateString('es-MX', options);
+}
+
+// Funciones auxiliares
+function normalizeFilename(str) {
+  return str.replace(/[^a-z0-9áéíóúüñÁÉÍÓÚÜÑ]/gi, '_').replace(/_+/g, '_');
+}
+
+function formatDate(date) {
+  const pad = num => num.toString().padStart(2, '0');
+  return `${date.getFullYear()}${pad(date.getMonth()+1)}${pad(date.getDate())}`;
+}
+
+// Ejemplo de función showAlert (deberías tener una implementación similar)
+function showAlert(type, message, duration) {
+  // Implementa tu propio sistema de notificaciones
+  alert(`${type.toUpperCase()}: ${message}`);
+}
 
   async function limpiarCursosTerminados() {
     if (!cursosConUsuarios || cursosConUsuarios.length === 0) {
@@ -1888,6 +1967,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const detalleNombre = document.getElementById("detalleNombre")
         const detalleCurp = document.getElementById("detalleCurp")
         const detalleEdad = document.getElementById("detalleEdad")
+        const detalleSalud = document.getElementById("detalleSalud")
+        const detalleNumTutor= document.getElementById("detalleNumTutor")
         const detalleFechaRegistro = document.getElementById("detalleFechaRegistro")
         const totalCursosUsuario = document.getElementById("totalCursosUsuario")
 
@@ -1896,6 +1977,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (detalleNombre) detalleNombre.textContent = `${usuario.nombre} ${usuario.apellidos}`
         if (detalleCurp) detalleCurp.textContent = usuario.curp
         if (detalleEdad) detalleEdad.textContent = `${usuario.edad} años`
+        if (detalleSalud) detalleSalud.textContent = usuario.salud
+        if (detalleNumTutor) detalleNumTutor.textContent = usuario.numero_tutor
         if (detalleFechaRegistro) detalleFechaRegistro.textContent = usuario.fecha_registro
         if (totalCursosUsuario) totalCursosUsuario.textContent = `(${data.total_cursos})`
 
