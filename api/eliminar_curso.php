@@ -1,7 +1,10 @@
 <?php
 /**
- * API para eliminar cursos y sus tablas específicas - VERSIÓN CORREGIDA
+ * API para eliminar cursos y sus tablas específicas - VERSIÓN CON CLASE CONEXION
  */
+
+// Incluir la clase de conexión
+require_once '../config/conexion.php';
 
 // Headers para CORS y JSON
 header('Access-Control-Allow-Origin: *');
@@ -20,14 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
-    // Configuración de la base de datos
-    $host = 'localhost';
-    $dbname = 'casatelmex';
-    $username = 'root';
-    $password = '';
-
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Obtener conexión usando la clase
+    $conexion = obtenerConexion();
     
     $id = (int)($_POST['id'] ?? 0);
     
@@ -43,12 +40,9 @@ try {
     }
     
     // Obtener información del curso incluyendo la tabla específica
-    $sqlObtenerCurso = "SELECT id_curso, nombre_curso, tabla_curso FROM cursos WHERE id_curso = ?";
-    $stmtObtener = $pdo->prepare($sqlObtenerCurso);
-    $stmtObtener->execute([$id]);
-    $curso = $stmtObtener->fetch(PDO::FETCH_ASSOC);
+    $cursos = $conexion->consultar("SELECT id_curso, nombre_curso, tabla_curso FROM cursos WHERE id_curso = ?", [$id]);
     
-    if (!$curso) {
+    if (empty($cursos)) {
         echo json_encode([
             'exito' => false,
             'mensaje' => 'Curso no encontrado'
@@ -56,61 +50,52 @@ try {
         exit;
     }
     
+    $curso = $cursos[0];
     $nombreTablaCurso = $curso['tabla_curso'] ?? '';
     
     error_log("Curso encontrado: " . $curso['nombre_curso']);
     error_log("Tabla específica: " . $nombreTablaCurso);
     
     // Iniciar transacción
-    $pdo->beginTransaction();
+    $conexion->iniciarTransaccion();
     
     try {
         // 1. Eliminar inscripciones primero (por la clave foránea)
-        $sqlBorrarInscripciones = "DELETE FROM inscripciones WHERE id_curso = ?";
-        $stmtInscripciones = $pdo->prepare($sqlBorrarInscripciones);
-        $stmtInscripciones->execute([$id]);
-        $inscripcionesEliminadas = $stmtInscripciones->rowCount();
-        error_log("Inscripciones eliminadas: " . $inscripcionesEliminadas);
+        $conexion->ejecutar("DELETE FROM inscripciones WHERE id_curso = ?", [$id]);
+        error_log("Inscripciones eliminadas");
         
         // 2. Eliminar tabla específica del curso si existe
         if (!empty($nombreTablaCurso)) {
             // Verificar que la tabla existe
-            $sqlVerificarTabla = "SHOW TABLES LIKE ?";
-            $stmtVerificar = $pdo->prepare($sqlVerificarTabla);
-            $stmtVerificar->execute([$nombreTablaCurso]);
-            $tablaExiste = $stmtVerificar->fetch();
+            $tablas_existentes = $conexion->consultar("SHOW TABLES LIKE ?", [$nombreTablaCurso]);
             
-            if ($tablaExiste) {
+            if (!empty($tablas_existentes)) {
                 // Usar consulta directa para DROP TABLE (no se puede usar parámetros)
                 $nombreTablaSeguro = preg_replace('/[^a-zA-Z0-9_]/', '', $nombreTablaCurso);
-                $sqlEliminarTabla = "DROP TABLE IF EXISTS `$nombreTablaSeguro`";
-                $pdo->exec($sqlEliminarTabla);
+                $pdo = $conexion->obtenerConexion();
+                $pdo->exec("DROP TABLE IF EXISTS `$nombreTablaSeguro`");
                 error_log("Tabla específica eliminada: " . $nombreTablaSeguro);
             }
         }
         
         // 3. Eliminar curso
-        $sqlBorrarCurso = "DELETE FROM cursos WHERE id_curso = ?";
-        $stmtCurso = $pdo->prepare($sqlBorrarCurso);
-        $stmtCurso->execute([$id]);
-        $cursosEliminados = $stmtCurso->rowCount();
-        error_log("Curso eliminado, filas afectadas: " . $cursosEliminados);
+        $resultado = $conexion->ejecutar("DELETE FROM cursos WHERE id_curso = ?", [$id]);
+        error_log("Curso eliminado: " . ($resultado ? 'SI' : 'NO'));
         
         // Confirmar transacción
-        $pdo->commit();
+        $conexion->confirmarTransaccion();
         
         echo json_encode([
             'exito' => true,
             'mensaje' => 'Curso y su tabla específica eliminados correctamente',
             'detalles' => [
-                'inscripciones_eliminadas' => $inscripcionesEliminadas,
                 'tabla_eliminada' => !empty($nombreTablaCurso),
-                'curso_eliminado' => $cursosEliminados > 0
+                'curso_eliminado' => $resultado
             ]
         ]);
         
     } catch (Exception $e) {
-        $pdo->rollBack();
+        $conexion->cancelarTransaccion();
         error_log("Error en transacción: " . $e->getMessage());
         throw $e;
     }

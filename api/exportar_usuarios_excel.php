@@ -64,18 +64,37 @@ try {
     echo '<meta charset="UTF-8">';
     echo '<title>Lista de Usuarios - Casa Telmex</title>';
     echo '<style>';
-    echo 'table { border-collapse: collapse; width: 100%; }';
-    echo 'th, td { border: 1px solid #000; padding: 8px; text-align: left; }';
+    echo 'body { font-family: Arial, sans-serif; margin: 20px; }';
+    echo 'table { border-collapse: collapse; width: 100%; margin-top: 20px; }';
+    echo 'th, td { border: 1px solid #000; padding: 8px; text-align: left; font-size: 10px; }';
     echo 'th { background-color: #f2f2f2; font-weight: bold; }';
-    echo '.header { text-align: center; margin-bottom: 20px; }';
+    echo '.header { text-align: center; margin-bottom: 20px; position: relative; min-height: 100px; }';
+    echo '.logo-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }';
+    echo '.logo-left, .logo-right { width: 80px; height: 80px; }';
+    echo '.official-header { text-align: center; }';
+    echo '.official-header h1 { font-size: 12px; font-weight: bold; margin: 2px 0; }';
+    echo '.official-header h2 { font-size: 11px; font-weight: bold; margin: 2px 0; }';
+    echo '.official-header h3 { font-size: 10px; font-weight: bold; margin: 2px 0; }';
+    echo '.course-info { margin: 20px 0; text-align: left; }';
+    echo '.course-info table { border: 1px solid #000; margin: 0; }';
+    echo '.course-info td { border: 1px solid #000; padding: 5px; font-size: 10px; font-weight: bold; }';
+    echo '.group-header { background-color: #9966CC; color: white; text-align: center; font-weight: bold; }';
     echo '</style>';
     echo '</head>';
     echo '<body>';
     
     echo '<div class="header">';
-    echo '<h1>Casa Telmex</h1>';
-    echo '<h2>Lista de Usuarios</h2>';
-    echo '<p>Fecha de exportación: ' . date('d/m/Y H:i:s') . '</p>';
+    echo '<div class="logo-container">';
+    echo '<div class="logo-left">CASA TELMEX</div>';
+    echo '<div class="logo-right">SEMAR</div>';
+    echo '</div>';
+    echo '<div class="official-header">';
+    echo '<h1>DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL</h1>';
+    echo '<h2>CENTRO EDUCATIVO CUEMANCO</h2>';
+    echo '<h2>DEPARTAMENTO DE HABILIDADES TECNOLÓGICAS</h2>';
+    echo '<h3>CURSO DE VERANO 2025</h3>';
+    echo '<h3>ACTIVIDAD ESPECIAL, 27 DE JUNIO 2025</h3>';
+    echo '</div>';
     echo '</div>';
     
     if ($idCurso) {
@@ -88,7 +107,9 @@ try {
                         edad_min,
                         edad_max,
                         COALESCE(cupo_maximo, 30) as cupo_maximo,
-                        COALESCE(horario, 'Por definir') as horario
+                        COALESCE(horario, 'Por definir') as horario,
+                        COALESCE(instructor, 'Sin asignar') as instructor,
+                        COALESCE(sala, 'Sin asignar') as sala
                      FROM cursos 
                      WHERE $columnaPrimariaCursos = ?";
         
@@ -102,9 +123,27 @@ try {
         
         $curso = $resultadoCurso[0];
         
-        echo '<h3>Curso: ' . htmlspecialchars($curso['nombre_curso']) . '</h3>';
-        echo '<p><strong>Horario:</strong> ' . htmlspecialchars($curso['horario']) . '</p>';
-        echo '<p><strong>Edad:</strong> ' . $curso['edad_min'] . '-' . $curso['edad_max'] . ' años</p>';
+        echo '<div class="course-info">';
+        echo '<table style="width: 100%;">';
+        echo '<tr>';
+        echo '<td style="width: 15%;"><strong>Instructor:</strong> ' . htmlspecialchars($curso['instructor']) . '</td>';
+        echo '<td style="width: 25%;"><strong>Instructor de Apoyo:</strong> 1er. Mtre. Soto</td>';
+        echo '<td style="width: 15%;"></td>';
+        echo '<td style="width: 10%;"><strong>HORARIO</strong></td>';
+        echo '<td style="width: 15%;">viernes 27-06-2025</td>';
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td colspan="3"></td>';
+        echo '<td></td>';
+        echo '<td>' . htmlspecialchars($curso['horario']) . '</td>';
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td colspan="3"></td>';
+        echo '<td><strong>EDAD:</strong></td>';
+        echo '<td>' . $curso['edad_min'] . '-' . $curso['edad_max'] . ' AÑOS</td>';
+        echo '</tr>';
+        echo '</table>';
+        echo '</div>';
         
         // Construir campo de fecha según disponibilidad
         $campoFechaSQL = $campoFechaInscripcion ? "i.$campoFechaInscripcion" : "u.fecha_registro";
@@ -118,9 +157,9 @@ try {
                             u.edad,
                             COALESCE(u.meses, 0) as meses,
                             COALESCE(u.salud, '') as salud,
-                            u.tutor,
-                            COALESCE(u.numero_tutor, 'N/A') as numero_tutor,
-                            COALESCE(u.numero_usuario, 'N/A') as numero_usuario,
+                            COALESCE(u.tutor, '') as tutor,
+                            COALESCE(u.numero_tutor, '') as numero_tutor,
+                            COALESCE(u.numero_usuario, '') as numero_usuario,
                             u.fecha_registro,
                             $campoFechaSQL as fecha_inscripcion
                         FROM usuarios u
@@ -143,9 +182,9 @@ try {
                             edad,
                             COALESCE(meses, 0) as meses,
                             COALESCE(salud, '') as salud,
-                            tutor,
-                            COALESCE(numero_tutor, 'N/A') as numero_tutor,
-                            COALESCE(u.numero_usuario, 'N/A') as numero_usuario,
+                            COALESCE(tutor, '') as tutor,
+                            COALESCE(numero_tutor, '') as numero_tutor,
+                            COALESCE(numero_usuario, '') as numero_usuario,
                             fecha_registro,
                             NULL as fecha_inscripcion
                         FROM usuarios
@@ -159,22 +198,18 @@ try {
     // Crear tabla
     echo '<table>';
     echo '<thead>';
+    echo '<tr class="group-header">';
+    echo '<td colspan="8" style="text-align: center; font-size: 12px;">GRUPO DELTA</td>';
+    echo '</tr>';
     echo '<tr>';
     echo '<th>No.</th>';
-    echo '<th>ID</th>';
-    echo '<th>Nombre Completo</th>';
-    echo '<th>CURP</th>';
-    echo '<th>Fecha Nacimiento</th>';
-    echo '<th>Edad</th>';
-    echo '<th>Meses</th>';
-    echo '<th>Salud</th>';
-    echo '<th>Tutor</th>';
-    echo '<th>Teléfono Tutor</th>';
-    echo '<th>Teléfono Usuario</th>';
-    echo '<th>Fecha Registro</th>';
-    if ($idCurso) {
-        echo '<th>Fecha Inscripción</th>';
-    }
+    echo '<th>NOMBRE COMPLETO ALUMNO</th>';
+    echo '<th>NOMBRE COMPLETO PADRE O TUTOR</th>';
+    echo '<th>EDAD</th>';
+    echo '<th>TELÉFONO</th>';
+    echo '<th>PADECIMIENTO/ALERGIA</th>';
+    echo '<th>ASISTENCIA</th>';
+    echo '<th>DOCUMENTACIÓN</th>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
@@ -182,55 +217,13 @@ try {
     foreach ($usuarios as $index => $usuario) {
         echo '<tr>';
         echo '<td>' . ($index + 1) . '</td>';
-        echo '<td>' . htmlspecialchars($usuario['id_usuario']) . '</td>';
-        echo '<td>' . htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellidos']) . '</td>';
-        echo '<td>' . htmlspecialchars($usuario['curp']) . '</td>';
-        
-        // Formatear fecha de nacimiento
-        $fechaNacimiento = '';
-        if (!empty($usuario['fecha_nacimiento'])) {
-            try {
-                $fecha = new DateTime($usuario['fecha_nacimiento']);
-                $fechaNacimiento = $fecha->format('d/m/Y');
-            } catch (Exception $e) {
-                $fechaNacimiento = $usuario['fecha_nacimiento'];
-            }
-        }
-        echo '<td>' . htmlspecialchars($fechaNacimiento) . '</td>';
-        
-        echo '<td>' . htmlspecialchars($usuario['edad']) . ' años</td>';
-        echo '<td>' . htmlspecialchars($usuario['meses']) . ' meses</td>';
-        echo '<td>' . htmlspecialchars($usuario['salud']) . '</td>';
-        echo '<td>' . htmlspecialchars($usuario['tutor']) . '</td>';
-        echo '<td>' . htmlspecialchars($usuario['numero_tutor']) . '</td>';
-        echo '<td>' . htmlspecialchars($usuario['numero_usuario']) . '</td>';
-        
-        // Formatear fecha de registro
-        $fechaRegistro = '';
-        if (!empty($usuario['fecha_registro'])) {
-            try {
-                $fecha = new DateTime($usuario['fecha_registro']);
-                $fechaRegistro = $fecha->format('d/m/Y H:i');
-            } catch (Exception $e) {
-                $fechaRegistro = $usuario['fecha_registro'];
-            }
-        }
-        echo '<td>' . htmlspecialchars($fechaRegistro) . '</td>';
-        
-        if ($idCurso) {
-            // Formatear fecha de inscripción
-            $fechaInscripcion = '';
-            if (!empty($usuario['fecha_inscripcion'])) {
-                try {
-                    $fecha = new DateTime($usuario['fecha_inscripcion']);
-                    $fechaInscripcion = $fecha->format('d/m/Y H:i');
-                } catch (Exception $e) {
-                    $fechaInscripcion = $usuario['fecha_inscripcion'];
-                }
-            }
-            echo '<td>' . htmlspecialchars($fechaInscripcion) . '</td>';
-        }
-        
+        echo '<td>' . strtoupper(htmlspecialchars(($usuario['nombre'] ?? '') . ' ' . ($usuario['apellidos'] ?? ''))) . '</td>';
+        echo '<td>' . strtoupper(htmlspecialchars($usuario['tutor'] ?? '')) . '</td>';
+        echo '<td>' . htmlspecialchars($usuario['edad'] ?? '') . '</td>';
+        echo '<td>' . htmlspecialchars($usuario['numero_tutor'] ?? '') . '</td>';
+        echo '<td>' . strtoupper(htmlspecialchars($usuario['salud'] ?? '')) . '</td>';
+        echo '<td></td>'; // Columna vacía para asistencia
+        echo '<td></td>'; // Columna vacía para documentación
         echo '</tr>';
     }
     
