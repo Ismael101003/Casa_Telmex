@@ -1072,7 +1072,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const documentosFaltantes = usuario.documentos_requeridos - usuario.documentos_completos
             const textoFaltantes =
-              documentosFaltantes > 0 ? `${documentosFaltantes} documento(s) faltante(s)` : "Documentación completa"
+              documentosFaltantes > 0 ? `${documentosFaltantes} documento(s) faltante(s), si el usuario es menor de edad, el ine no es necesario` : "Documentación completa"
 
             return `
             <tr>
@@ -1081,12 +1081,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <td>
                 <div class="documentos-faltantes">
                   ${textoFaltantes}
-                </div>
-              </td>
-              <td>
-                <div class="progress-container">
-                  <div class="progress-bar ${progressClass}" style="width: ${usuario.documentacion_porcentaje}%"></div>
-                  <span class="progress-text">${usuario.documentacion_porcentaje}%</span>
+
                 </div>
               </td>
               <td>
