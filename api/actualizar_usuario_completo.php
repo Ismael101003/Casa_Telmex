@@ -54,7 +54,9 @@ try {
         'doc_ine' => (int)($_POST['doc_ine'] ?? 0),
         'doc_cedula_afiliacion' => (int)($_POST['doc_cedula_afiliacion'] ?? 0),
         'doc_fotos_tutores' => (int)($_POST['doc_fotos_tutores'] ?? 0),
-        'doc_ines_tutores' => (int)($_POST['doc_ines_tutores'] ?? 0)
+        'doc_ines_tutores' => (int)($_POST['doc_ines_tutores'] ?? 0),
+        'doc_ficha_registro' => (int)($_POST['doc_ficha_registro'] ?? 0),
+        'doc_permiso_salida' => (int)($_POST['doc_permiso_salida'] ?? 0)
     ];
 
     // Validaciones básicas
@@ -71,7 +73,8 @@ try {
     // Calcular si la documentación está completa
     $documentosRequeridos = [
         'doc_fotografias', 'doc_acta_nacimiento', 'doc_curp', 
-        'doc_comprobante_domicilio', 'doc_ine', 'doc_fotos_tutores', 'doc_ines_tutores'
+        'doc_comprobante_domicilio', 'doc_ine', 'doc_fotos_tutores', 
+        'doc_ines_tutores', 'doc_ficha_registro', 'doc_permiso_salida'
     ];
     
     if ($datos['es_derechohabiente']) {
@@ -105,7 +108,7 @@ try {
             direccion_ciudad = ?, direccion_estado = ?, direccion_cp = ?,
             doc_fotografias = ?, doc_acta_nacimiento = ?, doc_curp = ?, 
             doc_comprobante_domicilio = ?, doc_ine = ?, doc_cedula_afiliacion = ?,
-            doc_fotos_tutores = ?, doc_ines_tutores = ?, documentacion_completa = ?
+            doc_fotos_tutores = ?, doc_ines_tutores = ?, doc_ficha_registro = ?, doc_permiso_salida = ?, documentacion_completa = ?
             WHERE id_usuario = ?";
 
     $params = [
@@ -116,7 +119,7 @@ try {
         $datos['direccion_ciudad'], $datos['direccion_estado'], $datos['direccion_cp'],
         $datos['doc_fotografias'], $datos['doc_acta_nacimiento'], $datos['doc_curp'],
         $datos['doc_comprobante_domicilio'], $datos['doc_ine'], $datos['doc_cedula_afiliacion'],
-        $datos['doc_fotos_tutores'], $datos['doc_ines_tutores'], $documentosCompletos ? 1 : 0,
+        $datos['doc_fotos_tutores'], $datos['doc_ines_tutores'], $datos['doc_ficha_registro'], $datos['doc_permiso_salida'], $documentosCompletos ? 1 : 0,
         $id_usuario
     ];
 

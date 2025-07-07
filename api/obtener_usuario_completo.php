@@ -55,6 +55,8 @@ try {
                 doc_cedula_afiliacion,
                 doc_fotos_tutores,
                 doc_ines_tutores,
+                doc_ficha_registro,
+                doc_permiso_salida,
                 fecha_registro,
                 DATE_FORMAT(fecha_registro, '%d/%m/%Y %H:%i') as fecha_registro_formateada
             FROM usuarios 

@@ -18,7 +18,7 @@ require_once '../config/conexion.php';
 try {
     $conexion = obtenerConexion();
     
-    // Consulta básica para obtener usuarios
+    
     $sql = "SELECT 
                 id_usuario,
                 nombre,
@@ -42,7 +42,7 @@ try {
                 fecha_registro,
                 DATE_FORMAT(fecha_registro, '%d/%m/%Y %H:%i') as fecha_registro_formateada
             FROM usuarios 
-            ORDER BY fecha_registro DESC";
+            ORDER BY nombre ASC, apellidos ASC, fecha_registro DESC";
     
     $usuarios = $conexion->consultar($sql);
     

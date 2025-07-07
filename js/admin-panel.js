@@ -763,6 +763,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateDocCedula = document.getElementById("updateDocCedula")
     const updateDocFotosTutores = document.getElementById("updateDocFotosTutores")
     const updateDocInesTutores = document.getElementById("updateDocInesTutores")
+    const updateDocFichaRegistro = document.getElementById("updateDocFichaRegistro")
+    const updateDocPermisoSalida = document.getElementById("updateDocPermisoSalida")
 
     if (updateDocFotografias) updateDocFotografias.checked = usuario.doc_fotografias == 1
     if (updateDocActa) updateDocActa.checked = usuario.doc_acta_nacimiento == 1
@@ -772,6 +774,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (updateDocCedula) updateDocCedula.checked = usuario.doc_cedula_afiliacion == 1
     if (updateDocFotosTutores) updateDocFotosTutores.checked = usuario.doc_fotos_tutores == 1
     if (updateDocInesTutores) updateDocInesTutores.checked = usuario.doc_ines_tutores == 1
+    if (updateDocFichaRegistro) updateDocFichaRegistro.checked = usuario.doc_ficha_registro == 1
+    if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso_salida == 1
 
     console.log("✅ Todos los datos del usuario han sido cargados en el formulario")
   }
