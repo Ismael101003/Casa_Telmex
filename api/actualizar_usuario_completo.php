@@ -136,6 +136,7 @@ try {
     echo json_encode([
         'exito' => false,
         'mensaje' => 'Error al actualizar usuario: ' . $e->getMessage()
+        
     ]);
 }
 ?>
