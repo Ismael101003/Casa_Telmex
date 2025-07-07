@@ -334,3 +334,83 @@
                       VALUES (?, ?)
 [2025-07-02 21:15:32] [INFO] Parámetros inscripción: ["63",41]
 [2025-07-02 21:15:32] [INFO] Usuario 63 inscrito exitosamente en curso 41
+[2025-07-07 14:48:05] [INFO] === INICIO API REGISTRO ===
+[2025-07-07 14:48:05] [INFO] Método: POST
+[2025-07-07 14:48:05] [INFO] Datos POST recibidos: {"tipo_usuario":"nino","nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"MARI151010HDFRMSA3","fecha_nacimiento":"2015-10-10","edad":"9","meses":"9","numero_usuario":"9132546457","salud":"","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"]}
+[2025-07-07 14:48:05] [INFO] Datos procesados: {"nombre":"GISSEL ISABELLA","apellidos":"PAJONARES SILIS","curp":"MARI151010HDFRMSA3","fecha_nacimiento":"2015-10-10","edad":9,"meses":9,"salud":"","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"9132546457","telefono_usuario":""}
+[2025-07-07 14:48:05] [INFO] Cursos seleccionados: ["41"]
+[2025-07-07 14:48:05] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","es_derechohabiente","tipo_seguro","direccion_calle","direccion_numero","direccion_colonia","direccion_ciudad","direccion_estado","direccion_cp","doc_fotografias","doc_acta_nacimiento","doc_curp","doc_comprobante_domicilio","doc_ine","doc_cedula_afiliacion","doc_fotos_tutores","doc_ines_tutores","documentacion_completa","fecha_registro","fecha_ultima_actualizacion","doc_ficha_registro","doc_permiso_salida"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","sala","instructor","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-07 14:48:05] [INFO] Campos disponibles en tabla usuarios: id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, es_derechohabiente, tipo_seguro, direccion_calle, direccion_numero, direccion_colonia, direccion_ciudad, direccion_estado, direccion_cp, doc_fotografias, doc_acta_nacimiento, doc_curp, doc_comprobante_domicilio, doc_ine, doc_cedula_afiliacion, doc_fotos_tutores, doc_ines_tutores, documentacion_completa, fecha_registro, fecha_ultima_actualizacion, doc_ficha_registro, doc_permiso_salida
+[2025-07-07 14:48:05] [INFO] Columna primaria detectada: id_usuario
+[2025-07-07 14:48:05] [INFO] Agregando campo nombre con valor: GISSEL ISABELLA
+[2025-07-07 14:48:05] [INFO] Agregando campo apellidos con valor: PAJONARES SILIS
+[2025-07-07 14:48:05] [INFO] Agregando campo curp con valor: MARI151010HDFRMSA3
+[2025-07-07 14:48:05] [INFO] Agregando campo fecha_nacimiento con valor: 2015-10-10
+[2025-07-07 14:48:05] [INFO] Agregando campo edad con valor: 9
+[2025-07-07 14:48:05] [INFO] Agregando campo meses con valor: 9
+[2025-07-07 14:48:05] [INFO] Agregando campo tutor con valor: JORGE SILIS GONZALEZ
+[2025-07-07 14:48:05] [INFO] Agregando campo numero_tutor con valor: 5551464555
+[2025-07-07 14:48:05] [INFO] Agregando campo numero_usuario con valor: 9132546457
+[2025-07-07 14:48:05] [INFO] SQL INSERT: INSERT INTO usuarios (nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, numero_usuario, fecha_registro) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-07 14:48:05] [INFO] Parámetros: ["GISSEL ISABELLA","PAJONARES SILIS","MARI151010HDFRMSA3","2015-10-10",9,9,"JORGE SILIS GONZALEZ","5551464555","9132546457"]
+[2025-07-07 14:48:05] [INFO] Nuevo usuario registrado: ID 64, CURP: MARI151010HDFRMSA3
+[2025-07-07 14:48:05] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-07 14:48:05] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-07 14:48:05] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-07 14:48:05] [INFO] Parámetros inscripción: ["64",41]
+[2025-07-07 14:48:05] [INFO] Usuario 64 inscrito exitosamente en curso 41
+[2025-07-07 14:51:25] [INFO] === INICIO API REGISTRO ===
+[2025-07-07 14:51:25] [INFO] Método: POST
+[2025-07-07 14:51:25] [INFO] Datos POST recibidos: {"tipo_usuario":"nino","nombre":"Hector","apellidos":"Diaz","curp":"MARI081010HDFRMSA3","fecha_nacimiento":"2008-10-10","edad":"16","meses":"9","numero_usuario":"9132546457","salud":"","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"]}
+[2025-07-07 14:51:25] [INFO] Datos procesados: {"nombre":"Hector","apellidos":"Diaz","curp":"MARI081010HDFRMSA3","fecha_nacimiento":"2008-10-10","edad":16,"meses":9,"salud":"","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"9132546457","telefono_usuario":""}
+[2025-07-07 14:51:25] [INFO] Cursos seleccionados: ["41"]
+[2025-07-07 14:51:25] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","es_derechohabiente","tipo_seguro","direccion_calle","direccion_numero","direccion_colonia","direccion_ciudad","direccion_estado","direccion_cp","doc_fotografias","doc_acta_nacimiento","doc_curp","doc_comprobante_domicilio","doc_ine","doc_cedula_afiliacion","doc_fotos_tutores","doc_ines_tutores","documentacion_completa","fecha_registro","fecha_ultima_actualizacion","doc_ficha_registro","doc_permiso_salida"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","sala","instructor","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-07 14:51:25] [INFO] Campos disponibles en tabla usuarios: id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, es_derechohabiente, tipo_seguro, direccion_calle, direccion_numero, direccion_colonia, direccion_ciudad, direccion_estado, direccion_cp, doc_fotografias, doc_acta_nacimiento, doc_curp, doc_comprobante_domicilio, doc_ine, doc_cedula_afiliacion, doc_fotos_tutores, doc_ines_tutores, documentacion_completa, fecha_registro, fecha_ultima_actualizacion, doc_ficha_registro, doc_permiso_salida
+[2025-07-07 14:51:25] [INFO] Columna primaria detectada: id_usuario
+[2025-07-07 14:51:25] [INFO] Agregando campo nombre con valor: Hector
+[2025-07-07 14:51:25] [INFO] Agregando campo apellidos con valor: Diaz
+[2025-07-07 14:51:25] [INFO] Agregando campo curp con valor: MARI081010HDFRMSA3
+[2025-07-07 14:51:25] [INFO] Agregando campo fecha_nacimiento con valor: 2008-10-10
+[2025-07-07 14:51:25] [INFO] Agregando campo edad con valor: 16
+[2025-07-07 14:51:25] [INFO] Agregando campo meses con valor: 9
+[2025-07-07 14:51:25] [INFO] Agregando campo tutor con valor: JORGE SILIS GONZALEZ
+[2025-07-07 14:51:25] [INFO] Agregando campo numero_tutor con valor: 5551464555
+[2025-07-07 14:51:25] [INFO] Agregando campo numero_usuario con valor: 9132546457
+[2025-07-07 14:51:25] [INFO] SQL INSERT: INSERT INTO usuarios (nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, numero_usuario, fecha_registro) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-07 14:51:25] [INFO] Parámetros: ["Hector","Diaz","MARI081010HDFRMSA3","2008-10-10",16,9,"JORGE SILIS GONZALEZ","5551464555","9132546457"]
+[2025-07-07 14:51:25] [INFO] Nuevo usuario registrado: ID 65, CURP: MARI081010HDFRMSA3
+[2025-07-07 14:51:25] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-07 14:51:25] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-07 14:51:25] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-07 14:51:25] [INFO] Parámetros inscripción: ["65",41]
+[2025-07-07 14:51:25] [INFO] Usuario 65 inscrito exitosamente en curso 41
+[2025-07-07 15:08:29] [INFO] === INICIO API REGISTRO ===
+[2025-07-07 15:08:29] [INFO] Método: POST
+[2025-07-07 15:08:29] [INFO] Datos POST recibidos: {"tipo_usuario":"nino","nombre":"Hector","apellidos":"hernadez","curp":"MARI181010HDFRMSA3","fecha_nacimiento":"2018-10-10","edad":"6","meses":"9","numero_usuario":"","salud":"","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","cursos":["41"]}
+[2025-07-07 15:08:29] [INFO] Datos procesados: {"nombre":"Hector","apellidos":"hernadez","curp":"MARI181010HDFRMSA3","fecha_nacimiento":"2018-10-10","edad":6,"meses":9,"salud":"","tutor":"JORGE SILIS GONZALEZ","numero_tutor":"5551464555","numero_usuario":"","telefono_usuario":""}
+[2025-07-07 15:08:29] [INFO] Cursos seleccionados: ["41"]
+[2025-07-07 15:08:29] [INFO] Estructura de tablas detectada: {"usuarios":{"primaria":"id_usuario","campos":["id_usuario","nombre","apellidos","curp","fecha_nacimiento","edad","meses","salud","tutor","numero_tutor","numero_usuario","es_derechohabiente","tipo_seguro","direccion_calle","direccion_numero","direccion_colonia","direccion_ciudad","direccion_estado","direccion_cp","doc_fotografias","doc_acta_nacimiento","doc_curp","doc_comprobante_domicilio","doc_ine","doc_cedula_afiliacion","doc_fotos_tutores","doc_ines_tutores","documentacion_completa","fecha_registro","fecha_ultima_actualizacion","doc_ficha_registro","doc_permiso_salida"]},"inscripciones":{"primaria":"id_inscripcion","usuario":"id_usuario","curso":"id_curso","campos":["id_inscripcion","id_usuario","id_curso"]},"cursos":{"primaria":"id_curso","campos":["id_curso","nombre_curso","edad_min","edad_max","horario","sala","instructor","tabla_curso","cupo_maximo","activo"]}}
+[2025-07-07 15:08:29] [INFO] Campos disponibles en tabla usuarios: id_usuario, nombre, apellidos, curp, fecha_nacimiento, edad, meses, salud, tutor, numero_tutor, numero_usuario, es_derechohabiente, tipo_seguro, direccion_calle, direccion_numero, direccion_colonia, direccion_ciudad, direccion_estado, direccion_cp, doc_fotografias, doc_acta_nacimiento, doc_curp, doc_comprobante_domicilio, doc_ine, doc_cedula_afiliacion, doc_fotos_tutores, doc_ines_tutores, documentacion_completa, fecha_registro, fecha_ultima_actualizacion, doc_ficha_registro, doc_permiso_salida
+[2025-07-07 15:08:29] [INFO] Columna primaria detectada: id_usuario
+[2025-07-07 15:08:29] [INFO] Agregando campo nombre con valor: Hector
+[2025-07-07 15:08:29] [INFO] Agregando campo apellidos con valor: hernadez
+[2025-07-07 15:08:29] [INFO] Agregando campo curp con valor: MARI181010HDFRMSA3
+[2025-07-07 15:08:29] [INFO] Agregando campo fecha_nacimiento con valor: 2018-10-10
+[2025-07-07 15:08:29] [INFO] Agregando campo edad con valor: 6
+[2025-07-07 15:08:29] [INFO] Agregando campo meses con valor: 9
+[2025-07-07 15:08:29] [INFO] Agregando campo tutor con valor: JORGE SILIS GONZALEZ
+[2025-07-07 15:08:29] [INFO] Agregando campo numero_tutor con valor: 5551464555
+[2025-07-07 15:08:29] [INFO] SQL INSERT: INSERT INTO usuarios (nombre, apellidos, curp, fecha_nacimiento, edad, meses, tutor, numero_tutor, fecha_registro) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+[2025-07-07 15:08:29] [INFO] Parámetros: ["Hector","hernadez","MARI181010HDFRMSA3","2018-10-10",6,9,"JORGE SILIS GONZALEZ","5551464555"]
+[2025-07-07 15:08:29] [INFO] Nuevo usuario registrado: ID 66, CURP: MARI181010HDFRMSA3
+[2025-07-07 15:08:29] [INFO] Campos disponibles en tabla inscripciones: id_inscripcion, id_usuario, id_curso
+[2025-07-07 15:08:29] [INFO] Campo usuario: id_usuario, Campo curso: id_curso
+[2025-07-07 15:08:29] [INFO] SQL Inscripción: INSERT INTO inscripciones (id_usuario, id_curso) 
+                      VALUES (?, ?)
+[2025-07-07 15:08:29] [INFO] Parámetros inscripción: ["66",41]
+[2025-07-07 15:08:29] [INFO] Usuario 66 inscrito exitosamente en curso 41
