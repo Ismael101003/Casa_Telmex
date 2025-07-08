@@ -51,30 +51,35 @@ try {
     
     // Búsqueda en múltiples campos con TODOS los datos del usuario
     $sqlBusqueda = "SELECT 
-                        u.*,
-                        CONCAT(u.nombre, ' ', u.apellidos) as nombre_completo,
-                        TIMESTAMPDIFF(YEAR, u.fecha_nacimiento, CURDATE()) as edad_calculada,
-                        DATE_FORMAT(u.fecha_nacimiento, '%d/%m/%Y') as fecha_nacimiento_formateada,
-                        DATE_FORMAT(u.fecha_registro, '%d/%m/%Y %H:%i') as fecha_registro_formateada,
-                        
-                        -- Calcular documentación
-                        (CASE WHEN u.doc_fotografias = 1 THEN 1 ELSE 0 END +
-                         CASE WHEN u.doc_acta_nacimiento = 1 THEN 1 ELSE 0 END +
-                         CASE WHEN u.doc_curp = 1 THEN 1 ELSE 0 END +
-                         CASE WHEN u.doc_comprobante_domicilio = 1 THEN 1 ELSE 0 END +
-                         CASE WHEN u.doc_ine = 1 THEN 1 ELSE 0 END +
-                         CASE WHEN u.es_derechohabiente = 1 AND u.doc_cedula_afiliacion = 1 THEN 1 
-                              WHEN u.es_derechohabiente = 0 THEN 0 ELSE 0 END) as documentos_completos,
-                        
-                        (5 + CASE WHEN u.es_derechohabiente = 1 THEN 1 ELSE 0 END) as documentos_requeridos
-                        
-                    FROM usuarios u
-                    WHERE (u.nombre LIKE ? OR 
-                           u.apellidos LIKE ? OR 
-                           u.curp LIKE ? OR 
-                           CONCAT(u.nombre, ' ', u.apellidos) LIKE ?)
-                    ORDER BY u.nombre, u.apellidos
-                    LIMIT 10";
+    u.*,
+    CONCAT(u.nombre, ' ', u.apellidos) as nombre_completo,
+    TIMESTAMPDIFF(YEAR, u.fecha_nacimiento, CURDATE()) as edad_calculada,
+    DATE_FORMAT(u.fecha_nacimiento, '%d/%m/%Y') as fecha_nacimiento_formateada,
+    DATE_FORMAT(u.fecha_registro, '%d/%m/%Y %H:%i') as fecha_registro_formateada,
+
+    -- Calcular documentación completa
+    (CASE WHEN u.doc_fotografias = 1 THEN 1 ELSE 0 END +
+     CASE WHEN u.doc_acta_nacimiento = 1 THEN 1 ELSE 0 END +
+     CASE WHEN u.doc_curp = 1 THEN 1 ELSE 0 END +
+     CASE WHEN u.doc_comprobante_domicilio = 1 THEN 1 ELSE 0 END +
+     CASE WHEN u.doc_ine = 1 THEN 1 ELSE 0 END +
+     CASE WHEN u.doc_permiso_salida = 1 THEN 1 ELSE 0 END +
+     CASE WHEN u.doc_ficha_registro = 1 THEN 1 ELSE 0 END +
+     CASE WHEN u.doc_cedula_afiliacion = 1 THEN 1 
+         ELSE 0 
+     END) as documentos_completos,
+
+    -- Total de documentos requeridos (7 básicos + 1 si es derechohabiente)
+    (7 + CASE WHEN u.es_derechohabiente = 1 THEN 1 ELSE 0 END) as documentos_requeridos
+
+FROM usuarios u
+WHERE (u.nombre LIKE ? OR 
+       u.apellidos LIKE ? OR 
+       u.curp LIKE ? OR 
+       CONCAT(u.nombre, ' ', u.apellidos) LIKE ?)
+ORDER BY u.nombre, u.apellidos
+LIMIT 10;
+";
     
     $searchTerm = "%{$query}%";
     $resultados = $conexion->consultar($sqlBusqueda, [$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
@@ -128,13 +133,16 @@ try {
             
             // Documentos
             'doc_fotografias' => $usuario['doc_fotografias'],
-            'doc_acta_nacimiento' => $usuario['doc_acta_nacimiento'],
-            'doc_curp' => $usuario['doc_curp'],
-            'doc_comprobante_domicilio' => $usuario['doc_comprobante_domicilio'],
-            'doc_ine' => $usuario['doc_ine'],
-            'doc_cedula_afiliacion' => $usuario['doc_cedula_afiliacion'],
-            'doc_fotos_tutores' => $usuario['doc_fotos_tutores'],
-            'doc_ines_tutores' => $usuario['doc_ines_tutores'],
+'doc_acta_nacimiento' => $usuario['doc_acta_nacimiento'],
+'doc_curp' => $usuario['doc_curp'],
+'doc_comprobante_domicilio' => $usuario['doc_comprobante_domicilio'],
+'doc_ine' => $usuario['doc_ine'],
+'doc_cedula_afiliacion' => $usuario['doc_cedula_afiliacion'],
+'doc_fotos_tutores' => $usuario['doc_fotos_tutores'],
+'doc_ines_tutores' => $usuario['doc_ines_tutores'],
+'doc_permiso_salida' => $usuario['doc_permiso_salida'],
+'doc_ficha_registro' => $usuario['doc_ficha_registro'],
+
             
             // Estadísticas de documentación
             'documentos_completos' => $usuario['documentos_completos'],

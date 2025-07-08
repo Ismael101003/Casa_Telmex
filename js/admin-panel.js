@@ -763,8 +763,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateDocCedula = document.getElementById("updateDocCedula")
     const updateDocFotosTutores = document.getElementById("updateDocFotosTutores")
     const updateDocInesTutores = document.getElementById("updateDocInesTutores")
-    const updateDocFichaRegistro = document.getElementById("updateDocFichaRegistro")
-    const updateDocPermisoSalida = document.getElementById("updateDocPermisoSalida")
+   const updateDocFichaRegistro = document.getElementById("updateDocFichaRegistro")
+const updateDocPermisoSalida = document.getElementById("updateDocPermisoSalida")
 
     if (updateDocFotografias) updateDocFotografias.checked = usuario.doc_fotografias == 1
     if (updateDocActa) updateDocActa.checked = usuario.doc_acta_nacimiento == 1
@@ -775,7 +775,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (updateDocFotosTutores) updateDocFotosTutores.checked = usuario.doc_fotos_tutores == 1
     if (updateDocInesTutores) updateDocInesTutores.checked = usuario.doc_ines_tutores == 1
     if (updateDocFichaRegistro) updateDocFichaRegistro.checked = usuario.doc_ficha_registro == 1
-    if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso_salida == 1
+if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso_salida == 1
 
     console.log("✅ Todos los datos del usuario han sido cargados en el formulario")
   }
@@ -950,7 +950,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${usuario.curp || "N/A"}</td>
             <td>${usuario.edad || "N/A"} años</td>
             <td>${esDerechohabiente}</td>
-            <td><span class="badge ${badgeClass}"><i class="fas ${usuario.documentacion_completa ? "fa-check" : "fa-exclamation-triangle"}"></i> ${documentacionCompleta}</span></td>
             <td>${usuario.fecha_registro || "N/A"}</td>
             <td>
               <button class="btn btn-secondary btn-sm" onclick="verUsuario(${id})" ${id === "N/A" ? "disabled" : ""}>
@@ -1021,6 +1020,8 @@ document.addEventListener("DOMContentLoaded", () => {
           doc_cedula_afiliacion: usuario.doc_cedula_afiliacion,
           doc_fotos_tutores: usuario.doc_fotos_tutores,
           doc_ines_tutores: usuario.doc_ines_tutores,
+          doc_ficha_registro: usuario.doc_ficha_registro,
+          doc_permiso_salida: usuario.doc_permiso_salida,
           fecha_registro_formateada: usuario.fecha_registro || "Sin fecha",
         }
 
@@ -1072,7 +1073,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const documentosFaltantes = usuario.documentos_requeridos - usuario.documentos_completos
             const textoFaltantes =
-              documentosFaltantes > 0 ? `${documentosFaltantes} documento(s) faltante(s), si el usuario es menor de edad, el ine no es necesario` : "Documentación completa"
+              documentosFaltantes > 0 ? `${documentosFaltantes} documento(s) faltante(s), si el usuario es menor de edad, el INE no es necesario` : "Documentación completa"
 
             return `
             <tr>

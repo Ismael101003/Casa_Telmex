@@ -20,29 +20,32 @@ try {
     
     
     $sql = "SELECT 
-                id_usuario,
-                nombre,
-                apellidos,
-                CONCAT(nombre, ' ', apellidos) as nombre_completo,
-                curp,
-                fecha_nacimiento,
-                TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) as edad,
-                COALESCE(numero_tutor, 'N/A') as numero_tutor,
-                COALESCE(numero_usuario, 'N/A') as numero_usuario,
-                tutor,
-                COALESCE(es_derechohabiente, 0) as es_derechohabiente,
-                COALESCE(doc_fotografias, 0) as doc_fotografias,
-                COALESCE(doc_acta_nacimiento, 0) as doc_acta_nacimiento,
-                COALESCE(doc_curp, 0) as doc_curp,
-                COALESCE(doc_comprobante_domicilio, 0) as doc_comprobante_domicilio,
-                COALESCE(doc_ine, 0) as doc_ine,
-                COALESCE(doc_cedula_afiliacion, 0) as doc_cedula_afiliacion,
-                COALESCE(doc_fotos_tutores, 0) as doc_fotos_tutores,
-                COALESCE(doc_ines_tutores, 0) as doc_ines_tutores,
-                fecha_registro,
-                DATE_FORMAT(fecha_registro, '%d/%m/%Y %H:%i') as fecha_registro_formateada
-            FROM usuarios 
-            ORDER BY nombre ASC, apellidos ASC, fecha_registro DESC";
+    id_usuario,
+    nombre,
+    apellidos,
+    CONCAT(nombre, ' ', apellidos) as nombre_completo,
+    curp,
+    fecha_nacimiento,
+    TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) as edad,
+    COALESCE(numero_tutor, 'N/A') as numero_tutor,
+    COALESCE(numero_usuario, 'N/A') as numero_usuario,
+    tutor,
+    COALESCE(es_derechohabiente, 0) as es_derechohabiente,
+    COALESCE(doc_fotografias, 0) as doc_fotografias,
+    COALESCE(doc_acta_nacimiento, 0) as doc_acta_nacimiento,
+    COALESCE(doc_curp, 0) as doc_curp,
+    COALESCE(doc_comprobante_domicilio, 0) as doc_comprobante_domicilio,
+    COALESCE(doc_ine, 0) as doc_ine,
+    COALESCE(doc_cedula_afiliacion, 0) as doc_cedula_afiliacion,
+    COALESCE(doc_fotos_tutores, 0) as doc_fotos_tutores,
+    COALESCE(doc_ines_tutores, 0) as doc_ines_tutores,
+    COALESCE(doc_permiso_salida, 0) as doc_permiso_salida,
+    COALESCE(doc_ficha_registro, 0) as doc_ficha_registro,
+    fecha_registro,
+    DATE_FORMAT(fecha_registro, '%d/%m/%Y %H:%i') as fecha_registro_formateada
+FROM usuarios 
+ORDER BY nombre ASC, apellidos ASC, fecha_registro DESC;
+";
     
     $usuarios = $conexion->consultar($sql);
     
@@ -57,7 +60,9 @@ try {
             'doc_comprobante_domicilio',
             'doc_ine',
             'doc_fotos_tutores',
-            'doc_ines_tutores'
+            'doc_ines_tutores',
+            'doc_ficha_registro',
+            'doc_permiso_salida'
         ];
         
         // Si es derechohabiente, agregar cédula

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,27 +8,28 @@
     <link rel="stylesheet" href="css/admin-panel.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <script>
-// Verificar sesión al cargar
-document.addEventListener('DOMContentLoaded', function() {
-    // Verificar si hay sesión activa
-    fetch('api/verificar_sesion.php')
-        .then(response => response.json())
-        .then(data => {
-            if (!data.exito) {
-                window.location.href = 'admin-login.html';
-            }
-        })
-        .catch(() => {
-            window.location.href = 'admin-login.html';
+        // Verificar sesión al cargar
+        document.addEventListener('DOMContentLoaded', function () {
+            // Verificar si hay sesión activa
+            fetch('api/verificar_sesion.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.exito) {
+                        window.location.href = 'admin-login.html';
+                    }
+                })
+                .catch(() => {
+                    window.location.href = 'admin-login.html';
+                });
         });
-});
-</script>
+    </script>
     <div class="admin-container">
         <!-- Sidebar -->
-        <nav class="sidebar">    
-        <ul class="nav-menu">
+        <nav class="sidebar">
+            <ul class="nav-menu">
                 <li class="nav-item active" data-section="dashboard">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </li>
 
             </ul>
-            
+
             <div class="sidebar-footer">
                 <div class="admin-info">
                     <i class="fas fa-user-circle"></i>
@@ -175,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <h2><i class="fas fa-user-plus"></i> Añadir Usuario Completo</h2>
                             <p>Complete todos los campos para registrar un nuevo usuario en el sistema</p>
                         </div>
-                        
+
                         <form id="addUsuarioForm" class="admin-form">
                             <!-- Datos Básicos -->
                             <div class="form-section">
@@ -194,12 +196,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="form-group">
                                         <label for="addCurp">CURP</label>
                                         <input type="text" id="addCurp" name="curp" maxlength="18">
-                                        <small>Opcional - Se extraerá la fecha de nacimiento automáticamente si se proporciona</small>
+                                        <small>Opcional - Se extraerá la fecha de nacimiento automáticamente si se
+                                            proporciona</small>
                                     </div>
                                     <div class="form-group">
                                         <label for="addFechaNacimiento">Fecha de Nacimiento *</label>
                                         <input type="date" id="addFechaNacimiento" name="fecha_nacimiento" required>
-                                        <small class="auto-filled-notice" id="addFechaAutoNotice" style="display: none;">
+                                        <small class="auto-filled-notice" id="addFechaAutoNotice"
+                                            style="display: none;">
                                             <i class="fas fa-magic"></i> Fecha extraída automáticamente del CURP
                                         </small>
                                     </div>
@@ -212,7 +216,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                     <div class="form-group">
                                         <label for="addSalud">Condiciones de Salud</label>
-                                        <textarea id="addSalud" name="salud" rows="3" placeholder="Alergias, enfermedades, medicamentos, etc."></textarea>
+                                        <textarea id="addSalud" name="salud" rows="3"
+                                            placeholder="Alergias, enfermedades, medicamentos, etc."></textarea>
                                         <small>Información médica relevante para brindar mejor atención</small>
                                     </div>
                                 </div>
@@ -335,13 +340,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                             Copia del INE
                                         </label>
                                     </div>
-                                    <div class="document-item" id="addDocCedulaAfiliacion" style="display: none;">
-                                        <label class="checkbox-label">
-                                            <input type="checkbox" name="doc_cedula_afiliacion" value="1">
-                                            <span class="checkmark"></span>
-                                            Copia de cédula de afiliación
-                                        </label>
-                                    </div>
                                     <div class="document-item">
                                         <label class="checkbox-label">
                                             <input type="checkbox" name="doc_fotos_tutores" value="1">
@@ -370,6 +368,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                             Permiso de salida
                                         </label>
                                     </div>
+                                    <div class="document-item">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="doc_cedula_afiliacion" value="1">
+                                            <span class="checkmark"></span>
+                                            Copia de cédula de afiliación
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -392,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <h2><i class="fas fa-user-edit"></i> Actualizar Usuario</h2>
                             <p>Busque y seleccione un usuario para actualizar su información</p>
                         </div>
-                        
+
                         <!-- Buscador de usuarios mejorado -->
                         <div class="search-section">
                             <div class="search-container">
@@ -400,14 +405,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <h3><i class="fas fa-search"></i> Buscar Usuario Existente</h3>
                                     <p>Escriba el nombre, apellidos o CURP del usuario que desea actualizar</p>
                                 </div>
-                                
+
                                 <div class="search-input-container">
                                     <div class="autocomplete-container">
-                                        <input type="text" 
-                                               id="searchUsuarioInput" 
-                                               placeholder="Buscar por nombre, apellidos o CURP..." 
-                                               class="search-input"
-                                               autocomplete="off">
+                                        <input type="text" id="searchUsuarioInput"
+                                            placeholder="Buscar por nombre, apellidos o CURP..." class="search-input"
+                                            autocomplete="off">
                                         <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
                                         <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">
                                             <i class="fas fa-times"></i>
@@ -415,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                     <small>Escriba al menos 2 caracteres para buscar usuarios existentes</small>
                                 </div>
-                                
+
                                 <div id="userFoundAlert" class="user-found-alert" style="display: none;">
                                     <i class="fas fa-user-check"></i>
                                     <span>Usuario encontrado. Datos cargados automáticamente.</span>
@@ -446,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             <form id="updateUsuarioForm" class="admin-form">
                                 <input type="hidden" id="updateUsuarioId" name="id_usuario">
-                                
+
                                 <!-- Datos Básicos -->
                                 <div class="form-section">
                                     <h3><i class="fas fa-user"></i> Datos Básicos</h3>
@@ -464,12 +467,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <div class="form-group">
                                             <label for="updateCurp">CURP</label>
                                             <input type="text" id="updateCurp" name="curp" maxlength="18">
-                                            <small>Opcional - Se extraerá la fecha de nacimiento automáticamente si se modifica</small>
+                                            <small>Opcional - Se extraerá la fecha de nacimiento automáticamente si se
+                                                modifica</small>
                                         </div>
                                         <div class="form-group">
                                             <label for="updateFechaNacimiento">Fecha de Nacimiento *</label>
-                                            <input type="date" id="updateFechaNacimiento" name="fecha_nacimiento" required>
-                                            <small class="auto-filled-notice" id="updateFechaAutoNotice" style="display: none;">
+                                            <input type="date" id="updateFechaNacimiento" name="fecha_nacimiento"
+                                                required>
+                                            <small class="auto-filled-notice" id="updateFechaAutoNotice"
+                                                style="display: none;">
                                                 <i class="fas fa-magic"></i> Fecha extraída automáticamente del CURP
                                             </small>
                                         </div>
@@ -477,12 +483,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label for="updateNumeroUsuario">Teléfono Usuario</label>
-                                            <input type="tel" id="updateNumeroUsuario" name="numero_usuario" maxlength="10">
+                                            <input type="tel" id="updateNumeroUsuario" name="numero_usuario"
+                                                maxlength="10">
                                             <small>Número de teléfono personal a 10 dígitos</small>
                                         </div>
                                         <div class="form-group">
                                             <label for="updateSalud">Condiciones de Salud</label>
-                                            <textarea id="updateSalud" name="salud" rows="3" placeholder="Alergias, enfermedades, medicamentos, etc."></textarea>
+                                            <textarea id="updateSalud" name="salud" rows="3"
+                                                placeholder="Alergias, enfermedades, medicamentos, etc."></textarea>
                                             <small>Información médica relevante para brindar mejor atención</small>
                                         </div>
                                     </div>
@@ -513,11 +521,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <label>¿Es derechohabiente?</label>
                                             <div class="radio-group">
                                                 <label class="radio-label">
-                                                    <input type="radio" name="es_derechohabiente" value="1" id="updateDerechohabienteSi">
+                                                    <input type="radio" name="es_derechohabiente" value="1"
+                                                        id="updateDerechohabienteSi">
                                                     <span>Sí</span>
                                                 </label>
                                                 <label class="radio-label">
-                                                    <input type="radio" name="es_derechohabiente" value="0" id="updateDerechohabienteNo">
+                                                    <input type="radio" name="es_derechohabiente" value="0"
+                                                        id="updateDerechohabienteNo">
                                                     <span>No</span>
                                                 </label>
                                             </div>
@@ -572,14 +582,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="documents-checklist">
                                         <div class="document-item">
                                             <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_fotografias" value="1" id="updateDocFotografias">
+                                                <input type="checkbox" name="doc_fotografias" value="1"
+                                                    id="updateDocFotografias">
                                                 <span class="checkmark"></span>
                                                 2 fotografías tamaño infantil
                                             </label>
                                         </div>
                                         <div class="document-item">
                                             <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_acta_nacimiento" value="1" id="updateDocActa">
+                                                <input type="checkbox" name="doc_acta_nacimiento" value="1"
+                                                    id="updateDocActa">
                                                 <span class="checkmark"></span>
                                                 Copia de acta de nacimiento
                                             </label>
@@ -593,7 +605,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </div>
                                         <div class="document-item">
                                             <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_comprobante_domicilio" value="1" id="updateDocComprobante">
+                                                <input type="checkbox" name="doc_comprobante_domicilio" value="1"
+                                                    id="updateDocComprobante">
                                                 <span class="checkmark"></span>
                                                 Copia de comprobante de domicilio
                                             </label>
@@ -605,39 +618,45 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 Copia del INE
                                             </label>
                                         </div>
-                                        <div class="document-item" id="updateDocCedulaAfiliacion" style="display: none;">
-                                            <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_cedula_afiliacion" value="1" id="updateDocCedula">
-                                                <span class="checkmark"></span>
-                                                Copia de cédula de afiliación
-                                            </label>
-                                        </div>
+
                                         <div class="document-item">
                                             <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_fotos_tutores" value="1" id="updateDocFotosTutores">
+                                                <input type="checkbox" name="doc_fotos_tutores" value="1"
+                                                    id="updateDocFotosTutores">
                                                 <span class="checkmark"></span>
                                                 2 fotos de los tutores
                                             </label>
                                         </div>
                                         <div class="document-item">
                                             <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_ines_tutores" value="1" id="updateDocInesTutores">
+                                                <input type="checkbox" name="doc_ines_tutores" value="1"
+                                                    id="updateDocInesTutores">
                                                 <span class="checkmark"></span>
                                                 2 INEs de tutores
                                             </label>
                                         </div>
                                         <div class="document-item">
                                             <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_ficha_registro" value="1" id="updateDocFichaRegistro">
+                                                <input type="checkbox" name="doc_ficha_registro" value="1"
+                                                    id="updateDocFichaRegistro">
                                                 <span class="checkmark"></span>
                                                 Ficha de registro
                                             </label>
                                         </div>
                                         <div class="document-item">
                                             <label class="checkbox-label">
-                                                <input type="checkbox" name="doc_permiso_salida" value="1" id="updateDocPermisoSalida">
+                                                <input type="checkbox" name="doc_permiso_salida" value="1"
+                                                    id="updateDocPermisoSalida">
                                                 <span class="checkmark"></span>
                                                 Permiso de salida
+                                            </label>
+                                        </div>
+                                        <div class="document-item">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="doc_cedula_afiliacion" value="1"
+                                                    id="updateDocCedula">
+                                                <span class="checkmark"></span>
+                                                Copia de cédula de afiliación
                                             </label>
                                         </div>
                                     </div>
@@ -792,12 +811,12 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <form id="cursoForm">
                 <input type="hidden" id="cursoId" name="id_curso">
-                
+
                 <div class="form-group">
                     <label for="nombreCurso">Nombre del Curso *</label>
                     <input type="text" id="nombreCurso" name="nombre_curso" required>
                 </div>
-                
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="edadMinima">Edad Mínima *</label>
@@ -808,7 +827,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <input type="number" id="edadMaxima" name="edad_max" min="0" max="100" required>
                     </div>
                 </div>
-                
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="cupoMaximo">Cupo Máximo *</label>
@@ -834,7 +853,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="estadoCurso">Estado del Curso *</label>
                     <select id="estadoCurso" name="activo" required>
@@ -843,7 +862,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </select>
                     <small class="form-help">Los cursos activos aparecen en el formulario de registro</small>
                 </div>
-                
+
                 <div class="modal-actions">
                     <button type="button" id="cancelCursoBtn" class="btn btn-secondary">Cancelar</button>
                     <button type="button" id="saveCursoBtn" class="btn btn-primary">Guardar</button>
@@ -861,27 +880,27 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <form id="adminForm">
                 <input type="hidden" id="adminId" name="id_admin">
-                
+
                 <div class="form-group">
                     <label for="usuarioAdmin">Usuario *</label>
                     <input type="text" id="usuarioAdmin" name="usuario" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="nombreAdmin">Nombre Completo *</label>
                     <input type="text" id="nombreAdmin" name="nombre" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="emailAdmin">Email *</label>
                     <input type="email" id="emailAdmin" name="email" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="passwordAdmin">Contraseña *</label>
                     <input type="password" id="passwordAdmin" name="password" required>
                 </div>
-                
+
                 <div class="modal-actions">
                     <button type="button" id="cancelAdminBtn" class="btn btn-secondary">Cancelar</button>
                     <button type="button" id="saveAdminBtn" class="btn btn-primary">Guardar</button>
@@ -924,7 +943,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span id="detalleFechaRegistro">-</span>
                     </div>
                 </div>
-                
+
                 <div class="cursos-usuario">
                     <h3>Cursos Inscritos <span id="totalCursosUsuario">(0)</span></h3>
                     <div id="cursosUsuarioContainer">
