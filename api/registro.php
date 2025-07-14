@@ -47,8 +47,7 @@ try {
         'salud' => limpiarDatos($_POST['salud'] ?? ''),
         'tutor' => limpiarDatos($_POST['tutor'] ?? ''),
         'numero_tutor' => limpiarDatos($_POST['numero_tutor'] ?? ''),
-        'numero_usuario' => limpiarDatos($_POST['numero_usuario'] ?? ''),
-        'telefono_usuario' => limpiarDatos($_POST['telefono_usuario'] ?? '')
+        'numero_usuario' => limpiarDatos($_POST['numero_usuario'] ?? '')
     ];
     
     registrarLog("Datos procesados: " . json_encode($datos));
@@ -265,8 +264,7 @@ function insertarNuevoUsuario($conexion, $datos, $estructuraTablas) {
         'salud' => 'salud',
         'tutor' => 'tutor',
         'numero_tutor' => 'numero_tutor',
-        'numero_usuario' => 'numero_usuario',
-        'telefono_usuario' => 'telefono_usuario'
+        'numero_usuario' => 'numero_usuario'
     ];
     
     foreach ($mapeosCampos as $clave => $campo) {

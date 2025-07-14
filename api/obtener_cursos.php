@@ -1,111 +1,71 @@
 <?php
 /**
- * API para obtener todos los cursos - VERSIÓN CON CAMPOS sala e instructor
+ * API para obtener cursos disponibles con conteo real de usuarios inscritos
  */
 
-// Configurar manejo de errores
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
+require_once '../config/conexion.php';
+require_once '../config/configuracion.php';
 
-// Headers para CORS
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
 try {
-    // Verificar archivos de configuración
-    $config_path = '../config/conexion.php';
-    $configuracion_path = '../config/configuracion.php';
-
-    if (!file_exists($config_path)) {
-        throw new Exception('Archivo de conexión no encontrado');
-    }
-
-    if (!file_exists($configuracion_path)) {
-        throw new Exception('Archivo de configuración no encontrado');
-    }
-
-    require_once $config_path;
-    require_once $configuracion_path;
-
-    if (!function_exists('obtenerConexion')) {
-        throw new Exception('Función obtenerConexion no encontrada');
-    }
-
     $conexion = obtenerConexion();
-
-    if (!$conexion) {
-        throw new Exception('No se pudo establecer conexión con la base de datos');
-    }
-
-    error_log("=== OBTENER CURSOS ===");
-
-    // Verificar si existe la columna activo
-    $sqlVerificarColumnas = "SHOW COLUMNS FROM cursos";
-    $columnas = $conexion->consultar($sqlVerificarColumnas);
-    $tieneActivo = false;
-
-    if ($columnas) {
-        $nombres_columnas = array_column($columnas, 'Field');
-        $tieneActivo = in_array('activo', $nombres_columnas);
-        error_log("Columnas en tabla cursos: " . implode(', ', $nombres_columnas));
-    }
-
-    error_log("Tabla cursos tiene columna activo: " . ($tieneActivo ? 'SI' : 'NO'));
-
-    // Construir consulta según las columnas disponibles
+    
+    // Consulta corregida para obtener cursos con conteo real de inscritos
     $sql = "SELECT 
-                id_curso,
-                nombre_curso,
-                COALESCE(edad_min, 0) as edad_min,
-                COALESCE(edad_max, 100) as edad_max,
-                COALESCE(cupo_maximo, 30) as cupo_maximo,
-                COALESCE(horario, '') as horario,
-                COALESCE(sala, 'No asignada') as sala,
-                COALESCE(instructor, 'Sin instructor') as instructor,
-                " . ($tieneActivo ? "COALESCE(activo, 1)" : "1") . " as activo,
-                tabla_curso
-            FROM cursos 
-            ORDER BY nombre_curso";
-
-    error_log("SQL para obtener cursos: " . $sql);
-
+                c.id_curso,
+                c.nombre_curso,
+                c.cupo_maximo,
+                c.edad_min,
+                c.edad_max,
+                c.horario,
+                c.sala,
+                c.instructor,
+                c.activo,
+                COALESCE(COUNT(i.id_inscripcion), 0) as total_inscritos
+            FROM cursos c
+            LEFT JOIN inscripciones i ON c.id_curso = i.id_curso
+            WHERE c.activo = 1
+            GROUP BY c.id_curso, c.nombre_curso, c.cupo_maximo, 
+                     c.edad_min, c.edad_max, c.horario, c.sala, c.instructor, 
+                     c.activo
+            ORDER BY c.nombre_curso";
+    
     $cursos = $conexion->consultar($sql);
-
-    if (!$cursos) {
-        error_log("No se obtuvieron cursos de la consulta");
-        $cursos = [];
+    
+    if ($cursos === false) {
+        throw new Exception('Error al consultar cursos');
     }
-
-    error_log("Total cursos obtenidos: " . count($cursos));
-
-    // Debug: mostrar algunos cursos
-    if (count($cursos) > 0) {
-        error_log("Primer curso: " . json_encode($cursos[0]));
+    
+    // Procesar datos adicionales
+    foreach ($cursos as &$curso) {
+        $curso['total_inscritos'] = (int)$curso['total_inscritos'];
+        $curso['cupo_disponible'] = $curso['cupo_maximo'] - $curso['total_inscritos'];
+        $curso['esta_lleno'] = $curso['total_inscritos'] >= $curso['cupo_maximo'];
+        $curso['porcentaje_ocupacion'] = $curso['cupo_maximo'] > 0 ? 
+            round(($curso['total_inscritos'] / $curso['cupo_maximo']) * 100, 2) : 0;
     }
-
+    
+    registrarLog("Cursos obtenidos: " . count($cursos));
+    
     echo json_encode([
         'exito' => true,
         'cursos' => $cursos,
         'total' => count($cursos)
-    ], JSON_UNESCAPED_UNICODE);
-
+    ]);
+    
 } catch (Exception $e) {
-    error_log("ERROR en obtener_cursos: " . $e->getMessage());
-    error_log("Stack trace: " . $e->getTraceAsString());
-
+    registrarLog("Error en obtener_cursos.php: " . $e->getMessage(), 'ERROR');
     echo json_encode([
         'exito' => false,
-        'mensaje' => 'Error al obtener cursos: ' . $e->getMessage(),
-        'cursos' => []
-    ], JSON_UNESCAPED_UNICODE);
+        'mensaje' => 'Error al obtener cursos: ' . $e->getMessage()
+    ]);
 }
-
-error_log("=== FIN OBTENER CURSOS ===");
 ?>

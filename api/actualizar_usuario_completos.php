@@ -70,13 +70,29 @@ try {
     $edad = $hoy->diff($fechaNacimiento)->y;
     $meses = $hoy->diff($fechaNacimiento)->m;
 
+    // Si es menor de 18 años, forzar doc_ine a 0
+    if ($edad < 18) {
+        $datos['doc_ine'] = 0;
+    }
+
+    // Si no es derechohabiente, forzar doc_cedula_afiliacion a 0
+    if (!$datos['es_derechohabiente']) {
+        $datos['doc_cedula_afiliacion'] = 0;
+    }
+
     // Calcular si la documentación está completa
     $documentosRequeridos = [
         'doc_fotografias', 'doc_acta_nacimiento', 'doc_curp', 
-        'doc_comprobante_domicilio', 'doc_ine', 'doc_fotos_tutores', 
+        'doc_comprobante_domicilio', 'doc_fotos_tutores', 
         'doc_ines_tutores', 'doc_ficha_registro', 'doc_permiso_salida'
     ];
-    
+
+    // Solo incluir INE si es mayor de 18 años
+    if ($edad >= 18) {
+        $documentosRequeridos[] = 'doc_ine';
+    }
+
+    // Solo incluir cédula de afiliación si es derechohabiente
     if ($datos['es_derechohabiente']) {
         $documentosRequeridos[] = 'doc_cedula_afiliacion';
     }
@@ -108,7 +124,8 @@ try {
             direccion_ciudad = ?, direccion_estado = ?, direccion_cp = ?,
             doc_fotografias = ?, doc_acta_nacimiento = ?, doc_curp = ?, 
             doc_comprobante_domicilio = ?, doc_ine = ?, doc_cedula_afiliacion = ?,
-            doc_fotos_tutores = ?, doc_ines_tutores = ?, doc_ficha_registro = ?, doc_permiso_salida = ?, documentacion_completa = ?
+            doc_fotos_tutores = ?, doc_ines_tutores = ?, doc_ficha_registro = ?, 
+            doc_permiso_salida = ?, documentacion_completa = ?
             WHERE id_usuario = ?";
 
     $params = [
@@ -119,7 +136,8 @@ try {
         $datos['direccion_ciudad'], $datos['direccion_estado'], $datos['direccion_cp'],
         $datos['doc_fotografias'], $datos['doc_acta_nacimiento'], $datos['doc_curp'],
         $datos['doc_comprobante_domicilio'], $datos['doc_ine'], $datos['doc_cedula_afiliacion'],
-        $datos['doc_fotos_tutores'], $datos['doc_ines_tutores'], $datos['doc_ficha_registro'], $datos['doc_permiso_salida'], $documentosCompletos ? 1 : 0,
+        $datos['doc_fotos_tutores'], $datos['doc_ines_tutores'], $datos['doc_ficha_registro'], 
+        $datos['doc_permiso_salida'], $documentosCompletos ? 1 : 0,
         $id_usuario
     ];
 
@@ -136,7 +154,6 @@ try {
     echo json_encode([
         'exito' => false,
         'mensaje' => 'Error al actualizar usuario: ' . $e->getMessage()
-        
     ]);
 }
 ?>

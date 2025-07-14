@@ -279,8 +279,6 @@ function validarCampo(event) {
 
   // Validaciones específicas
   switch (input.id) {
-    
-
     case "numero_tutor":
     case "numero_usuario":
       if (valor && !validarTelefono(valor)) {
@@ -298,7 +296,7 @@ function validarCampo(event) {
 }
 
 function validarCURP(curp) {
-  return curp && curp.length === 18;
+  return curp && curp.length === 18
 }
 
 function validarTelefono(telefono) {
@@ -588,7 +586,6 @@ document.addEventListener("DOMContentLoaded", () => {
       elementos.curpInput.addEventListener("input", function (e) {
         console.log("🔤 CURP input event:", this.value)
         this.value = this.value.toUpperCase()
-        
 
         if (this.value.length >= 10) {
           const fechaExtraida = extraerFechaDeCURP(this.value)
@@ -944,6 +941,7 @@ document.addEventListener("DOMContentLoaded", () => {
         data = JSON.parse(text)
       } catch (parseError) {
         console.error("Error parsing JSON:", parseError)
+        console.error("Respuesta completa:", text)
         throw new Error("Respuesta del servidor no válida")
       }
 
@@ -1086,7 +1084,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (apellidosInput) apellidosInput.value = usuario.apellidos || ""
     if (elementos.curpInput) elementos.curpInput.value = usuario.curp || ""
     if (elementos.fechaNacimientoInput) elementos.fechaNacimientoInput.value = usuario.fecha_nacimiento || ""
-    if (saludInput) saludInput.value = usuario.salud || ""
+    if (saludInput) saludInput.value = usuario.salud || "Ninguna"
 
     // Llenar números de teléfono
     if (elementos.numeroUsuarioInput) {
@@ -1238,7 +1236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cursosHTML = cursosDisponibles
       .map((curso) => {
         const isSelected = cursosSeleccionados.includes(curso.id_curso)
-        const cuposDisponibles = curso.cupo_maximo - (curso.usuarios_inscritos || 0)
+        const cuposDisponibles = curso.cupo_maximo - (curso.total_inscritos || 0)
         const sinCupos = cuposDisponibles <= 0
 
         return `
@@ -1250,10 +1248,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="course-header">
             <h5 class="course-title">${curso.nombre_curso}</h5>
             <div class="course-actions">
-              ${sinCupos
-            ? '<span class="badge badge-danger">Sin cupos</span>'
-            : `<span class="badge badge-success">${cuposDisponibles} cupos</span>`
-          }
+              ${
+                sinCupos
+                  ? '<span class="badge badge-danger">Sin cupos</span>'
+                  : `<span class="badge badge-success">${cuposDisponibles} cupos</span>`
+              }
               <button type="button" class="btn btn-sm ${isSelected ? "btn-danger" : "btn-primary"} course-toggle-btn"
                       ${sinCupos ? "disabled" : ""}>
                 <i class="fas ${isSelected ? "fa-minus" : "fa-plus"}"></i>
@@ -1277,40 +1276,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <!-- Segunda fila: Instructor y Capacidad -->
   <div class="course-info-row">
-    ${curso.instructor
-            ? `<span class="course-info-item">
+    ${
+      curso.instructor
+        ? `<span class="course-info-item">
            <i class="fas fa-chalkboard-teacher"></i>
            <strong>Instructor:</strong> ${curso.instructor}
          </span>`
-            : `<span class="course-info-item">
+        : `<span class="course-info-item">
            <i class="fas fa-chalkboard-teacher"></i>
            <strong>Instructor:</strong> Por asignar
          </span>`
-          }
+    }
     
     <span class="course-info-item">
       <i class="fas fa-users"></i>
-      <strong>Inscritos:</strong> ${curso.usuarios_inscritos || 0}/${curso.cupo_maximo}
+      <strong>Inscritos:</strong> ${curso.total_inscritos || 0}/${curso.cupo_maximo}
     </span>
   </div>
 
   <!-- Tercera fila: Edad y Duración (si existen) -->
   <div class="course-info-row">
-    ${curso.edad_minima
-            ? `<span class="course-info-item">
+    ${
+      curso.edad_minima
+        ? `<span class="course-info-item">
            <i class="fas fa-child"></i>
-           <strong>Edad:</strong> ${curso.edad_minima}${curso.edad_maxima ? `-${curso.edad_maxima}` : ''} años
+           <strong>Edad:</strong> ${curso.edad_minima}${curso.edad_maxima ? `-${curso.edad_maxima}` : ""} años
          </span>`
-            : ''
-          }
+        : ""
+    }
     
-    ${curso.duracion
-            ? `<span class="course-info-item">
+    ${
+      curso.duracion
+        ? `<span class="course-info-item">
            <i class="fas fa-hourglass-half"></i>
            <strong>Duración:</strong> ${curso.duracion}
          </span>`
-            : ''
-          }
+        : ""
+    }
   </div>
 </div>
           </div>
@@ -1626,29 +1628,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function mostrarMensajeExito(mensaje, data) {
+    // Mostrar alerta prominente
+    const alertaExito = document.createElement("div")
+    alertaExito.className = "alerta-registro-exitoso"
+    alertaExito.innerHTML = `
+        <div class="alerta-contenido">
+            <i class="fas fa-check-circle"></i>
+            <h3>¡Usuario Registrado Exitosamente!</h3>
+            <p>${mensaje}</p>
+            ${data.total_cursos ? `<p><strong>Cursos inscritos:</strong> ${data.total_cursos}</p>` : ""}
+            <button onclick="this.parentElement.parentElement.remove()" class="btn-cerrar-alerta">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `
+
+    document.body.appendChild(alertaExito)
+
+    // Auto-remover después de 5 segundos
+    setTimeout(() => {
+      if (alertaExito.parentNode) {
+        alertaExito.remove()
+      }
+    }, 5000)
+
+    // Código existente...
     if (elementos.successAlert) {
       elementos.successAlert.innerHTML = `
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <i class="fas fa-check-circle"></i>
-          <strong>¡Éxito!</strong> ${mensaje}
-          ${data.total_cursos ? `<br><small>Cursos inscritos: ${data.total_cursos}</small>` : ""}
-          ${data.advertencias && data.advertencias.length > 0
-          ? `<br><small class="text-warning">Advertencias: ${data.advertencias.join(", ")}</small>`
-          : ""
-        }
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-      `
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <strong>¡Éxito!</strong> ${mensaje}
+                ${data.total_cursos ? `<br><small>Cursos inscritos: ${data.total_cursos}</small>` : ""}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `
       elementos.successAlert.style.display = "block"
-
-      // Auto-ocultar después de 5 segundos
-      setTimeout(() => {
-        if (elementos.successAlert) {
-          elementos.successAlert.style.display = "none"
-        }
-      }, 5000)
-    } else {
-      alert("¡Éxito! " + mensaje)
     }
   }
 
@@ -1664,10 +1678,11 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <i class="fas fa-exclamation-triangle"></i>
           <strong>Error</strong> ${mensaje}
-          ${errores && errores.length > 0
-          ? `<ul class="mt-2 mb-0">${errores.map((error) => `<li>${error}</li>`).join("")}</ul>`
-          : ""
-        }
+          ${
+            errores && errores.length > 0
+              ? `<ul class="mt-2 mb-0">${errores.map((error) => `<li>${error}</li>`).join("")}</ul>`
+              : ""
+          }
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
       `
@@ -1682,8 +1697,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("📚 Mostrando cursos en los que ya está inscrito:", cursosInscritos)
 
-    // Aquí podrías mostrar una lista de cursos en los que ya está inscrito el usuario
-    // Por ejemplo, en un modal o en una sección especial
   }
 
   console.log("=== REGISTRO.JS INICIALIZADO COMPLETAMENTE ===")

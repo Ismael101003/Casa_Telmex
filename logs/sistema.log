@@ -414,3 +414,28 @@
                       VALUES (?, ?)
 [2025-07-07 15:08:29] [INFO] Parámetros inscripción: ["66",41]
 [2025-07-07 15:08:29] [INFO] Usuario 66 inscrito exitosamente en curso 41
+[2025-07-14 11:43:02] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:44:02] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:45:02] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:45:23] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:45:25] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:45:26] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:45:26] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:45:57] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:45:57] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:46:28] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:46:28] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.descripcion' in 'field list'
+[2025-07-14 11:46:58] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.edad_min' in 'field list'
+[2025-07-14 11:46:58] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.edad_min' in 'field list'
+[2025-07-14 11:47:24] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.edad_min' in 'field list'
+[2025-07-14 11:47:24] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.edad_min' in 'field list'
+[2025-07-14 11:52:42] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.fecha_inicio' in 'field list'
+[2025-07-14 11:52:42] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.fecha_inicio' in 'field list'
+[2025-07-14 11:53:25] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.duracion' in 'field list'
+[2025-07-14 11:53:25] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.duracion' in 'field list'
+[2025-07-14 11:53:54] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.fecha_inicio' in 'group statement'
+[2025-07-14 11:53:54] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.fecha_inicio' in 'group statement'
+[2025-07-14 11:54:18] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ORDER BY c.nombre_curso' at line 22
+[2025-07-14 11:54:18] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ORDER BY c.nombre_curso' at line 22
+[2025-07-14 11:54:51] [INFO] Cursos obtenidos: 1
+[2025-07-14 11:54:51] [INFO] Cursos obtenidos: 1
