@@ -763,8 +763,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateDocCedula = document.getElementById("updateDocCedula")
     const updateDocFotosTutores = document.getElementById("updateDocFotosTutores")
     const updateDocInesTutores = document.getElementById("updateDocInesTutores")
-   const updateDocFichaRegistro = document.getElementById("updateDocFichaRegistro")
-const updateDocPermisoSalida = document.getElementById("updateDocPermisoSalida")
+    const updateDocFichaRegistro = document.getElementById("updateDocFichaRegistro")
+    const updateDocPermisoSalida = document.getElementById("updateDocPermisoSalida")
 
     if (updateDocFotografias) updateDocFotografias.checked = usuario.doc_fotografias == 1
     if (updateDocActa) updateDocActa.checked = usuario.doc_acta_nacimiento == 1
@@ -775,7 +775,7 @@ const updateDocPermisoSalida = document.getElementById("updateDocPermisoSalida")
     if (updateDocFotosTutores) updateDocFotosTutores.checked = usuario.doc_fotos_tutores == 1
     if (updateDocInesTutores) updateDocInesTutores.checked = usuario.doc_ines_tutores == 1
     if (updateDocFichaRegistro) updateDocFichaRegistro.checked = usuario.doc_ficha_registro == 1
-if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso_salida == 1
+    if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso_salida == 1
 
     console.log("✅ Todos los datos del usuario han sido cargados en el formulario")
   }
@@ -875,7 +875,7 @@ if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso
       "cursos-usuarios": { titulo: "Cursos y Listas", subtitulo: "Ver listas de usuarios por curso" },
       inscripciones: { titulo: "Inscripciones", subtitulo: "Gestionar inscripciones de usuarios" },
       admins: { titulo: "Administradores", subtitulo: "Gestionar administradores del sistema" },
-      
+
     }
 
     const info = titulos[section] || { titulo: "Panel", subtitulo: "Administración" }
@@ -1207,11 +1207,10 @@ if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso
             <p><i class="fas fa-clock"></i> ${curso.horario || "Horario por definir"}</p>
             <p><i class="fas fa-chalkboard"></i> Sala: ${curso.sala || "Sin asignar"}</p>
             <p><i class="fas fa-user-tie"></i> Instructor: ${curso.instructor || "Sin asignar"}</p>
-            ${
-              curso.activo == 1
+            ${curso.activo == 1
                 ? '<p><i class="fas fa-check-circle" style="color: #10b981;"></i> Curso Activo</p>'
                 : '<p><i class="fas fa-times-circle" style="color: #ef4444;"></i> Curso Inactivo</p>'
-            }
+              }
           </div>
           <div class="course-actions-admin">
             <button class="btn btn-primary btn-sm" onclick="verListaUsuarios(${curso.id_curso})" ${curso.total_inscritos === 0 ? "disabled" : ""}>
@@ -1606,7 +1605,7 @@ if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso
 
       if (tableBody) {
         tableBody.innerHTML =
-          '<tr><td colspan="7" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Cargando usuarios del curso...</td></tr>'
+          '<tr><td colspan="8" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Cargando usuarios del curso...</td></tr>'
       }
 
       if (listaUsuariosModal) listaUsuariosModal.style.display = "block"
@@ -1647,13 +1646,18 @@ if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso
               .map(
                 (usuario, index) => `
               <tr>
-                <td>${index + 1}</td>
-                <td>${usuario.nombre} ${usuario.apellidos}</td>
-                <td>${usuario.tutor || "Sin tutor"}</td>
-                <td>${usuario.edad} años</td>
-                <td>${usuario.numero_tutor || "N/A"}</td>
-                <td>${usuario.salud || "Ninguna"}</td>
-                </tr>
+        <td>${index + 1}</td>
+        <td>${usuario.nombre} ${usuario.apellidos}</td>
+        <td>${usuario.tutor || "Sin tutor"}</td>
+        <td>${usuario.edad} años</td>
+        <td>${usuario.numero_tutor || "N/A"}</td>
+        <td>${usuario.salud || "Ninguna"}</td>
+        <td>
+          <button class="btn btn-danger" onclick="handleEliminarUsuarioDeCurso(${usuario.id_inscripcion}, ${usuario.id_usuario}, ${curso.id_curso})">
+            <i class="fas fa-user-minus"></i> Eliminar
+          </button>
+        </td>
+      </tr>
             `,
               )
               .join("")
@@ -1733,8 +1737,8 @@ if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso
           </thead>
           <tbody>
             ${usuarios
-              .map(
-                (usuario, index) => `
+        .map(
+          (usuario, index) => `
               <tr>
                 <td>${index + 1}</td>
                 <td>${usuario.nombre} ${usuario.apellidos}</td>
@@ -1746,8 +1750,8 @@ if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso
                 <td></td>
               </tr>
             `,
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
         <div class="footer">
@@ -1762,106 +1766,106 @@ if (updateDocPermisoSalida) updateDocPermisoSalida.checked = usuario.doc_permiso
   }
 
   function exportarLista() {
-  if (!window.currentCourseData || !window.currentCourseData.usuarios || window.currentCourseData.usuarios.length === 0) {
-    showAlert('error', 'No hay datos de usuarios para exportar', 3000);
-    return;
-  }
+    if (!window.currentCourseData || !window.currentCourseData.usuarios || window.currentCourseData.usuarios.length === 0) {
+      showAlert('error', 'No hay datos de usuarios para exportar', 3000);
+      return;
+    }
 
-  const { curso, usuarios } = window.currentCourseData;
+    const { curso, usuarios } = window.currentCourseData;
 
-  try {
-    // Información institucional
-    const headerLines = [
-      'DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL',
-      'CENTRO EDUCATIVO CUEMANCO',
-      'DEPARTAMENTO DE HABILIDADES PEDAGOGICAS Y EDUCATIVAS',
-      `LISTA DE USUARIOS - CURSO: ${curso.nombre_curso}`,
-      `FECHA DE EXPORTACIÓN: ${formatDateForHeader(new Date())}`,
-      '' // Línea vacía para separar
-    ];
-
-    // Cabeceras del CSV
-    const headers = [
-      'No.', 
-      'Nombre Completo',
-      'CURP',
-      'Edad',
-      'Tutor',
-      'Teléfono Tutor',
-      'Documentación Completa'
-    ];
-
-    // Construcción del contenido CSV
-    let csvContent = headerLines.join('\n') + '\n';
-    csvContent += headers.join(',') + '\n';
-
-    usuarios.forEach((usuario, index) => {
-      const row = [
-        index + 1,
-        `"${usuario.nombre} ${usuario.apellidos || ''}"`.replace(/"/g, '""'),
-        `"${usuario.curp || 'Sin CURP'}"`,
-        `"${usuario.edad || 0} años"`,
-        `"${usuario.tutor || 'Sin tutor'}"`,
-        `"${usuario.numero_tutor || 'N/A'}"`,
-        `"${usuario.documentacion_completa ? 'Completa' : 'Incompleta'}"`
+    try {
+      // Información institucional
+      const headerLines = [
+        'DIRECCIÓN GENERAL ADJUNTA DE SEGURIDAD Y BIENESTAR SOCIAL',
+        'CENTRO EDUCATIVO CUEMANCO',
+        'DEPARTAMENTO DE HABILIDADES PEDAGOGICAS Y EDUCATIVAS',
+        `LISTA DE USUARIOS - CURSO: ${curso.nombre_curso}`,
+        `FECHA DE EXPORTACIÓN: ${formatDateForHeader(new Date())}`,
+        '' // Línea vacía para separar
       ];
-      
-      csvContent += row.join(',') + '\n';
-    });
 
-    // Creación y descarga del archivo
-    const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const filename = `lista_usuarios_${normalizeFilename(curso.nombre_curso)}_${formatDate(new Date())}.csv`;
+      // Cabeceras del CSV
+      const headers = [
+        'No.',
+        'Nombre Completo',
+        'CURP',
+        'Edad',
+        'Tutor',
+        'Teléfono Tutor',
+        'Documentación Completa'
+      ];
 
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', filename);
-    link.style.display = 'none';
-    
-    document.body.appendChild(link);
-    link.click();
-    
-    // Limpieza
-    setTimeout(() => {
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }, 100);
+      // Construcción del contenido CSV
+      let csvContent = headerLines.join('\n') + '\n';
+      csvContent += headers.join(',') + '\n';
 
-  } catch (error) {
-    console.error('Error al exportar lista:', error);
-    showAlert('error', 'Ocurrió un error al generar el archivo', 3000);
+      usuarios.forEach((usuario, index) => {
+        const row = [
+          index + 1,
+          `"${usuario.nombre} ${usuario.apellidos || ''}"`.replace(/"/g, '""'),
+          `"${usuario.curp || 'Sin CURP'}"`,
+          `"${usuario.edad || 0} años"`,
+          `"${usuario.tutor || 'Sin tutor'}"`,
+          `"${usuario.numero_tutor || 'N/A'}"`,
+          `"${usuario.documentacion_completa ? 'Completa' : 'Incompleta'}"`
+        ];
+
+        csvContent += row.join(',') + '\n';
+      });
+
+      // Creación y descarga del archivo
+      const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const filename = `lista_usuarios_${normalizeFilename(curso.nombre_curso)}_${formatDate(new Date())}.csv`;
+
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.display = 'none';
+
+      document.body.appendChild(link);
+      link.click();
+
+      // Limpieza
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 100);
+
+    } catch (error) {
+      console.error('Error al exportar lista:', error);
+      showAlert('error', 'Ocurrió un error al generar el archivo', 3000);
+    }
   }
-}
 
-// Función para formatear fecha del encabezado
-function formatDateForHeader(date) {
-  const options = { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  };
-  return date.toLocaleDateString('es-MX', options);
-}
+  // Función para formatear fecha del encabezado
+  function formatDateForHeader(date) {
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return date.toLocaleDateString('es-MX', options);
+  }
 
-// Funciones auxiliares
-function normalizeFilename(str) {
-  return str.replace(/[^a-z0-9áéíóúüñÁÉÍÓÚÜÑ]/gi, '_').replace(/_+/g, '_');
-}
+  // Funciones auxiliares
+  function normalizeFilename(str) {
+    return str.replace(/[^a-z0-9áéíóúüñÁÉÍÓÚÜÑ]/gi, '_').replace(/_+/g, '_');
+  }
 
-function formatDate(date) {
-  const pad = num => num.toString().padStart(2, '0');
-  return `${date.getFullYear()}${pad(date.getMonth()+1)}${pad(date.getDate())}`;
-}
+  function formatDate(date) {
+    const pad = num => num.toString().padStart(2, '0');
+    return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}`;
+  }
 
-// Ejemplo de función showAlert (deberías tener una implementación similar)
-function showAlert(type, message, duration) {
-  // Implementa tu propio sistema de notificaciones
-  alert(`${type.toUpperCase()}: ${message}`);
-}
+  // Ejemplo de función showAlert (deberías tener una implementación similar)
+  function showAlert(type, message, duration) {
+    // Implementa tu propio sistema de notificaciones
+    alert(`${type.toUpperCase()}: ${message}`);
+  }
 
   async function limpiarCursosTerminados() {
     if (!cursosConUsuarios || cursosConUsuarios.length === 0) {
@@ -1968,7 +1972,7 @@ function showAlert(type, message, duration) {
         const detalleCurp = document.getElementById("detalleCurp")
         const detalleEdad = document.getElementById("detalleEdad")
         const detalleSalud = document.getElementById("detalleSalud")
-        const detalleNumTutor= document.getElementById("detalleNumTutor")
+        const detalleNumTutor = document.getElementById("detalleNumTutor")
         const detalleFechaRegistro = document.getElementById("detalleFechaRegistro")
         const totalCursosUsuario = document.getElementById("totalCursosUsuario")
 

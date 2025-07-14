@@ -439,3 +439,5 @@
 [2025-07-14 11:54:18] [ERROR] Error en obtener_cursos.php: Error en consulta: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ORDER BY c.nombre_curso' at line 22
 [2025-07-14 11:54:51] [INFO] Cursos obtenidos: 1
 [2025-07-14 11:54:51] [INFO] Cursos obtenidos: 1
+[2025-07-14 16:37:21] [INFO] Cursos obtenidos: 1
+[2025-07-14 16:42:59] [INFO] Cursos obtenidos: 1
